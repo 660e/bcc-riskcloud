@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vue.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%- title %></title>
+  </head>
+  <body>
+    <div id="app" class="h-screen text-sm"></div>
+
+    <!-- 初始化天地图 Start -->
+    <script type="module">
+      import { TIANDITU_MAP_KEY } from './src/config';
+      const script = document.createElement('script');
+      script.src = `http://api.tianditu.gov.cn/api?v=4.0&tk=${TIANDITU_MAP_KEY}`;
+      document.body.appendChild(script);
+    </script>
+    <!-- 初始化天地图 End -->
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<template>
+  <div class="flex flex-col h-full">
+    <pro-table :columns="columns" :request-api="get${BusinessName}List" ref="tableRef">
+      <template #tableHeader>
+        <el-button v-auth="['${moduleName}:${businessName}:create']" @click="create()" type="primary">新增</el-button>
+      </template>
+      <template #operation="scope">
+        <el-button v-auth="['${moduleName}:${businessName}:edit']" @click="create(scope.row)" type="primary" link>编辑</el-button>
+        <el-button v-auth="['${moduleName}:${businessName}:remove']" @click="remove(scope.row)" type="primary" link>删除</el-button>
+      </template>
+    </pro-table>
+
+    <!-- 新增/编辑 -->
+    <create-dialog @confirm="tableRef.search()" ref="createDialogRef" />
+  </div>
+</template>
+
+<script lang="ts" name="${businessName}-manage" setup>
+import { ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { get${BusinessName}List, delete${BusinessName}, getDictDataType } from '@/api/modules/${moduleName}/${businessName}';
+import { ColumnProps } from '@/components/pro-table/interface';
+
+import ProTable from '@/components/pro-table/index.vue';
+import CreateDialog from './dialogs/create.vue';
+
+const tableRef = ref();
+const createDialogRef = ref();
+
+const columns: ColumnProps[] = [
+#foreach($column in $columns)
+#set($dictType=$column.dictType)
+#set($prop=$column.javaField)
+#set($label=$column.columnComment)
+#set($htmlType=$column.htmlType)
+#if($column.list && $dictType)
+  {
+    prop: '${prop}',
+    label: '${label}',
+    enum: () => getDictDataType('${dictType}'),
+    search: { el: 'select' },
+    fieldNames: { label: 'dictLabel', value: 'dictValue' }
+  },
+#elseif($column.query && $htmlType)
+  { prop: '${prop}', label: '${label}', search: { el: '${htmlType}' } },
+#elseif($column.list)
+  { prop: '${prop}', label: '${label}' },
+#end
+#end
+];
+
+const create = (row: any = {}) => createDialogRef.value.open(row);
+const remove = (row: any) => {
+  ElMessageBox.confirm('是否删除？', '系统提示', { type: 'warning' })
+    .then(async () => {
+      const { msg } = await delete${BusinessName}(row.${pkColumn.javaField});
+      tableRef.value.search();
+      ElMessage.success(msg);
+    })
+    .catch(() => false);
+};
+</script>

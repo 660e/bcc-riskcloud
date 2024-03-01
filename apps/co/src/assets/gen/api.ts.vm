@@ -1,0 +1,27 @@
+import http from '@/api';
+import { ResPage } from '@/api/interface/index';
+
+// 新增${functionName}
+export function create${BusinessName}(params: any) {
+  return http.post('/${moduleName}/${businessName}', params);
+}
+
+// 删除${functionName}
+export function delete${BusinessName}(${pkColumn.javaField}: string) {
+  return http.delete('/${moduleName}/${businessName}/' + ${pkColumn.javaField});
+}
+
+// 编辑${functionName}
+export function edit${BusinessName}(params: any) {
+  return http.put('/${moduleName}/${businessName}', params);
+}
+
+// 获取${functionName}
+export function get${BusinessName}(${pkColumn.javaField}: string) {
+  return http.get('/${moduleName}/${businessName}/' + ${pkColumn.javaField});
+}
+
+// 获取${functionName}列表
+export function get${BusinessName}List(params: any = {}) {
+  return http.get<ResPage<any>>('/${moduleName}/${businessName}/list', params);
+}

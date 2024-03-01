@@ -1,0 +1,43 @@
+.icon-box {
+  width: 100%;
+  .el-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--el-text-color-regular);
+  }
+  :deep(.el-dialog__body) {
+    padding: 20px;
+    .el-input {
+      margin-bottom: 10px;
+    }
+    .icon-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 115px);
+      justify-content: space-evenly;
+      max-height: 70vh;
+      .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        cursor: pointer;
+        transition: all 0.2s;
+        svg {
+          height: 32px;
+          width: 32px;
+        }
+        &:hover {
+          background-color: var(--el-color-primary);
+          color: #fff;
+        }
+        span {
+          margin-top: 5px;
+          text-align: center;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
