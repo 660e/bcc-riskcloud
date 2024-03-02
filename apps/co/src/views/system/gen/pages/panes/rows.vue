@@ -13,16 +13,16 @@
         <el-input v-model="scope.row.javaField" />
       </template>
       <template #isInsert="scope">
-        <el-checkbox v-model="scope.row.isInsert" true-label="1" false-label="0" />
+        <el-checkbox v-model="scope.row.isInsert" true-value="1" false-value="0" />
       </template>
       <template #isEdit="scope">
-        <el-checkbox v-model="scope.row.isEdit" true-label="1" false-label="0" />
+        <el-checkbox v-model="scope.row.isEdit" true-value="1" false-value="0" />
       </template>
       <template #isList="scope">
-        <el-checkbox v-model="scope.row.isList" true-label="1" false-label="0" />
+        <el-checkbox v-model="scope.row.isList" true-value="1" false-value="0" />
       </template>
       <template #isQuery="scope">
-        <el-checkbox v-model="scope.row.isQuery" true-label="1" false-label="0" />
+        <el-checkbox v-model="scope.row.isQuery" true-value="1" false-value="0" />
       </template>
       <template #queryType="scope">
         <el-select v-model="scope.row.queryType">
@@ -30,7 +30,7 @@
         </el-select>
       </template>
       <template #isRequired="scope">
-        <el-checkbox v-model="scope.row.isRequired" true-label="1" false-label="0" />
+        <el-checkbox v-model="scope.row.isRequired" true-value="1" false-value="0" />
       </template>
       <template #htmlType="scope">
         <el-select v-model="scope.row.htmlType">
@@ -115,6 +115,6 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .no-card :deep(.table-main) {
-  padding: 20px 0;
+  padding: 20px 0 0 0;
 }
 </style>

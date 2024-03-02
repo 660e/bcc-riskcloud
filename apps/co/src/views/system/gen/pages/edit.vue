@@ -4,7 +4,7 @@
       <info-pane :info="data.info" :tables="data.tables" label="基本信息" name="info" />
       <rows-pane :rows="data.rows" label="字段信息" name="rows" />
     </el-tabs>
-    <div class="flex justify-center pb-5">
+    <div class="flex justify-center py-5">
       <el-button @click="cancel">取消</el-button>
       <el-button @click="confirm" type="primary">确定</el-button>
     </div>
