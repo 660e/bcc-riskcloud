@@ -19,5 +19,7 @@
     "prepare": "husky install",
     "release": "standard-version",
     "commit": "git add -A && czg && git push"
-  }
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
