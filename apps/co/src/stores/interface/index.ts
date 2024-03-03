@@ -25,6 +25,12 @@ export interface GlobalState {
   footer: boolean;
 }
 
+/* UserState */
+export interface UserState {
+  token: string;
+  userInfo: { nickName: string };
+}
+
 /* tabsMenuProps */
 export interface TabsMenuProps {
   icon: string;
@@ -45,8 +51,6 @@ export interface AuthState {
   routeName: string;
   authButtonList: string[];
   authMenuList: Menu.MenuOptions[];
-  token: string;
-  userInfo: { nickName: string };
 }
 
 /* KeepAliveState */

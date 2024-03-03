@@ -25,14 +25,14 @@ import { useRouter } from 'vue-router';
 import { FormInstance, FormRules } from 'element-plus';
 import { FullScreen, Lock, User } from '@element-plus/icons-vue';
 import { getCode, loginApi } from '@/api/modules/login';
-import { useAuthStore } from '@/stores/modules/auth';
+import { useUserStore } from '@/stores/modules/user';
 import { useTabsStore } from '@/stores/modules/tabs';
 import { useKeepAliveStore } from '@/stores/modules/keep-alive';
 import { initDynamicRouter } from '@/routers/modules/dynamicRouter';
 import { HOME_URL } from '@/config';
 
 const $router = useRouter();
-const $authStore = useAuthStore();
+const $userStore = useUserStore();
 const $tabsStore = useTabsStore();
 const $keepAliveStore = useKeepAliveStore();
 
@@ -59,7 +59,7 @@ const login = () => {
     if (valid) {
       // 执行登录接口
       const { data } = await loginApi(forms);
-      $authStore.setToken(data.access_token);
+      $userStore.setToken(data.access_token);
 
       // 添加动态路由
       await initDynamicRouter();

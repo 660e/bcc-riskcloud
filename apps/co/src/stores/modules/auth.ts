@@ -9,9 +9,7 @@ export const useAuthStore = defineStore({
   state: (): AuthState => ({
     authButtonList: [],
     authMenuList: [],
-    routeName: '',
-    token: '',
-    userInfo: { nickName: '' }
+    routeName: ''
   }),
   getters: {
     // 按钮权限
@@ -48,12 +46,6 @@ export const useAuthStore = defineStore({
     },
     async setRouteName(name: string) {
       this.routeName = name;
-    },
-    setToken(token: string) {
-      this.token = token;
-    },
-    setUserInfo(userInfo: AuthState['userInfo']) {
-      this.userInfo = userInfo;
     }
   }
 });

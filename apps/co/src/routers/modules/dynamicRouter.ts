@@ -1,5 +1,6 @@
 import router from '@/routers/index';
 import { RouteRecordRaw } from 'vue-router';
+import { useUserStore } from '@/stores/modules/user';
 import { useAuthStore } from '@/stores/modules/auth';
 import { ElNotification } from 'element-plus';
 import { LOGIN_URL } from '@/config';
@@ -7,6 +8,7 @@ import { LOGIN_URL } from '@/config';
 const modules = import.meta.glob('@/views/**/*.vue');
 
 export const initDynamicRouter = async () => {
+  const $userStore = useUserStore();
   const $authStore = useAuthStore();
 
   try {
@@ -24,7 +26,7 @@ export const initDynamicRouter = async () => {
         type: 'warning',
         duration: 3000
       });
-      $authStore.setToken('');
+      $userStore.setToken('');
       router.replace(LOGIN_URL);
       return Promise.reject();
     }
@@ -94,7 +96,7 @@ export const initDynamicRouter = async () => {
       }
     });
   } catch (error) {
-    $authStore.setToken('');
+    $userStore.setToken('');
     router.replace(LOGIN_URL);
     return Promise.reject(error);
   }

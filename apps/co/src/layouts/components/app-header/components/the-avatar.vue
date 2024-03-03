@@ -18,7 +18,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { logoutApi } from '@/api/modules/login';
-import { useAuthStore } from '@/stores/modules/auth';
+import { useUserStore } from '@/stores/modules/user';
 import { LOGIN_URL } from '@/config';
 import { ElMessageBox } from 'element-plus';
 
@@ -28,7 +28,7 @@ import PasswordDialog from './dialogs/password.vue';
 import avatarImage from '@/assets/images/avatar.gif';
 
 const $router = useRouter();
-const $authStore = useAuthStore();
+const $userStore = useUserStore();
 
 const logout = () => {
   ElMessageBox.confirm('退出登录？', '提示', { type: 'warning' }).then(async () => {
@@ -36,7 +36,7 @@ const logout = () => {
     await logoutApi();
 
     // 清空token
-    $authStore.setToken('');
+    $userStore.setToken('');
 
     // 跳转到登录页
     $router.replace(LOGIN_URL);
