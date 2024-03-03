@@ -1,5 +1,3 @@
-function test() {
-  console.log('test');
-}
+import { testUtil } from './src/test';
 
-export { test };
+export { testUtil };
