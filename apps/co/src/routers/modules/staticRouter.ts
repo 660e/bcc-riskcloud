@@ -20,6 +20,11 @@ export const staticRouter: RouteRecordRaw[] = [
     component: () => import('@/layouts/index.vue'),
     redirect: HOME_URL,
     children: []
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@bcc/ui/src/test.vue')
   }
 ];
 
