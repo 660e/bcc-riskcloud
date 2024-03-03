@@ -20,6 +20,10 @@
     "release": "standard-version",
     "commit": "git add -A && czg && git push"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@bcc/components": "workspace:^",
+    "@bcc/ui": "workspace:^",
+    "@bcc/utils": "workspace:^"
+  },
   "devDependencies": {}
 }
