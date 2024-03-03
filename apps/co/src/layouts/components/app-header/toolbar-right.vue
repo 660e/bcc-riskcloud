@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue';
-import { useUserStore } from '@/stores/modules/user';
+import { useAuthStore } from '@/stores/modules/auth';
 import { getInfo } from '@/api/modules/system';
 
 import MessageBox from './components/message-box.vue';
@@ -26,12 +26,12 @@ import ThemeSetting from './components/theme-setting.vue';
 import FullScreen from './components/full-screen.vue';
 import TheAvatar from './components/the-avatar.vue';
 
-const $userStore = useUserStore();
-const nickName = computed(() => $userStore.userInfo.nickName);
+const $authStore = useAuthStore();
+const nickName = computed(() => $authStore.userInfo.nickName);
 
 onMounted(async () => {
   const response: any = await getInfo();
-  $userStore.setUserInfo(response.user);
+  $authStore.setUserInfo(response.user);
 });
 </script>
 

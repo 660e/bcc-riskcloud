@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
-import { useUserStore } from '@/stores/modules/user';
 import { useAuthStore } from '@/stores/modules/auth';
 import { LOGIN_URL, ROUTER_WHITE_LIST } from '@/config';
 import { initDynamicRouter } from '@/routers/modules/dynamicRouter';
@@ -37,7 +36,6 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const $userStore = useUserStore();
   const $authStore = useAuthStore();
 
   // NProgress开始
@@ -49,7 +47,7 @@ router.beforeEach(async (to, from, next) => {
 
   // 判断是否为登录页，有token就在当前页，没有token重定向到登录页
   if (to.path.toLocaleLowerCase() === LOGIN_URL) {
-    if ($userStore.token) return next(from.fullPath);
+    if ($authStore.token) return next(from.fullPath);
     resetRouter();
     return next();
   }
@@ -58,7 +56,7 @@ router.beforeEach(async (to, from, next) => {
   if (ROUTER_WHITE_LIST.includes(to.path)) return next();
 
   // 判断是否有token，没有重定向到登录页
-  if (!$userStore.token) return next({ path: LOGIN_URL, replace: true });
+  if (!$authStore.token) return next({ path: LOGIN_URL, replace: true });
 
   // 如果没有菜单列表，就重新请求菜单列表并添加动态路由
   if (!$authStore.authMenuListGet.length) {
