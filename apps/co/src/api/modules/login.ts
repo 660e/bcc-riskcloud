@@ -15,15 +15,15 @@ export function loginApi(params: Login.Form) {
 }
 
 // 登出
-export const logoutApi = () => {
+export function logoutApi() {
   return http.delete('/auth/logout');
-};
+}
 
 // 获取菜单列表
-export const getAuthMenuListApi = async () => {
+export async function getAuthMenuListApi() {
   const { data } = await http.get('/system/menu/getRouters', {}, { loading: false });
   return transformTree(data);
-};
+}
 
 // 获取按钮权限
 export const getAuthButtonListApi = async () => {

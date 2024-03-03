@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { getInfo } from '@/api/modules/system';
+import { useUserStore } from '@/stores/modules/user';
 
 interface User {
   nickName?: string;
@@ -35,13 +35,12 @@ interface User {
   email?: string;
 }
 
+const $useUser = useUserStore();
 const visible = ref(false);
 const user = ref<User>({});
-
 const open = async () => {
   visible.value = true;
-  const response: any = await getInfo();
-  user.value = response.user;
+  user.value = $useUser.userInfo;
 };
 
 defineExpose({ open });
