@@ -7,14 +7,14 @@
     display: flex;
     align-items: center;
     & > div {
-      padding-left: 40px;
+      padding-left: 2.5rem;
       color: #333;
       & > h1 {
         font-size: 3.75rem;
         line-height: 1;
       }
       & > div {
-        padding: 20px 0;
+        padding: 1.25rem 0;
       }
     }
   }

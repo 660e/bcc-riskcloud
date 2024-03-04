@@ -1,8 +1,8 @@
 <template>
-  <div class="tree-filter card p-5 space-y-5">
-    <h4 v-if="title" class="leading-none text-lg">{{ title }}</h4>
+  <div class="tree-filter card">
+    <h4 v-if="title">{{ title }}</h4>
     <el-input v-model="filterText" placeholder="输入关键字进行过滤" clearable />
-    <el-scrollbar :style="{ height: title ? `calc(100% - 95px)` : `calc(100% - 56px)` }">
+    <el-scrollbar :style="{ height: title ? `calc(100% - 90px)` : `calc(100% - 52px)` }">
       <el-tree
         ref="treeRef"
         default-expand-all
