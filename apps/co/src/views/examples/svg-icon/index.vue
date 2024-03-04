@@ -27,5 +27,5 @@
 </template>
 
 <script lang="ts" name="svg-icon" setup>
-import SvgIcon from '@/components/svg-icon/index.vue';
+import { SvgIcon } from '@bcc/components';
 </script>
