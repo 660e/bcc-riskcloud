@@ -1,9 +1,7 @@
 <template>
   <div class="card h-full flex justify-center items-center">
-    <bcc-button />
+    <h1>首页</h1>
   </div>
 </template>
 
-<script lang="ts" name="home" setup>
-import { BccButton } from '@bcc/components';
-</script>
+<script lang="ts" name="home" setup></script>
