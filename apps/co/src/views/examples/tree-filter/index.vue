@@ -34,7 +34,7 @@
 import { reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getUserDepartment } from '../pro-table/api';
-import TreeFilter from '@/components/tree-filter/index.vue';
+import { TreeFilter } from '@bcc/components';
 
 const treeFilterValue = reactive({ departmentId: '1' });
 const changeTreeFilter = (val: string) => {
