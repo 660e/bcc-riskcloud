@@ -1,4 +1,4 @@
-import { isArray } from '@/utils/is';
+import { isArray } from '@bcc/utils';
 import { FieldNamesProps } from '@/components/pro-table/interface';
 
 const mode = import.meta.env.VITE_ROUTER_MODE;

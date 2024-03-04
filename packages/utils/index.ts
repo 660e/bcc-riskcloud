@@ -1,3 +1,1 @@
-import { testUtil } from './src/test';
-
-export { testUtil };
+export * from './src/is';
