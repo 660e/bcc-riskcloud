@@ -6,9 +6,9 @@
       </el-form-item>
       <el-form-item label="菜单类型" prop="menuType">
         <el-radio-group v-model="forms.menuType">
-          <el-radio label="M">目录</el-radio>
-          <el-radio label="C">菜单</el-radio>
-          <el-radio label="F">按钮</el-radio>
+          <el-radio value="M">目录</el-radio>
+          <el-radio value="C">菜单</el-radio>
+          <el-radio value="F">按钮</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="forms.menuType === 'M' || forms.menuType === 'C'" label="菜单图标" prop="icon">
@@ -31,8 +31,8 @@
             </div>
           </template>
           <el-radio-group v-model="forms.isFrame">
-            <el-radio label="0">是</el-radio>
-            <el-radio label="1">否</el-radio>
+            <el-radio value="0">是</el-radio>
+            <el-radio value="1">否</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="forms.menuType === 'M' || forms.menuType === 'C'" prop="path">
@@ -89,20 +89,20 @@
             </div>
           </template>
           <el-radio-group v-model="forms.isCache">
-            <el-radio label="0">缓存</el-radio>
-            <el-radio label="1">不缓存</el-radio>
+            <el-radio value="0">缓存</el-radio>
+            <el-radio value="1">不缓存</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="forms.menuType === 'C'" label="是否固定" prop="isAffix">
           <el-radio-group v-model="forms.isAffix">
-            <el-radio label="0">固定</el-radio>
-            <el-radio label="1">不固定</el-radio>
+            <el-radio value="0">固定</el-radio>
+            <el-radio value="1">不固定</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="forms.menuType === 'C'" label="是否全屏" prop="isFull">
           <el-radio-group v-model="forms.isFull">
-            <el-radio label="0">全屏</el-radio>
-            <el-radio label="1">不全屏</el-radio>
+            <el-radio value="0">全屏</el-radio>
+            <el-radio value="1">不全屏</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="forms.menuType === 'M' || forms.menuType === 'C'" prop="visible">
@@ -115,8 +115,8 @@
             </div>
           </template>
           <el-radio-group v-model="forms.visible">
-            <el-radio label="0">显示</el-radio>
-            <el-radio label="1">隐藏</el-radio>
+            <el-radio value="0">显示</el-radio>
+            <el-radio value="1">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item prop="status">
@@ -129,7 +129,7 @@
             </div>
           </template>
           <el-radio-group v-model="forms.status">
-            <el-radio v-for="s in statusOptions" :key="s.dictCode" :label="s.dictValue">{{ s.dictLabel }}</el-radio>
+            <el-radio v-for="s in statusOptions" :key="s.dictCode" :value="s.dictValue">{{ s.dictLabel }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </div>

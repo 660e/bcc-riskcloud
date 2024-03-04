@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="forms.status">
-            <el-radio v-for="s in statusOptions" :key="s.dictCode" :label="s.dictValue">{{ s.dictLabel }}</el-radio>
+            <el-radio v-for="s in statusOptions" :key="s.dictCode" :value="s.dictValue">{{ s.dictLabel }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
