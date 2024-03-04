@@ -151,7 +151,7 @@ import { TreeSelectOption } from '@/modules/forms';
 import { getMenuList, createMenu, editMenu, getDictDataType } from '@/api/modules/system';
 import { buildTree } from '@/utils';
 
-import IconSelect from '@/components/icon-select/index.vue';
+import { IconSelect } from '@bcc/components';
 
 const $emit = defineEmits(['confirm']);
 

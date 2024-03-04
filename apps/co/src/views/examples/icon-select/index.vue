@@ -13,6 +13,7 @@
 
 <script lang="ts" name="icon-select" setup>
 import { ref } from 'vue';
-import IconSelect from '@/components/icon-select/index.vue';
+import { IconSelect } from '@bcc/components';
+
 const iconValue = ref('');
 </script>
