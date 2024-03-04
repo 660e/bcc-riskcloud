@@ -1,0 +1,21 @@
+.error-message {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > div {
+    display: flex;
+    align-items: center;
+    & > div {
+      padding-left: 40px;
+      color: #333;
+      & > h1 {
+        font-size: 3.75rem;
+        line-height: 1;
+      }
+      & > div {
+        padding: 20px 0;
+      }
+    }
+  }
+}

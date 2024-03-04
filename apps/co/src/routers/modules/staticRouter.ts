@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { HOME_URL, LOGIN_URL } from '@/config';
+import { ErrorMessage403, ErrorMessage404, ErrorMessage500 } from '@bcc/ui';
 
 export const staticRouter: RouteRecordRaw[] = [
   {
@@ -27,7 +28,7 @@ export const errorRouter = [
   {
     path: '/403',
     name: '403',
-    component: () => import('@bcc/ui/src/error-message/403.vue'),
+    component: ErrorMessage403,
     meta: {
       title: '403'
     }
@@ -35,7 +36,7 @@ export const errorRouter = [
   {
     path: '/404',
     name: '404',
-    component: () => import('@bcc/ui/src/error-message/404.vue'),
+    component: ErrorMessage404,
     meta: {
       title: '404'
     }
@@ -43,13 +44,13 @@ export const errorRouter = [
   {
     path: '/500',
     name: '500',
-    component: () => import('@bcc/ui/src/error-message/500.vue'),
+    component: ErrorMessage500,
     meta: {
       title: '500'
     }
   },
   {
     path: '/:pathMatch(.*)*',
-    component: () => import('@bcc/ui/src/error-message/404.vue')
+    component: ErrorMessage404
   }
 ];
