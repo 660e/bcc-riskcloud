@@ -2,7 +2,7 @@
   <div class="tree-filter card">
     <h4 v-if="title">{{ title }}</h4>
     <el-input v-model="filterText" placeholder="输入关键字进行过滤" clearable />
-    <el-scrollbar :style="{ height: title ? `calc(100% - 90px)` : `calc(100% - 52px)` }">
+    <el-scrollbar :style="{ height: title ? `calc(100% - 38px - ${inputSize}px)` : `calc(100% - 10px - ${inputSize}px)` }">
       <el-tree
         ref="treeRef"
         default-expand-all
@@ -33,8 +33,8 @@
 </template>
 
 <script lang="ts" name="tree-filter" setup>
-import { ref, watch, onBeforeMount, nextTick } from 'vue';
-import { ElTree } from 'element-plus';
+import { computed, ref, watch, onBeforeMount, nextTick } from 'vue';
+import { ElTree, useGlobalSize } from 'element-plus';
 
 // 接收父组件参数并设置默认值
 interface TreeFilterProps {
@@ -57,6 +57,17 @@ const defaultProps = {
   label: props.label
 };
 
+const size = useGlobalSize();
+const inputSize = computed(() => {
+  switch (size.value) {
+    case 'small':
+      return 24;
+    case 'large':
+      return 40;
+    default:
+      return 32;
+  }
+});
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const treeData = ref<{ [key: string]: any }[]>([]);
 const treeAllData = ref<{ [key: string]: any }[]>([]);
