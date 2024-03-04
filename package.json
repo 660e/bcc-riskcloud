@@ -4,7 +4,9 @@
   "description": "",
   "license": "ISC",
   "scripts": {
-    "dev:co": "pnpm -F bcc-riskcloud-co dev"
+    "dev:co": "pnpm -F bcc-riskcloud-co dev",
+    "build:co:test": "pnpm -F bcc-riskcloud-co build:test",
+    "build:co:prod": "pnpm -F bcc-riskcloud-co build:prod"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
