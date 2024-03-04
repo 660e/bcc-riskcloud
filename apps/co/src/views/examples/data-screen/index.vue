@@ -136,7 +136,7 @@ const getScale = (width = 1920, height = 1080) => {
 };
 
 // 获取当前时间
-let timer: NodeJS.Timer | null = null;
+let timer: ReturnType<typeof setInterval> | null = null;
 let time = ref<string>(dayjs().format('YYYY年MM月DD HH:mm:ss'));
 timer = setInterval(() => {
   time.value = dayjs().format('YYYY年MM月DD HH:mm:ss');
@@ -147,6 +147,7 @@ onBeforeUnmount(() => {
   clearInterval(timer!);
 });
 </script>
+
 <style lang="scss" scoped>
 @import './index.scss';
 </style>
