@@ -35,11 +35,10 @@
 <script lang="ts" name="search-form" setup>
 import { computed, ref } from 'vue';
 import { ColumnProps } from '@/components/pro-table/interface';
-import { BreakPoint } from '@/components/grid-layout/interface';
+import { BreakPoint } from '@bcc/components';
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue';
 import SearchFormItem from './components/search-form-item.vue';
-import GridLayout from '@/components/grid-layout/index.vue';
-import GridItem from '@/components/grid-layout/components/grid-item.vue';
+import { GridLayout, GridItem } from '@bcc/components';
 
 interface ProTableProps {
   columns?: ColumnProps[]; // 搜索配置列

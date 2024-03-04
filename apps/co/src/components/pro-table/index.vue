@@ -106,7 +106,7 @@ import { ref, watch, provide, onMounted, unref, computed, reactive } from 'vue';
 import { ElTable } from 'element-plus';
 import { useTable } from '@/hooks/useTable';
 import { useSelection } from '@/hooks/useSelection';
-import { BreakPoint } from '@/components/grid-layout/interface';
+import { BreakPoint } from '@bcc/components';
 import { ColumnProps, TypeProps } from './interface';
 import { Refresh, Operation, Search } from '@element-plus/icons-vue';
 import { handleProp } from '@/utils';

@@ -1,5 +1,5 @@
 import { VNode, ComponentPublicInstance, Ref } from 'vue';
-import { BreakPoint, Responsive } from '@/components/grid-layout/interface';
+import { BreakPoint, Responsive } from '@bcc/components';
 import { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { ProTableProps } from '../index.vue';
 import ProTable from '../index.vue';

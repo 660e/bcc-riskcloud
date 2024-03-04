@@ -1,3 +1,6 @@
-import BccButton from './src/test.vue';
+export type * from './src/grid-layout/interface';
 
-export { BccButton };
+import GridItem from './src/grid-layout/components/grid-item.vue';
+import GridLayout from './src/grid-layout/index.vue';
+
+export { GridItem, GridLayout };
