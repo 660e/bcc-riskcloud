@@ -20,11 +20,6 @@ export const staticRouter: RouteRecordRaw[] = [
     component: () => import('@/layouts/index.vue'),
     redirect: HOME_URL,
     children: []
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('@bcc/ui/src/test.vue')
   }
 ];
 
@@ -32,7 +27,7 @@ export const errorRouter = [
   {
     path: '/403',
     name: '403',
-    component: () => import('@/components/error-message/403.vue'),
+    component: () => import('@bcc/ui/src/error-message/403.vue'),
     meta: {
       title: '403'
     }
@@ -40,7 +35,7 @@ export const errorRouter = [
   {
     path: '/404',
     name: '404',
-    component: () => import('@/components/error-message/404.vue'),
+    component: () => import('@bcc/ui/src/error-message/404.vue'),
     meta: {
       title: '404'
     }
@@ -48,13 +43,13 @@ export const errorRouter = [
   {
     path: '/500',
     name: '500',
-    component: () => import('@/components/error-message/500.vue'),
+    component: () => import('@bcc/ui/src/error-message/500.vue'),
     meta: {
       title: '500'
     }
   },
   {
     path: '/:pathMatch(.*)*',
-    component: () => import('@/components/error-message/404.vue')
+    component: () => import('@bcc/ui/src/error-message/404.vue')
   }
 ];
