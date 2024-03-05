@@ -31,3 +31,14 @@ export interface TreeSelectOption {
   value: string | number;
   children?: TreeSelectOption[];
 }
+
+export interface TDTMap {
+  el: string;
+  center: [number, number];
+  zoom: number;
+}
+
+export interface TDTMarker {
+  lnglat: [number, number];
+  type: 'primary' | 'success' | 'warning' | 'danger';
+}

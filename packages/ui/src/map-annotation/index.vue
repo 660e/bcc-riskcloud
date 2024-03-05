@@ -1,23 +1,24 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue';
-import { T, MarkerIconPrimary, MarkerIconSuccess, MarkerIconWarning, MarkerIconDanger } from '@bcc/utils';
+import { Map, TDTMarker } from '@bcc/utils';
 
 let M: any;
-
-const markers = [
-  new T.Marker(new T.LngLat(116.22808, 40.07779), { icon: MarkerIconPrimary }),
-  new T.Marker(new T.LngLat(116.22918, 40.07811), { icon: MarkerIconSuccess }),
-  new T.Marker(new T.LngLat(116.22801, 40.07698), { icon: MarkerIconWarning }),
-  new T.Marker(new T.LngLat(116.23013, 40.07778), { icon: MarkerIconDanger })
+const markers: TDTMarker[] = [
+  { lnglat: [116.22808, 40.07779], type: 'primary' },
+  { lnglat: [116.22918, 40.07811], type: 'success' },
+  { lnglat: [116.22801, 40.07698], type: 'warning' },
+  { lnglat: [116.23013, 40.07778], type: 'danger' }
 ];
 
 onMounted(() => {
-  M = new T.Map('map');
-  M.centerAndZoom(new T.LngLat(116.22909, 40.07757), 18);
-
-  markers.forEach(marker => {
-    M.addOverLay(marker);
+  const MapClass = new Map({
+    el: 'map',
+    center: [116.22909, 40.07757],
+    zoom: 18
   });
+  M = MapClass.init();
+
+  markers.forEach(marker => M.addOverLay(MapClass.marker(marker)));
 });
 </script>
 
