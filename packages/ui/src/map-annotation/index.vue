@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted } from 'vue';
-import { T } from '@bcc/utils';
+import { T, MarkerIconPrimary } from '@bcc/utils';
 
 let M;
 
-const marker = new T.Marker(new T.LngLat(116.22808, 40.07779));
+const marker = new T.Marker(new T.LngLat(116.22808, 40.07779), { icon: MarkerIconPrimary });
 
 onMounted(() => {
   M = new T.Map('map');
