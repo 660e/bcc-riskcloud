@@ -170,7 +170,7 @@
 <script lang="ts" name="info-pane" setup>
 import { computed, reactive, ref } from 'vue';
 import { FormRules } from 'element-plus';
-import { SelectOption } from '@/modules/forms';
+import { SelectOption } from '@bcc/utils';
 import { InfoType } from '../../models';
 
 const $props = defineProps<{ info: InfoType; tables: any }>();

@@ -49,7 +49,7 @@
 <script lang="ts" name="rows-pane" setup>
 import { onMounted, ref } from 'vue';
 import { ColumnProps } from '@/components/pro-table/interface';
-import { SelectOption } from '@/modules/forms';
+import { SelectOption } from '@bcc/utils';
 import { InfoType } from '../../models';
 import { optionselect } from '@/api/modules/system';
 

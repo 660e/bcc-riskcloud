@@ -147,7 +147,7 @@
 <script lang="ts" name="create-dialog" setup>
 import { reactive, ref } from 'vue';
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
-import { TreeSelectOption } from '@/modules/forms';
+import { TreeSelectOption } from '@bcc/utils';
 import { getMenuList, createMenu, editMenu, getDictDataType } from '@/api/modules/system';
 import { buildTree } from '@bcc/utils';
 

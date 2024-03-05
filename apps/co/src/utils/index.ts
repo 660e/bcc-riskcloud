@@ -76,7 +76,7 @@ export const getAllBreadcrumbList = (menuList: Menu.MenuOptions[], parent = [], 
  * @param {*} callValue 需要处理的值
  * @returns {String}
  */
-export function formatValue(callValue: any) {
+export function formatValue(callValue: any): string {
   // 如果当前值为数组，使用 / 拼接（根据需求自定义）
   if (isArray(callValue)) return callValue.length ? callValue.join(' / ') : '--';
   return callValue ?? '--';
@@ -86,7 +86,6 @@ export function formatValue(callValue: any) {
  * @description 处理 prop 为多级嵌套的情况，返回的数据 (列如: prop: user.name)
  * @param {Object} row 当前行数据
  * @param {String} prop 当前 prop
- * @returns {*}
  */
 export function handleRowAccordingToProp(row: { [key: string]: any }, prop: string) {
   if (!prop.includes('.')) return row[prop] ?? '--';
