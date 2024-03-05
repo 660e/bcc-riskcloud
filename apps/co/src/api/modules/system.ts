@@ -1,7 +1,7 @@
 import http from '@/api';
 import qs from 'qs';
 import { ResPage } from '@/api/interface/index';
-import { fd } from '@/utils';
+import { fd } from '@bcc/utils';
 
 /**
  * 角色管理

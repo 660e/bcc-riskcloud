@@ -149,7 +149,7 @@ import { reactive, ref } from 'vue';
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import { TreeSelectOption } from '@/modules/forms';
 import { getMenuList, createMenu, editMenu, getDictDataType } from '@/api/modules/system';
-import { buildTree } from '@/utils';
+import { buildTree } from '@bcc/utils';
 
 import { IconSelect } from '@bcc/components';
 

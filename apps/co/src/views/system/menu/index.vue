@@ -25,7 +25,7 @@
 import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { getMenuList, deleteMenu, getDictDataType } from '@/api/modules/system';
-import { buildTree } from '@/utils';
+import { buildTree } from '@bcc/utils';
 import { ColumnProps } from '@/components/pro-table/interface';
 
 import ProTable from '@/components/pro-table/index.vue';
