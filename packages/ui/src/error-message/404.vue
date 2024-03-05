@@ -1,7 +1,7 @@
 <template>
   <div class="error-message">
     <div>
-      <img src="./assets/404.png" />
+      <img src="../assets/images/404.png" />
       <div>
         <h1>404</h1>
         <div>抱歉，您访问的页面不存在</div>
