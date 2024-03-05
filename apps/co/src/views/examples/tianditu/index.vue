@@ -6,7 +6,7 @@
 
 <script lang="ts" name="tianditu" setup>
 import { onMounted, ref } from 'vue';
-import { T } from '@/utils/tianditu';
+import { T } from '@bcc/utils';
 
 const map = ref();
 

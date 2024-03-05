@@ -3,7 +3,7 @@ import { Theme } from './interface';
 import { ElMessage } from 'element-plus';
 import { DEFAULT_PRIMARY } from '@/config';
 import { useGlobalStore } from '@/stores/modules/global';
-import { getLightColor, getDarkColor } from '@/utils/color';
+import { getLightColor, getDarkColor } from '@bcc/utils';
 import { menuTheme } from '@/styles/theme/menu';
 import { asideTheme } from '@/styles/theme/aside';
 import { headerTheme } from '@/styles/theme/header';

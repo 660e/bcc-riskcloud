@@ -3,7 +3,7 @@ import { ElNotification } from 'element-plus';
 /**
  * @description 全局代码错误捕捉
  */
-const errorHandler = (error: any) => {
+export function errorHandler(error: any) {
   // 过滤 HTTP 请求错误
   if (error.status || error.status == 0) return false;
   let errorMap: { [key: string]: string } = {
@@ -22,6 +22,4 @@ const errorHandler = (error: any) => {
     type: 'error',
     duration: 3000
   });
-};
-
-export default errorHandler;
+}

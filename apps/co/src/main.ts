@@ -16,7 +16,7 @@ import directives from '@/directives/index';
 import router from '@/routers';
 import I18n from '@/languages/index';
 import pinia from '@/stores';
-import errorHandler from '@/utils/errorHandler';
+import { errorHandler } from '@bcc/utils';
 
 const app = createApp(App);
 
