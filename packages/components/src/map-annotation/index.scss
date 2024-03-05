@@ -1,0 +1,10 @@
+.map-annotation {
+  #map {
+    height: 100%;
+  }
+  :deep(.tdt-container) {
+    .tdt-control-copyright {
+      display: none;
+    }
+  }
+}
