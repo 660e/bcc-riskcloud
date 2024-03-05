@@ -3,7 +3,7 @@ import { showFullScreenLoading, tryHideFullScreenLoading } from './loading';
 import { LOGIN_URL } from '@/config';
 import { ElMessage } from 'element-plus';
 import { ResultData } from '@/api/interface';
-import { ResultEnum } from '@/enums/httpEnum';
+import { ResultEnum } from '@bcc/utils';
 import { checkStatus } from './helper/checkStatus';
 import { AxiosCanceler } from './helper/axiosCancel';
 import { useUserStore } from '@/stores/modules/user';
