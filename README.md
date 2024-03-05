@@ -1,196 +1,114 @@
-# BCC-Admin
+# 成都二期（平台端）
 
-## 使用步骤
+为便于多端管理、共享组件库，平台端采用 monorepo 架构，通过 pnpm 管理多个 [workspace](https://pnpm.io/workspaces)
+
+## 快速开始
 
 ### 准备
 
-确认本地 node 版本大于 v18.0.0，如果版本过低，请到[官网](https://nodejs.org/en)下载最新版
-
-```shell
-node -v
-```
-
-推荐使用 pnpm 管理项目依赖
-
-```shell
-npm i pnpm -g
-```
-
-推荐使用 vscode 进行开发，请到[官网](https://code.visualstudio.com/)下载最新版
-
-安装项目推荐的 vscode 插件
+推荐使用 vscode 进行开发，克隆工程后根据提示安装开发辅助插件
 
 - bradlc.vscode-tailwindcss
 - dbaeumer.vscode-eslint
 - esbenp.prettier-vscode
 - Vue.volar
-- Vue.vscode-typescript-vue-plugin
 
-### 开发
+根据开发任务，克隆相应子工程（单位端、政府端）到 apps 文件夹
 
-安装依赖
+```
+cd apps
+git clone https://xxx.xxx.xxx/co.git
+git clone https://xxx.xxx.xxx/gov.git
+```
 
-```shell
+检查本地 nodejs 版本
+
+```
+node -v
+```
+
+确保本地 nodejs 版本大于 v18.0.0，如果版本过低，请到[官网](https://nodejs.org/en)下载最新版
+
+使用 pnpm 管理依赖包
+
+```
+npm i pnpm -g
+```
+
+跳转到平台端根目录，使用 pnpm 安装依赖包（同时会自动安装子工程依赖包）
+
+```
 pnpm i
 ```
 
-运行项目
+### 开发
 
-```shell
-pnpm dev
 ```
-
-### 检查
-
-代码检查
-
-```shell
-pnpm lint:eslint
-```
-
-代码格式化
-
-```shell
-pnpm lint:prettier
-```
-
-样式格式化
-
-```shell
-pnpm lint:stylelint
+pnpm dev:co        // 单位端
+pnpm dev:gov       // 政府端
 ```
 
 ### 构建
 
-开发环境
+```
+build:test         // 单位端、政府端测试环境
+build:prod         // 单位端、政府端生产环境
 
-```shell
-pnpm build:dev
+build:co:test      // 单位端测试环境
+build:co:prod      // 单位端生产环境
+
+build:gov:test     // 政府端测试环境
+build:gov:prod     // 政府端生产环境
 ```
 
-生产环境
+### 提交
 
-```shell
-pnpm build:prod
+平台端提交
+
+```
+git commit
 ```
 
-测试环境
+子工程由独立 git 仓库管理，需要到子工程目录进行提交
 
-```shell
-pnpm build:test
+```
+cd apps/co
+git commit
+```
+
+提交规范
+
+- feat：新功能
+- fix：修复 bug
+- docs：编写文档、编写注释
+- style：变更代码格式，不影响代码运行逻辑
+- refactor：重构
+- chore：变更构建过程或构建工具
+
+```
+<type>: <subject>
 ```
 
 ## 目录结构
 
 ```
-├─ /.husky                       # husky 脚本
 ├─ /.vscode                      # vscode 配置文件
-├─ /build                        # vite 脚本
-├─ /public                       # 静态资源
-├─ /src
-│  ├─ /api                       # 接口
-│  ├─ /assets                    # 静态资源
-│  ├─ /components                # 全局组件
-│  ├─ /config                    # 全局配置
-│  ├─ /directives                # 全局指令
-│  ├─ /enums                     # 常用枚举类型库
-│  ├─ /hooks                     # 常用钩子库
-│  ├─ /languages                 # 国际化模块
-│  ├─ /layouts                   # 布局
-│  ├─ /routers                   # 路由
-│  ├─ /stores                    # 存储
-│  ├─ /styles                    # 样式
-│  ├─ /typings                   # 全局 ts 声明
-│  ├─ /utils                     # 常用工具函数库
-│  ├─ /views                     # 视图
-│  ├─ App.vue                    # 项目入口组件
-│  ├─ main.ts                    # 项目入口文件
-│  ├─ vite-env.d.ts              # 指定 ts 识别 vue
+├─ /apps                         # 应用
+│  ├─ co                         # 单位端工程
+│  ├─ gov                        # 政府端工程
+├─ /packages                     # 共享包
+│  ├─ components                 # 组件库
+│  ├─ template                   # 代码生成模板
+│  ├─ ui                         # ui库
+│  ├─ utils                      # 工具库
 ├─ .editorconfig                 # 编辑器通用配置文件
-├─ .env                          # 全局环境配置文件
-├─ .env.development              # 开发环境配置文件
-├─ .env.production               # 生产环境配置文件
-├─ .env.test                     # 测试环境配置文件
 ├─ .eslintignore                 # eslint 忽略目录
 ├─ .eslintrc.cjs                 # eslint 配置文件
 ├─ .gitignore                    # git 忽略目录
 ├─ .prettierignore               # prettier 忽略目录
 ├─ .prettierrc.cjs               # prettier 配置文件
-├─ .stylelintignore              # stylelint 忽略目录
-├─ .stylelintrc.cjs              # stylelint 配置文件
-├─ commitlint.config.cjs         # commitlint 配置文件
-├─ index.html                    # 入口
-├─ lint-staged.config.cjs        # lint-staged 配置文件
 ├─ package.json                  # 依赖包配置文件
 ├─ pnpm-lock.yaml                # 依赖包锁定配置文件
-├─ postcss.config.js             # postcss 配置文件
+├─ pnpm-workspace.yaml           # 工作空间配置文件
 ├─ README.md                     # 说明文档
-├─ tailwind.config.js            # tailwind 配置文件
-├─ tsconfig.json                 # ts 配置文件
-├─ vite.config.ts                # vite 配置文件
 ```
-
-## 内置功能/组件/指令
-
-- 切换组件大小（ assembly-size.vue ）
-- 切换语言（ language-setting.vue ）
-- 全局菜单搜索（ search-menu.vue ）
-- 切换主题、布局（ theme-setting.vue ）
-- 站内通知（ message-box.vue ）
-- 全屏模式（ full-screen.vue ）
-- 页面缓存
-- 页面标签
-- 菜单权限控制
-- 按钮权限控制
-- 接口请求/取消（ /api ）
-- 图表（ /components/echarts-wrap ）
-- 表格（ /components/pro-table ）
-- 树（ /components/tree-filter ）
-- 自定义指令：复制、拖拽、防抖、节流、长按
-
-## 相关插件
-
-### Vue.js
-
-- 官方文档：https://cn.vuejs.org/api/
-
-### Vue Router
-
-- 官方文档：https://router.vuejs.org/zh/
-
-### Pinia
-
-- 官方文档：https://pinia.vuejs.org/zh/
-
-### Element Plus
-
-- 官方文档：https://element-plus.org/zh-CN/component/button.html
-
-### Tailwind CSS
-
-- 官方文档：https://tailwindcss.com/docs/installation
-
-### Apache ECharts
-
-- 官方文档：https://echarts.apache.org/zh/option.html
-- 在线示例：https://echarts.apache.org/examples/zh/index.html
-
-### dayjs
-
-- 官方文档：https://day.js.org/docs/en/installation/installation
-
-### 天地图
-
-- 官方文档：http://lbs.tianditu.gov.cn/api/js4.0/guide.html
-- 在线示例：http://lbs.tianditu.gov.cn/api/js4.0/examples.html
-
-### wangEditor
-
-- 官方文档：https://www.wangeditor.com/v5/getting-started.html
-- 在线示例：https://www.wangeditor.com/demo/index.html
-
-## Geeker-Admin
-
-- 官方文档：https://docs.spicyboy.cn/
-- 在线示例：https://admin.spicyboy.cn/
-- 代码仓库：https://github.com/HalseySpicy/Geeker-Admin
