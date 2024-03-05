@@ -214,13 +214,13 @@ importers:
         specifier: workspace:^
         version: link:../../packages/utils
 
-  packages/components:
+  packages/components: {}
+
+  packages/ui:
     dependencies:
       '@bcc/utils':
         specifier: workspace:^
         version: link:../utils
-
-  packages/ui: {}
 
   packages/utils: {}
 

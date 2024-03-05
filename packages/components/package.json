@@ -8,8 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@bcc/utils": "workspace:^"
-  }
+  "license": "ISC"
 }
