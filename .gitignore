@@ -24,3 +24,6 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
+
+apps/co
+apps/gov
