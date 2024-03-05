@@ -1,8 +1,0 @@
-{
-  "code": 200,
-  "msg": "成功",
-  "data": {
-    "pro-table": ["add", "batchAdd", "export", "batchDelete", "status"],
-    "auth-direct": ["add", "edit", "delete", "import", "export"]
-  }
-}
