@@ -3,7 +3,7 @@ import markerSuccess from './assets/tianditu/marker-success.svg';
 import markerWarning from './assets/tianditu/marker-warning.svg';
 import markerDanger from './assets/tianditu/marker-danger.svg';
 
-import { TDTMap, TDTMarker } from './interface';
+import { TDTContextMenu, TDTMap, TDTMarker, TDTMarkerType } from './interface';
 
 export const T = (window as any).T;
 
@@ -11,40 +11,36 @@ const iconSize = new T.Point(25, 41);
 const iconAnchor = new T.Point(13, 41);
 
 export class Map {
-  private el: string;
-  private center: [number, number];
-  private zoom: number;
+  private M: any;
 
-  constructor(options: TDTMap) {
-    this.el = options.el;
-    this.center = options.center;
-    this.zoom = options.zoom;
+  private getIconUrl(type: TDTMarkerType) {
+    switch (type) {
+      case 'primary':
+        return markerPrimary;
+      case 'success':
+        return markerSuccess;
+      case 'warning':
+        return markerWarning;
+      case 'danger':
+        return markerDanger;
+    }
   }
 
-  init() {
-    const M = new T.Map(this.el);
-    M.centerAndZoom(new T.LngLat(this.center[0], this.center[1]), this.zoom);
-    return M;
+  init(options: TDTMap) {
+    this.M = new T.Map(options.el);
+    this.M.centerAndZoom(new T.LngLat(options.center[0], options.center[1]), options.zoom);
+    return this.M;
   }
 
   marker(options: TDTMarker) {
-    let iconUrl: any;
-    switch (options.type) {
-      case 'primary':
-        iconUrl = markerPrimary;
-        break;
-      case 'success':
-        iconUrl = markerSuccess;
-        break;
-      case 'warning':
-        iconUrl = markerWarning;
-        break;
-      case 'danger':
-        iconUrl = markerDanger;
-        break;
-    }
-    return new T.Marker(new T.LngLat(options.lnglat[0], options.lnglat[1]), {
-      icon: new T.Icon({ iconUrl, iconSize, iconAnchor })
+    const marker = new T.Marker(new T.LngLat(options.lnglat[0], options.lnglat[1]), {
+      icon: new T.Icon({ iconUrl: this.getIconUrl(options.type), iconSize, iconAnchor })
     });
+    this.M.addOverLay(marker);
+    return marker;
+  }
+
+  contextMenu(options: TDTContextMenu) {
+    console.log(options);
   }
 }
