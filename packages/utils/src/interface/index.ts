@@ -1,3 +1,5 @@
+export * from './tianditu';
+
 export enum ResultEnum {
   SUCCESS = 200,
   ERROR = 500,
@@ -30,22 +32,4 @@ export interface TreeSelectOption {
   label: string;
   value: string | number;
   children?: TreeSelectOption[];
-}
-
-export interface TDTContextMenu {
-  menu: any;
-  width: number;
-}
-
-export interface TDTMap {
-  el: string;
-  center: [number, number];
-  zoom: number;
-}
-
-export type TDTMarkerType = 'primary' | 'success' | 'warning' | 'danger';
-
-export interface TDTMarker {
-  lnglat: [number, number];
-  type: TDTMarkerType;
 }

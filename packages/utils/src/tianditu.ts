@@ -41,6 +41,15 @@ export class Map {
   }
 
   contextMenu(options: TDTContextMenu) {
-    console.log(options);
+    const menu = new T.ContextMenu({ width: options.width });
+
+    options.menu.forEach(item => {
+      console.log(item);
+      menu.addItem(new T.MenuItem(item.text, item.callback));
+    });
+
+    this.M.addContextMenu(menu);
+
+    return menu;
   }
 }
