@@ -1,25 +1,20 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue';
-import { Map, TDTMarker } from '@bcc/utils';
+import { Map, TMarker, TLngLat } from '@bcc/utils';
 
 const contextMenu = [
   {
-    text: '测试',
-    callback: (a, b, c) => {
-      console.log(a);
-      console.log(b);
-      console.log(c);
-    }
+    text: '测试'
   },
   {
     text: '获取当前坐标',
-    callback: lnglat => {
+    callback: (lnglat: TLngLat) => {
       console.log(lnglat);
     }
   }
 ];
 
-const markers: TDTMarker[] = [
+const markers: TMarker[] = [
   { lnglat: [116.22808, 40.07779], type: 'primary' },
   { lnglat: [116.22918, 40.07811], type: 'success' },
   { lnglat: [116.22801, 40.07698], type: 'warning' },
@@ -38,7 +33,7 @@ onMounted(() => {
   markers.forEach(marker => M.marker(marker));
 
   // 添加右键菜单
-  M.contextMenu({ menu: contextMenu, width: 150 });
+  M.contextMenu({ contextMenu, width: 150 });
 });
 </script>
 

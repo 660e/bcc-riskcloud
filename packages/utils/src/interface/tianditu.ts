@@ -1,17 +1,23 @@
-export type TDTMarkerType = 'primary' | 'success' | 'warning' | 'danger';
+export type TMarkerType = 'primary' | 'success' | 'warning' | 'danger';
+export type TLngLat = [number, number];
 
-export interface TDTContextMenu {
-  menu: any;
-  width: number;
-}
-
-export interface TDTMap {
+export interface TMap {
   el: string;
-  center: [number, number];
+  center: TLngLat;
   zoom: number;
 }
 
-export interface TDTMarker {
-  lnglat: [number, number];
-  type: TDTMarkerType;
+export interface TMarker {
+  lnglat: TLngLat;
+  type: TMarkerType;
+}
+
+export interface TContextMenu {
+  contextMenu: any;
+  width: number;
+}
+
+export interface TMenuItem {
+  text: string;
+  callback: () => void;
 }
