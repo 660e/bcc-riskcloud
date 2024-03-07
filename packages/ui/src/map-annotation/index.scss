@@ -2,6 +2,15 @@
   display: flex;
   position: relative;
 
+  #map {
+    flex: 1;
+  }
+  :deep(.tdt-container) {
+    .tdt-control-copyright {
+      display: none;
+    }
+  }
+
   &__points {
     width: 300px;
     display: flex;
@@ -22,13 +31,10 @@
     }
   }
 
-  #map {
-    flex: 1;
-  }
-
-  :deep(.tdt-container) {
-    .tdt-control-copyright {
-      display: none;
-    }
+  &__radius {
+    position: absolute;
+    top: 10px;
+    left: 310px;
+    z-index: 1000;
   }
 }

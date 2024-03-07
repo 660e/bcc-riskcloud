@@ -3,7 +3,7 @@ import markerSuccess from './assets/tianditu/marker-success.svg';
 import markerWarning from './assets/tianditu/marker-warning.svg';
 import markerDanger from './assets/tianditu/marker-danger.svg';
 
-import * as I from './interface/tianditu';
+import { TDT } from './interface/tianditu';
 
 export const T = (window as any).T;
 
@@ -14,7 +14,7 @@ const iconAnchor = new T.Point(13, 41);
 export class MapClass {
   private map: any;
 
-  private getIconUrl(type: I.TMarkerType) {
+  private getIconUrl(type: TDT.MarkerType) {
     switch (type) {
       case 'primary':
         return markerPrimary;
@@ -32,7 +32,7 @@ export class MapClass {
    * @param options
    * @returns 地图实例
    */
-  Init(options: I.TMap) {
+  Init(options: TDT.MapOptions) {
     const { el, center, zoom = 10 } = options;
 
     this.map = new T.Map(el);
@@ -42,11 +42,21 @@ export class MapClass {
   }
 
   /**
+   * @description 初始化定位地图
+   * @param options
+   */
+  centerAndZoom(options: TDT.CenterAndZoomOptions) {
+    const { lnglat, zoom } = options;
+
+    this.map.centerAndZoom(new T.LngLat(lnglat[0], lnglat[1]), zoom);
+  }
+
+  /**
    * @description 创建图像标注
    * @param options
    * @returns 图像标注实例
    */
-  Marker(options: I.TMarker) {
+  Marker(options: TDT.MarkerOptions) {
     const { lnglat, type = 'primary' } = options;
 
     const marker = new T.Marker(new T.LngLat(lnglat[0], lnglat[1]), {
@@ -62,11 +72,11 @@ export class MapClass {
    * @param options
    * @returns 右键菜单实例
    */
-  ContextMenu(options: I.TContextMenu) {
+  ContextMenu(options: TDT.ContextMenuOptions) {
     const { contextMenu, width = 100 } = options;
 
     const menu = new T.ContextMenu({ width });
-    contextMenu.forEach((item: I.TMenuItem) => {
+    contextMenu.forEach((item: TDT.MenuItemOptions) => {
       menu.addItem(new T.MenuItem(item.text, item.callback));
     });
     this.map.addContextMenu(menu);
@@ -79,7 +89,7 @@ export class MapClass {
    * @param options
    * @returns 圆覆盖物实例
    */
-  Circle(options: I.TCircle) {
+  Circle(options: TDT.CircleOptions) {
     const { lnglat, radius = 0 } = options;
 
     const circle = new T.Circle(new T.LngLat(lnglat[0], lnglat[1]), radius);

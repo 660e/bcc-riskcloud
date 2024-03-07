@@ -1,28 +1,35 @@
-export type TMarkerType = 'primary' | 'success' | 'warning' | 'danger';
-export type TLngLat = [number, number];
+export namespace TDT {
+  export type MarkerType = 'primary' | 'success' | 'warning' | 'danger';
+  export type LngLat = [number, number];
 
-export interface TMap {
-  el: string;
-  center: TLngLat;
-  zoom?: number;
-}
+  export interface MapOptions {
+    el: string;
+    center: LngLat;
+    zoom?: number;
+  }
 
-export interface TMarker {
-  lnglat: TLngLat;
-  type?: TMarkerType;
-}
+  export interface MarkerOptions {
+    lnglat: LngLat;
+    type?: MarkerType;
+  }
 
-export interface TContextMenu {
-  contextMenu: any;
-  width?: number;
-}
+  export interface ContextMenuOptions {
+    contextMenu: any;
+    width?: number;
+  }
 
-export interface TMenuItem {
-  text: string;
-  callback?: () => void;
-}
+  export interface MenuItemOptions {
+    text: string;
+    callback?: () => void;
+  }
 
-export interface TCircle {
-  lnglat: TLngLat;
-  radius?: number;
+  export interface CircleOptions {
+    lnglat: LngLat;
+    radius?: number;
+  }
+
+  export interface CenterAndZoomOptions {
+    lnglat: LngLat;
+    zoom: number;
+  }
 }
