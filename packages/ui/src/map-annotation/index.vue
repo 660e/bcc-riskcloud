@@ -8,11 +8,10 @@ const $props = defineProps<{
 }>();
 
 let M: any; // 地图实例
-let MC: MapClass; // 地图类
-let centerLngLat: TDT.LngLat;
+let MapUtils: MapClass; // 地图工具类
 let riskCircle: any;
 
-const contextMenu = [
+const contextMenu: TDT.MenuItem[] = [
   {
     text: '获取当前坐标',
     callback: (lnglat: any) => {
@@ -33,43 +32,48 @@ const riskCircleRadiusRadios = [
   { label: '2000米', value: 2000 }
 ];
 const riskCircleRadiusChange = (value: number) => {
-  let zoom: number;
-  if (value <= 100) {
-    zoom = 18;
-  } else if (value > 100 && value <= 200) {
-    zoom = 17;
-  } else if (value > 200 && value <= 500) {
-    zoom = 16;
-  } else if (value > 500 && value <= 1000) {
-    zoom = 15;
-  } else if (value > 1000 && value <= 2000) {
-    zoom = 14;
-  } else {
-    zoom = 13;
-  }
-  M.centerAndZoom(MC.LngLat(centerLngLat), zoom);
-  riskCircle.setRadius(value);
-
-  console.log(riskCircle.getBounds());
+  // let zoom: number;
+  // if (value <= 100) {
+  //   zoom = 18;
+  // } else if (value > 100 && value <= 200) {
+  //   zoom = 17;
+  // } else if (value > 200 && value <= 500) {
+  //   zoom = 16;
+  // } else if (value > 500 && value <= 1000) {
+  //   zoom = 15;
+  // } else if (value > 1000 && value <= 2000) {
+  //   zoom = 14;
+  // } else {
+  //   zoom = 13;
+  // }
+  console.log(value);
 };
 
+//   M.centerAndZoom(MC.LngLat(centerLngLat), zoom);
+//   riskCircle.setRadius(value);
+
+//   console.log(riskCircle.getBounds());
+// };
+
+//     MC.Marker({ lnglat });
+//     riskCircle = MC.Circle({ lnglat, radius });
+//     riskCircleRadiusChange(radius);
+//     console.log(M);
+//   }
+// });
 watchEffect(() => {
   console.log('watchEffect');
 
   if ($props.company.lnglat) {
-    const { lnglat, radius }: { lnglat: TDT.LngLat; radius: number } = $props.company;
-    centerLngLat = lnglat;
+    const { lnglat, radius } = $props.company;
     riskCircleRadius.value = radius;
+    MapUtils = new MapClass();
+    M = MapUtils.Init('map', lnglat, 17);
+    riskCircle = MapUtils.Circle(lnglat, radius);
 
-    MC = new MapClass();
-    M = MC.Init({ el: 'map', center: lnglat });
-    MC.ContextMenu({ contextMenu, width: 150 });
-    MC.Marker({ lnglat });
-    riskCircle = MC.Circle({ lnglat, radius });
-
-    riskCircleRadiusChange(radius);
-
-    console.log(M);
+    M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
+    M.addOverLay(MapUtils.Marker(lnglat));
+    M.addOverLay(riskCircle);
   }
 });
 </script>

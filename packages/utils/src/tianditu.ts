@@ -14,8 +14,8 @@ const iconAnchor = new T.Point(13, 41);
 export class MapClass {
   private map: any;
 
-  private getIconUrl(type: TDT.MarkerType) {
-    switch (type) {
+  private getIconUrl(icon: TDT.Icon) {
+    switch (icon) {
       case 'primary':
         return markerPrimary;
       case 'success':
@@ -28,72 +28,57 @@ export class MapClass {
   }
 
   /**
-   * @description 初始化地图
-   * @param options
+   * @param container 用于显示地图的对象id
+   * @param center 地图的初始化中心点
+   * @param zoom 地图的初始化级别
    * @returns 地图实例
    */
-  Init(options: TDT.MapOptions) {
-    const { el, center, zoom = 10 } = options;
-
-    this.map = new T.Map(el);
+  Init(container: string, center: TDT.LngLat, zoom: number = 10) {
+    this.map = new T.Map(container);
     this.map.centerAndZoom(this.LngLat(center), zoom);
 
     return this.map;
   }
 
   /**
-   * @description 创建地理位置坐标
-   * @param lnglat 坐标
-   * @returns 地理位置坐标实例
+   * @param lnglat 地理经纬度
+   * @returns 地理位置坐标点
    */
   LngLat(lnglat: TDT.LngLat) {
     return new T.LngLat(lnglat[0], lnglat[1]);
   }
 
   /**
-   * @description 创建图像标注
-   * @param options
+   * @param lnglat 地理经纬度
+   * @param icon 图标
    * @returns 图像标注实例
    */
-  Marker(options: TDT.MarkerOptions) {
-    const { lnglat, type = 'primary' } = options;
-
-    const marker = new T.Marker(this.LngLat(lnglat), {
-      icon: new T.Icon({ iconUrl: this.getIconUrl(type), iconSize, iconAnchor })
+  Marker(lnglat: TDT.LngLat, icon: TDT.Icon = 'primary') {
+    return new T.Marker(this.LngLat(lnglat), {
+      icon: new T.Icon({ iconUrl: this.getIconUrl(icon), iconSize, iconAnchor })
     });
-    this.map.addOverLay(marker);
-
-    return marker;
   }
 
   /**
-   * @description 创建右键菜单
-   * @param options
+   * @param contextMenu 菜单
+   * @param width 菜单项的宽度
    * @returns 右键菜单实例
    */
-  ContextMenu(options: TDT.ContextMenuOptions) {
-    const { contextMenu, width = 100 } = options;
-
+  ContextMenu(contextMenu: TDT.MenuItem[], width: number = 100) {
     const menu = new T.ContextMenu({ width });
-    contextMenu.forEach((item: TDT.MenuItemOptions) => {
+    contextMenu.forEach((item: TDT.MenuItem) => {
       menu.addItem(new T.MenuItem(item.text, item.callback));
     });
-    this.map.addContextMenu(menu);
 
     return menu;
   }
 
   /**
-   * @description 创建圆覆盖物
-   * @param options
+   * @param center 圆心经纬度坐标
+   * @param radius 圆的半径（米）
    * @returns 圆覆盖物实例
    */
-  Circle(options: TDT.CircleOptions) {
-    const { lnglat, radius = 0 } = options;
-
-    const circle = new T.Circle(this.LngLat(lnglat), radius);
-    this.map.addOverLay(circle);
-
-    return circle;
+  Circle(center: TDT.LngLat, radius: number = 0) {
+    return new T.Circle(this.LngLat(center), radius);
   }
 }
