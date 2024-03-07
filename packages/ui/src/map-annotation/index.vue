@@ -1,39 +1,31 @@
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { Map, TMarker, TLngLat } from '@bcc/utils';
+import { watchEffect } from 'vue';
+import { ElMessage } from 'element-plus';
+import { Map, TLngLat } from '@bcc/utils';
 
+const $props = defineProps<{
+  company: any;
+}>();
+
+let M: any;
 const contextMenu = [
   {
-    text: '测试'
-  },
-  {
     text: '获取当前坐标',
-    callback: (lnglat: TLngLat) => {
-      console.log(lnglat);
+    callback: (lnglat: any) => {
+      const text = `${lnglat.lng}, ${lnglat.lat}`;
+      navigator.clipboard.writeText(text).then(() => ElMessage.success(text));
     }
   }
 ];
 
-const markers: TMarker[] = [
-  { lnglat: [116.22808, 40.07779], type: 'primary' },
-  { lnglat: [116.22918, 40.07811], type: 'success' },
-  { lnglat: [116.22801, 40.07698], type: 'warning' },
-  { lnglat: [116.23013, 40.07778], type: 'danger' }
-];
-
-onMounted(() => {
-  const M = new Map();
-  M.init({
-    el: 'map',
-    center: [116.22909, 40.07757],
-    zoom: 18
-  });
-
-  // 添加标注
-  markers.forEach(marker => M.marker(marker));
-
-  // 添加右键菜单
-  M.contextMenu({ contextMenu, width: 150 });
+watchEffect(() => {
+  if ($props.company.lnglat) {
+    const lnglat: TLngLat = $props.company.lnglat;
+    M = new Map();
+    M.Init({ el: 'map', center: lnglat, zoom: 18 });
+    M.ContextMenu({ contextMenu, width: 150 });
+    M.Marker({ lnglat, type: 'primary' });
+  }
 });
 </script>
 

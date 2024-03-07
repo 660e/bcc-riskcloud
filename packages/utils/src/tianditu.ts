@@ -10,6 +10,7 @@ export const T = (window as any).T;
 const iconSize = new T.Point(25, 41);
 const iconAnchor = new T.Point(13, 41);
 
+// 地图类
 export class Map {
   private M: any;
 
@@ -26,14 +27,24 @@ export class Map {
     }
   }
 
-  init(options: TMap) {
+  /**
+   * @description 初始化地图
+   * @param options
+   * @returns 地图实例
+   */
+  Init(options: TMap) {
     this.M = new T.Map(options.el);
     this.M.centerAndZoom(new T.LngLat(options.center[0], options.center[1]), options.zoom);
 
     return this.M;
   }
 
-  marker(options: TMarker) {
+  /**
+   * @description 创建图像标注
+   * @param options
+   * @returns 图像标注实例
+   */
+  Marker(options: TMarker) {
     const marker = new T.Marker(new T.LngLat(options.lnglat[0], options.lnglat[1]), {
       icon: new T.Icon({ iconUrl: this.getIconUrl(options.type), iconSize, iconAnchor })
     });
@@ -42,7 +53,12 @@ export class Map {
     return marker;
   }
 
-  contextMenu(options: TContextMenu) {
+  /**
+   * @description 创建右键菜单
+   * @param options
+   * @returns 右键菜单实例
+   */
+  ContextMenu(options: TContextMenu) {
     const contextMenu = new T.ContextMenu({ width: options.width });
     options.contextMenu.forEach((item: TMenuItem) => {
       contextMenu.addItem(new T.MenuItem(item.text, item.callback));
