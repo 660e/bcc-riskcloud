@@ -27,9 +27,4 @@ export namespace TDT {
     lnglat: LngLat;
     radius?: number;
   }
-
-  export interface CenterAndZoomOptions {
-    lnglat: LngLat;
-    zoom: number;
-  }
 }

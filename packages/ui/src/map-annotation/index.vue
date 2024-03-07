@@ -7,7 +7,8 @@ const $props = defineProps<{
   company: any;
 }>();
 
-let M: MapClass;
+let M: any; // 地图实例
+let MC: MapClass; // 地图类
 let centerLngLat: TDT.LngLat;
 let riskCircle: any;
 
@@ -46,8 +47,10 @@ const riskCircleRadiusChange = (value: number) => {
   } else {
     zoom = 13;
   }
-  M.centerAndZoom({ lnglat: centerLngLat, zoom });
+  M.centerAndZoom(MC.LngLat(centerLngLat), zoom);
   riskCircle.setRadius(value);
+
+  console.log(riskCircle.getBounds());
 };
 
 watchEffect(() => {
@@ -58,13 +61,15 @@ watchEffect(() => {
     centerLngLat = lnglat;
     riskCircleRadius.value = radius;
 
-    M = new MapClass();
-    M.Init({ el: 'map', center: lnglat });
-    M.ContextMenu({ contextMenu, width: 150 });
-    M.Marker({ lnglat });
-    riskCircle = M.Circle({ lnglat, radius });
+    MC = new MapClass();
+    M = MC.Init({ el: 'map', center: lnglat });
+    MC.ContextMenu({ contextMenu, width: 150 });
+    MC.Marker({ lnglat });
+    riskCircle = MC.Circle({ lnglat, radius });
 
     riskCircleRadiusChange(radius);
+
+    console.log(M);
   }
 });
 </script>

@@ -36,19 +36,18 @@ export class MapClass {
     const { el, center, zoom = 10 } = options;
 
     this.map = new T.Map(el);
-    this.map.centerAndZoom(new T.LngLat(center[0], center[1]), zoom);
+    this.map.centerAndZoom(this.LngLat(center), zoom);
 
     return this.map;
   }
 
   /**
-   * @description 初始化定位地图
-   * @param options
+   * @description 创建地理位置坐标
+   * @param lnglat 坐标
+   * @returns 地理位置坐标实例
    */
-  centerAndZoom(options: TDT.CenterAndZoomOptions) {
-    const { lnglat, zoom } = options;
-
-    this.map.centerAndZoom(new T.LngLat(lnglat[0], lnglat[1]), zoom);
+  LngLat(lnglat: TDT.LngLat) {
+    return new T.LngLat(lnglat[0], lnglat[1]);
   }
 
   /**
@@ -59,7 +58,7 @@ export class MapClass {
   Marker(options: TDT.MarkerOptions) {
     const { lnglat, type = 'primary' } = options;
 
-    const marker = new T.Marker(new T.LngLat(lnglat[0], lnglat[1]), {
+    const marker = new T.Marker(this.LngLat(lnglat), {
       icon: new T.Icon({ iconUrl: this.getIconUrl(type), iconSize, iconAnchor })
     });
     this.map.addOverLay(marker);
@@ -92,7 +91,7 @@ export class MapClass {
   Circle(options: TDT.CircleOptions) {
     const { lnglat, radius = 0 } = options;
 
-    const circle = new T.Circle(new T.LngLat(lnglat[0], lnglat[1]), radius);
+    const circle = new T.Circle(this.LngLat(lnglat), radius);
     this.map.addOverLay(circle);
 
     return circle;
