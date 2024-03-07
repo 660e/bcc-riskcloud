@@ -21,3 +21,8 @@ export interface TMenuItem {
   text: string;
   callback: () => void;
 }
+
+export interface TCircle {
+  lnglat: TLngLat;
+  radius: number;
+}

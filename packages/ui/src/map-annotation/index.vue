@@ -22,11 +22,12 @@ const contextMenu = [
 
 watchEffect(() => {
   if ($props.company.lnglat) {
-    const lnglat: TLngLat = $props.company.lnglat;
+    const { lnglat, radius }: { lnglat: TLngLat; radius: number } = $props.company;
     M = new Map();
-    M.Init({ el: 'map', center: lnglat, zoom: 18 });
+    M.Init({ el: 'map', center: lnglat, zoom: 17 });
     M.ContextMenu({ contextMenu, width: 150 });
     M.Marker({ lnglat, type: 'primary' });
+    M.Circle({ lnglat, radius });
   }
 });
 </script>
