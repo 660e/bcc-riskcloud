@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue';
 import { ElMessage } from 'element-plus';
-import { Map, TLngLat } from '@bcc/utils';
+import { MapClass, TLngLat } from '@bcc/utils';
 
 const $props = defineProps<{
   company: any;
@@ -9,7 +9,7 @@ const $props = defineProps<{
 
 const active = ref(0);
 
-let M: any;
+let M: MapClass;
 const contextMenu = [
   {
     text: '获取当前坐标',
@@ -23,10 +23,10 @@ const contextMenu = [
 watchEffect(() => {
   if ($props.company.lnglat) {
     const { lnglat, radius }: { lnglat: TLngLat; radius: number } = $props.company;
-    M = new Map();
+    M = new MapClass();
     M.Init({ el: 'map', center: lnglat, zoom: 17 });
     M.ContextMenu({ contextMenu, width: 150 });
-    M.Marker({ lnglat, type: 'primary' });
+    M.Marker({ lnglat });
     M.Circle({ lnglat, radius });
   }
 });

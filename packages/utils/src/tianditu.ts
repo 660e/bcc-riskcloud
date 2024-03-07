@@ -11,8 +11,8 @@ const iconSize = new T.Point(25, 41);
 const iconAnchor = new T.Point(13, 41);
 
 // 地图类
-export class Map {
-  private M: any;
+export class MapClass {
+  private map: any;
 
   private getIconUrl(type: I.TMarkerType) {
     switch (type) {
@@ -33,10 +33,12 @@ export class Map {
    * @returns 地图实例
    */
   Init(options: I.TMap) {
-    this.M = new T.Map(options.el);
-    this.M.centerAndZoom(new T.LngLat(options.center[0], options.center[1]), options.zoom);
+    const { el, center, zoom = 10 } = options;
 
-    return this.M;
+    this.map = new T.Map(el);
+    this.map.centerAndZoom(new T.LngLat(center[0], center[1]), zoom);
+
+    return this.map;
   }
 
   /**
@@ -45,10 +47,12 @@ export class Map {
    * @returns 图像标注实例
    */
   Marker(options: I.TMarker) {
-    const marker = new T.Marker(new T.LngLat(options.lnglat[0], options.lnglat[1]), {
-      icon: new T.Icon({ iconUrl: this.getIconUrl(options.type), iconSize, iconAnchor })
+    const { lnglat, type = 'primary' } = options;
+
+    const marker = new T.Marker(new T.LngLat(lnglat[0], lnglat[1]), {
+      icon: new T.Icon({ iconUrl: this.getIconUrl(type), iconSize, iconAnchor })
     });
-    this.M.addOverLay(marker);
+    this.map.addOverLay(marker);
 
     return marker;
   }
@@ -59,13 +63,15 @@ export class Map {
    * @returns 右键菜单实例
    */
   ContextMenu(options: I.TContextMenu) {
-    const contextMenu = new T.ContextMenu({ width: options.width });
-    options.contextMenu.forEach((item: I.TMenuItem) => {
-      contextMenu.addItem(new T.MenuItem(item.text, item.callback));
-    });
-    this.M.addContextMenu(contextMenu);
+    const { contextMenu, width = 100 } = options;
 
-    return contextMenu;
+    const menu = new T.ContextMenu({ width });
+    contextMenu.forEach((item: I.TMenuItem) => {
+      menu.addItem(new T.MenuItem(item.text, item.callback));
+    });
+    this.map.addContextMenu(menu);
+
+    return menu;
   }
 
   /**
@@ -74,8 +80,10 @@ export class Map {
    * @returns 圆覆盖物实例
    */
   Circle(options: I.TCircle) {
-    const circle = new T.Circle(new T.LngLat(options.lnglat[0], options.lnglat[1]), options.radius);
-    this.M.addOverLay(circle);
+    const { lnglat, radius = 0 } = options;
+
+    const circle = new T.Circle(new T.LngLat(lnglat[0], lnglat[1]), radius);
+    this.map.addOverLay(circle);
 
     return circle;
   }
