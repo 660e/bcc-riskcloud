@@ -36,6 +36,8 @@ export class MapClass {
   Init(container: string, center: TDT.LngLat, zoom: number = 10) {
     this.map = new T.Map(container);
     this.map.centerAndZoom(this.LngLat(center), zoom);
+    this.map.addControl(new T.Control.Zoom());
+    this.map.addControl(new T.Control.MapType());
 
     return this.map;
   }
@@ -76,9 +78,10 @@ export class MapClass {
   /**
    * @param center 圆心经纬度坐标
    * @param radius 圆的半径（米）
+   * @param opts
    * @returns 圆覆盖物实例
    */
-  Circle(center: TDT.LngLat, radius: number = 0) {
-    return new T.Circle(this.LngLat(center), radius);
+  Circle(center: TDT.LngLat, radius: number = 0, opts?: TDT.CircleOptions) {
+    return new T.Circle(this.LngLat(center), radius, opts);
   }
 }

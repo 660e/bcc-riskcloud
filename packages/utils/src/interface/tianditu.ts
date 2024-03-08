@@ -6,4 +6,13 @@ export namespace TDT {
     text: string;
     callback?: (lnglat: LngLat) => void;
   }
+
+  export interface CircleOptions {
+    color?: string;
+    weight?: number;
+    opacity?: number;
+    fillColor?: string;
+    fillOpacity?: number;
+    lineStyle?: 'solid' | 'dashed';
+  }
 }

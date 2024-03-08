@@ -42,7 +42,7 @@ watchEffect(() => {
   if ($props.company.lnglat) {
     const { lnglat, radius } = $props.company;
 
-    riskCircle = MapUtils.Circle(lnglat, radius);
+    riskCircle = MapUtils.Circle(lnglat, radius, { weight: 1 });
     riskCircleRadius.value = radius;
 
     M = MapUtils.Init('map', lnglat, 17);
