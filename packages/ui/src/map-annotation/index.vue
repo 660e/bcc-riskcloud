@@ -21,8 +21,6 @@ const contextMenu: TDT.MenuItem[] = [
   }
 ];
 
-const active = ref(0);
-
 const riskCircleRadius = ref(0);
 const riskCircleRadiusRadios = [
   { label: '100米', value: 100 },
@@ -36,6 +34,17 @@ const riskCircleRadiusChange = (value: number) => {
   M.setViewport(Object.values(riskCircle.getBounds()));
 };
 
+const markers = ref([
+  { label: 'Marker-001', lnglat: [116.22685, 40.07829] },
+  { label: 'Marker-002', lnglat: [116.22733, 40.07677] },
+  { label: 'Marker-003', lnglat: [116.22988, 40.07792] },
+  { label: 'Marker-004', lnglat: [116.22924, 40.07646] }
+]);
+const checkedMarkers = ref([]);
+const save = () => {
+  console.log(checkedMarkers.value);
+};
+
 watchEffect(() => {
   console.log('watchEffect');
 
@@ -45,23 +54,33 @@ watchEffect(() => {
     riskCircle = MapUtils.Circle(lnglat, radius, { weight: 1 });
     riskCircleRadius.value = radius;
 
-    M = MapUtils.Init('map', lnglat, 17);
+    M = MapUtils.Init('map', lnglat);
     M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
     M.addOverLay(MapUtils.Marker(lnglat));
     M.addOverLay(riskCircle);
+
+    riskCircleRadiusChange(radius);
   }
 });
 </script>
 
 <template>
   <div class="map-annotation">
-    <div class="map-annotation__points">
-      <el-tabs v-model="active" stretch>
-        <el-tab-pane label="未标注" :name="0">
-          <div style="height: 2000px">未标注</div>
-        </el-tab-pane>
-        <el-tab-pane label="已标注" :name="1">已标注</el-tab-pane>
-      </el-tabs>
+    <div class="map-annotation__sidebar">
+      <div>
+        <div class="map-annotation__markers">
+          <el-checkbox-group v-model="checkedMarkers">
+            <el-checkbox v-for="(m, i) in markers" :key="i" :value="m">
+              <span>{{ m.label }}</span>
+              <el-icon><Position /></el-icon>
+              <span>100米</span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </div>
+        <div class="map-annotation__buttons">
+          <el-button @click="save" type="primary">保存</el-button>
+        </div>
+      </div>
       <el-divider direction="vertical" />
     </div>
 
