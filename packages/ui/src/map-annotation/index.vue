@@ -3,9 +3,7 @@ import { ref, watchEffect } from 'vue';
 import { ElMessage } from 'element-plus';
 import { MapClass, TDT } from '@bcc/utils';
 
-const $props = defineProps<{
-  company: any;
-}>();
+const $props = defineProps<{ company: any }>();
 
 // 地图实例
 let M: any;
@@ -45,24 +43,13 @@ const sensitiveTargets = ref<TDT.Marker[]>([
   { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
 ]);
 const checkedTargets = ref<TDT.Marker[]>();
-// const checkTarget = (check: boolean, lnglat: TDT.LngLat) => {
-//   if (check) {
-//     M.addOverLay(MapUtils.Marker(lnglat, 'danger'));
-//   } else {
-//     M.removeOverLay(M.getOverlays().find((overlay: any) => overlay.or.lng === lnglat[0] && overlay.or.lat === lnglat[1]));
-//   }
-// };
 
 // 全选
-const checkAll = ref(false);
-const isIndeterminate = ref(true);
-const checkAllChange = (check: boolean) => {
+
+const checkAllTargets = ref(false);
+const checkAllTargetsChange = (check: boolean) => {
   checkedTargets.value = check ? sensitiveTargets.value : [];
-  if (check) {
-    checkedTargetsChange(sensitiveTargets.value);
-  } else {
-    checkedTargetsChange([]);
-  }
+  checkedTargetsChange(check ? sensitiveTargets.value : []);
 };
 const checkedTargetsChange = (checked: TDT.Marker[]) => {
   const center = M.getCenter();
@@ -82,7 +69,11 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
   } else if (diff1.length < diff2.length) {
     diff2.forEach((overlay: any) => M.removeOverLay(overlay));
   }
+
+  checkAllTargets.value = checked.length === sensitiveTargets.value.length;
+  isIndeterminate.value = checked.length > 0 && checked.length < sensitiveTargets.value.length;
 };
+const isIndeterminate = ref(true);
 // 保存
 const save = () => {
   console.log(checkedTargets.value);
@@ -104,7 +95,6 @@ watchEffect(() => {
     M.addOverLay(riskCircle);
 
     riskCircleRadiusChange(radius);
-    // markers.forEach(marker => checkTarget(true, marker.lnglat));
     checkedTargetsChange(markers);
   }
 });
@@ -124,7 +114,9 @@ watchEffect(() => {
           </el-checkbox-group>
         </div>
         <div class="map-annotation__buttons">
-          <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="checkAllChange">全选</el-checkbox>
+          <el-checkbox v-model="checkAllTargets" :indeterminate="isIndeterminate" @change="checkAllTargetsChange">
+            全选
+          </el-checkbox>
           <el-button @click="save" type="primary">保存</el-button>
         </div>
       </div>
