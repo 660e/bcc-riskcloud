@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
 
 const $props = defineProps<{ company: any }>();
@@ -28,10 +27,9 @@ const riskCircleRadiusChange = (value: number) => {
 // 右键菜单
 const contextMenu: TDT.MenuItem[] = [
   {
-    text: '获取当前坐标',
+    text: '添加风险点位',
     callback: (lnglat: any) => {
-      const text = `${lnglat.lng}, ${lnglat.lat}`;
-      navigator.clipboard.writeText(text).then(() => ElMessage.success(text));
+      console.log(lnglat);
     }
   }
 ];
@@ -45,7 +43,6 @@ const sensitiveTargets = ref<TDT.Marker[]>([
 const checkedTargets = ref<TDT.Marker[]>();
 
 // 全选
-
 const checkAllTargets = ref(false);
 const checkAllTargetsChange = (check: boolean) => {
   checkedTargets.value = check ? sensitiveTargets.value : [];
@@ -76,28 +73,30 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
 const isIndeterminate = ref(true);
 // 保存
 const save = () => {
+  console.log($props.company);
   console.log(checkedTargets.value);
 };
 
-watchEffect(() => {
-  console.log('watchEffect');
+watch(
+  () => $props.company,
+  company => {
+    if (company.lnglat) {
+      const { lnglat, radius, markers }: { lnglat: TDT.LngLat; radius: number; markers: TDT.Marker[] } = company;
 
-  if ($props.company.lnglat) {
-    const { lnglat, radius, markers }: { lnglat: TDT.LngLat; radius: number; markers: TDT.Marker[] } = $props.company;
+      riskCircle = MapUtils.Circle(lnglat, radius, { weight: 1 });
+      riskCircleRadius.value = radius;
+      checkedTargets.value = markers;
 
-    riskCircle = MapUtils.Circle(lnglat, radius, { weight: 1 });
-    riskCircleRadius.value = radius;
-    checkedTargets.value = markers;
+      M = MapUtils.Init('map', lnglat);
+      M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
+      M.addOverLay(MapUtils.Marker(lnglat));
+      M.addOverLay(riskCircle);
 
-    M = MapUtils.Init('map', lnglat);
-    M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
-    M.addOverLay(MapUtils.Marker(lnglat));
-    M.addOverLay(riskCircle);
-
-    riskCircleRadiusChange(radius);
-    checkedTargetsChange(markers);
+      riskCircleRadiusChange(radius);
+      checkedTargetsChange(markers);
+    }
   }
-});
+);
 </script>
 
 <template>

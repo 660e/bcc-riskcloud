@@ -1,9 +1,10 @@
+import { ElMessage } from 'element-plus';
+import { TDT } from './interface/tianditu';
+
 import markerPrimary from './assets/tianditu/marker-primary.svg';
 import markerSuccess from './assets/tianditu/marker-success.svg';
 import markerWarning from './assets/tianditu/marker-warning.svg';
 import markerDanger from './assets/tianditu/marker-danger.svg';
-
-import { TDT } from './interface/tianditu';
 
 export const T = (window as any).T;
 
@@ -68,6 +69,13 @@ export class MapClass {
    */
   ContextMenu(contextMenu: TDT.MenuItem[], width: number = 100) {
     const menu = new T.ContextMenu({ width });
+    contextMenu.push({
+      text: '获取当前坐标',
+      callback: (lnglat: any) => {
+        const text = `${lnglat.lng}, ${lnglat.lat}`;
+        navigator.clipboard.writeText(text).then(() => ElMessage.success(`已复制 ${text} 到剪贴板`));
+      }
+    });
     contextMenu.forEach((item: TDT.MenuItem) => {
       menu.addItem(new T.MenuItem(item.text, item.callback));
     });
