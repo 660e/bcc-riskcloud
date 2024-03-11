@@ -35,10 +35,10 @@ const contextMenu: TDT.MenuItem[] = [
 ];
 // 敏感目标
 const sensitiveTargets = ref<TDT.Marker[]>([
-  { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829], distance: 0 },
-  { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677], distance: 0 },
-  { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792], distance: 0 },
-  { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646], distance: 0 }
+  { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
+  { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
+  { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
+  { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
 ]);
 const checkedTargets = ref<TDT.Marker[]>();
 
@@ -94,10 +94,6 @@ watch(
 
       riskCircleRadiusChange(radius);
       checkedTargetsChange(markers);
-
-      sensitiveTargets.value.forEach(target => {
-        target.distance = MapUtils.PointToPointDistance(target.lnglat, center);
-      });
     }
   }
 );
@@ -111,8 +107,10 @@ watch(
           <el-checkbox-group v-model="checkedTargets" @change="checkedTargetsChange">
             <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
               <span>{{ s.label }}</span>
-              <el-icon><Position /></el-icon>
-              <span>{{ s.distance }}米</span>
+              <template v-if="company.lnglat">
+                <el-icon><Position /></el-icon>
+                <span>{{ MapUtils.PointToPointDistance(company.lnglat, s.lnglat) }}米</span>
+              </template>
             </el-checkbox>
           </el-checkbox-group>
         </div>
