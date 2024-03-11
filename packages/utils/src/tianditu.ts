@@ -1,5 +1,6 @@
 import { ElMessage } from 'element-plus';
 import { TDT } from './interface/tianditu';
+import * as turf from '@turf/turf';
 
 import markerPrimary from './assets/tianditu/marker-primary.svg';
 import markerSuccess from './assets/tianditu/marker-success.svg';
@@ -91,5 +92,15 @@ export class MapClass {
    */
   Circle(center: TDT.LngLat, radius: number = 0, opts?: TDT.CircleOptions) {
     return new T.Circle(this.LngLat(center), radius, opts);
+  }
+
+  /**
+   * @param point 点
+   * @param center 圆心经纬度坐标
+   * @param radius 圆的半径（米）
+   * @returns 点是否在范围内
+   */
+  pointInCircle(point: TDT.LngLat, center: TDT.LngLat, radius: number) {
+    return radius >= turf.distance(turf.point(point), turf.point(center), { units: 'meters' });
   }
 }

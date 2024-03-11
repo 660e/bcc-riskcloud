@@ -29,7 +29,7 @@ const contextMenu: TDT.MenuItem[] = [
   {
     text: '添加风险点位',
     callback: (lnglat: any) => {
-      console.log(lnglat);
+      console.log(MapUtils.pointInCircle([lnglat.lng, lnglat.lat], $props.company.lnglat, riskCircleRadius.value));
     }
   }
 ];
