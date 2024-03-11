@@ -7,20 +7,14 @@ const $props = defineProps<{
   company: any;
 }>();
 
+// 地图实例
 let M: any;
+// 风险范围实例
 let riskCircle: any;
 
+// 地图工具类
 const MapUtils: MapClass = new MapClass();
-const contextMenu: TDT.MenuItem[] = [
-  {
-    text: '获取当前坐标',
-    callback: (lnglat: any) => {
-      const text = `${lnglat.lng}, ${lnglat.lat}`;
-      navigator.clipboard.writeText(text).then(() => ElMessage.success(text));
-    }
-  }
-];
-
+// 风险范围半径
 const riskCircleRadius = ref(0);
 const riskCircleRadiusRadios = [
   { label: '100米', value: 100 },
@@ -33,7 +27,17 @@ const riskCircleRadiusChange = (value: number) => {
   riskCircle.setRadius(value);
   M.setViewport(Object.values(riskCircle.getBounds()));
 };
-
+// 右键菜单
+const contextMenu: TDT.MenuItem[] = [
+  {
+    text: '获取当前坐标',
+    callback: (lnglat: any) => {
+      const text = `${lnglat.lng}, ${lnglat.lat}`;
+      navigator.clipboard.writeText(text).then(() => ElMessage.success(text));
+    }
+  }
+];
+// 敏感目标
 const sensitiveTargets = ref<TDT.Marker[]>([
   { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
   { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
@@ -43,8 +47,9 @@ const sensitiveTargets = ref<TDT.Marker[]>([
 const checkedTargets = ref<TDT.Marker[]>();
 const checkedTargetsChange = (checked: TDT.Marker[]) => {
   const center = M.getCenter();
+
+  // 获取所有标注（排除中心点）
   const activated: any[] = M.getOverlays().filter((overlay: any) => {
-    // 获取所有标注（排除中心点）
     return overlay.getType() === 2 && overlay.or.lng !== center.lng && overlay.or.lat !== center.lat;
   });
 
@@ -52,7 +57,7 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
   const diff1 = checked.filter(c => !activated.some(a => a.or.lng === c.lnglat[0] && a.or.lat === c.lnglat[1]));
   const diff2 = activated.filter(a => !checked.some(c => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat));
 
-  // 根据差异创建或删除标注
+  // 根据差异添加或移除标注
   if (diff1.length > diff2.length) {
     diff1.forEach((marker: TDT.Marker) => M.addOverLay(MapUtils.Marker(marker.lnglat, 'danger')));
   } else if (diff1.length < diff2.length) {
