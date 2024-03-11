@@ -45,13 +45,45 @@ const sensitiveTargets = ref<TDT.Marker[]>([
   { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
 ]);
 const checkedTargets = ref<TDT.Marker[]>();
-const checkTarget = (e: any, lnglat: TDT.LngLat) => {
-  if (e) {
-    M.addOverLay(MapUtils.Marker(lnglat, 'danger'));
+// const checkTarget = (check: boolean, lnglat: TDT.LngLat) => {
+//   if (check) {
+//     M.addOverLay(MapUtils.Marker(lnglat, 'danger'));
+//   } else {
+//     M.removeOverLay(M.getOverlays().find((overlay: any) => overlay.or.lng === lnglat[0] && overlay.or.lat === lnglat[1]));
+//   }
+// };
+
+// 全选
+const checkAll = ref(false);
+const isIndeterminate = ref(true);
+const checkAllChange = (check: boolean) => {
+  checkedTargets.value = check ? sensitiveTargets.value : [];
+  if (check) {
+    checkedTargetsChange(sensitiveTargets.value);
   } else {
-    M.removeOverLay(M.getOverlays().find((overlay: any) => overlay.or.lng === lnglat[0] && overlay.or.lat === lnglat[1]));
+    checkedTargetsChange([]);
   }
 };
+const checkedTargetsChange = (checked: TDT.Marker[]) => {
+  const center = M.getCenter();
+
+  // 获取所有标注（排除中心点）
+  const activated: any[] = M.getOverlays().filter((overlay: any) => {
+    return overlay.getType() === 2 && overlay.or.lng !== center.lng && overlay.or.lat !== center.lat;
+  });
+
+  // 获取标注列表与地图标注差异
+  const diff1 = checked.filter(c => !activated.some(a => a.or.lng === c.lnglat[0] && a.or.lat === c.lnglat[1]));
+  const diff2 = activated.filter(a => !checked.some(c => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat));
+
+  // 根据差异添加或移除标注
+  if (diff1.length > diff2.length) {
+    diff1.forEach((marker: TDT.Marker) => M.addOverLay(MapUtils.Marker(marker.lnglat, 'danger')));
+  } else if (diff1.length < diff2.length) {
+    diff2.forEach((overlay: any) => M.removeOverLay(overlay));
+  }
+};
+// 保存
 const save = () => {
   console.log(checkedTargets.value);
 };
@@ -72,7 +104,8 @@ watchEffect(() => {
     M.addOverLay(riskCircle);
 
     riskCircleRadiusChange(radius);
-    markers.forEach(marker => checkTarget(true, marker.lnglat));
+    // markers.forEach(marker => checkTarget(true, marker.lnglat));
+    checkedTargetsChange(markers);
   }
 });
 </script>
@@ -82,8 +115,8 @@ watchEffect(() => {
     <div class="map-annotation__sidebar">
       <div>
         <div class="map-annotation__markers">
-          <el-checkbox-group v-model="checkedTargets">
-            <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s" @change="checkTarget($event, s.lnglat)">
+          <el-checkbox-group v-model="checkedTargets" @change="checkedTargetsChange">
+            <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
               <span>{{ s.label }}</span>
               <el-icon><Position /></el-icon>
               <span>100米</span>
@@ -91,6 +124,7 @@ watchEffect(() => {
           </el-checkbox-group>
         </div>
         <div class="map-annotation__buttons">
+          <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="checkAllChange">全选</el-checkbox>
           <el-button @click="save" type="primary">保存</el-button>
         </div>
       </div>

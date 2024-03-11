@@ -46,8 +46,10 @@ $base-class: map-annotation;
       }
       .#{$base-class}__buttons {
         padding: 10px;
+        display: flex;
         .el-button {
-          width: 100%;
+          flex: 1;
+          margin-left: 10px;
         }
       }
     }
