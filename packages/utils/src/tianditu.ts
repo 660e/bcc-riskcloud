@@ -100,7 +100,16 @@ export class MapClass {
    * @param radius 圆的半径（米）
    * @returns 点是否在范围内
    */
-  pointInCircle(point: TDT.LngLat, center: TDT.LngLat, radius: number) {
+  PointInCircle(point: TDT.LngLat, center: TDT.LngLat, radius: number) {
     return radius >= turf.distance(turf.point(point), turf.point(center), { units: 'meters' });
+  }
+
+  /**
+   * @param pointA A点经纬度坐标
+   * @param pointB B点经纬度坐标
+   * @returns 两点距离（米）
+   */
+  PointToPointDistance(pointA: TDT.LngLat, pointB: TDT.LngLat) {
+    return Math.round(turf.distance(turf.point(pointA), turf.point(pointB), { units: 'meters' }));
   }
 }

@@ -6,6 +6,7 @@ export namespace TDT {
     id: number;
     label: string;
     lnglat: LngLat;
+    distance?: number;
   }
 
   export interface MenuItem {

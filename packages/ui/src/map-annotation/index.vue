@@ -29,16 +29,16 @@ const contextMenu: TDT.MenuItem[] = [
   {
     text: '添加风险点位',
     callback: (lnglat: any) => {
-      console.log(MapUtils.pointInCircle([lnglat.lng, lnglat.lat], $props.company.lnglat, riskCircleRadius.value));
+      console.log(MapUtils.PointInCircle([lnglat.lng, lnglat.lat], $props.company.lnglat, riskCircleRadius.value));
     }
   }
 ];
 // 敏感目标
 const sensitiveTargets = ref<TDT.Marker[]>([
-  { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
-  { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
-  { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
-  { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
+  { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829], distance: 0 },
+  { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677], distance: 0 },
+  { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792], distance: 0 },
+  { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646], distance: 0 }
 ]);
 const checkedTargets = ref<TDT.Marker[]>();
 
@@ -81,19 +81,23 @@ watch(
   () => $props.company,
   company => {
     if (company.lnglat) {
-      const { lnglat, radius, markers }: { lnglat: TDT.LngLat; radius: number; markers: TDT.Marker[] } = company;
+      const { lnglat: center, radius, markers }: { lnglat: TDT.LngLat; radius: number; markers: TDT.Marker[] } = company;
 
-      riskCircle = MapUtils.Circle(lnglat, radius, { weight: 1 });
+      riskCircle = MapUtils.Circle(center, radius, { weight: 1 });
       riskCircleRadius.value = radius;
       checkedTargets.value = markers;
 
-      M = MapUtils.Init('map', lnglat);
+      M = MapUtils.Init('map', center);
       M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
-      M.addOverLay(MapUtils.Marker(lnglat));
+      M.addOverLay(MapUtils.Marker(center));
       M.addOverLay(riskCircle);
 
       riskCircleRadiusChange(radius);
       checkedTargetsChange(markers);
+
+      sensitiveTargets.value.forEach(target => {
+        target.distance = MapUtils.PointToPointDistance(target.lnglat, center);
+      });
     }
   }
 );
@@ -108,7 +112,7 @@ watch(
             <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
               <span>{{ s.label }}</span>
               <el-icon><Position /></el-icon>
-              <span>100米</span>
+              <span>{{ s.distance }}米</span>
             </el-checkbox>
           </el-checkbox-group>
         </div>
