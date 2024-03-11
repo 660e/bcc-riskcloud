@@ -34,25 +34,51 @@ const riskCircleRadiusChange = (value: number) => {
   M.setViewport(Object.values(riskCircle.getBounds()));
 };
 
-const markers = ref([
-  { label: 'Marker-001', lnglat: [116.22685, 40.07829] },
-  { label: 'Marker-002', lnglat: [116.22733, 40.07677] },
-  { label: 'Marker-003', lnglat: [116.22988, 40.07792] },
-  { label: 'Marker-004', lnglat: [116.22924, 40.07646] }
+const sensitiveTargets = ref<TDT.Marker[]>([
+  { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
+  { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
+  { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
+  { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
 ]);
-const checkedMarkers = ref([]);
+const checkedTargets = ref<TDT.Marker[]>();
+const checkedTargetsChange = (checked: TDT.Marker[]) => {
+  const center = M.getCenter();
+  const activated: any[] = M.getOverlays();
+
+  console.log(center);
+  console.log(activated);
+
+  console.log(checked);
+  // activated.forEach(a => {
+  //   console.log(a.getType());
+  // });
+  // const diff1 = activated.filter((a: any) => {
+  //   return checked.some(c => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat);
+  // });
+  // const diff2 = checked.filter((c: TDT.Marker) => {
+  //   return activated.some(a => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat);
+  // });
+  // console.log(activated[0].or);
+  // console.log(diff1);
+  // console.log(diff2);
+  // value.forEach((marker: Marker) => {
+  //   // M.addOverLay(MapUtils.Marker(marker.lnglat));
+  // });
+  // checkedTargets.value.forEach(marker => M.addOverLay(MapUtils.Marker(marker.lnglat, 'danger')));
+};
 const save = () => {
-  console.log(checkedMarkers.value);
+  console.log(checkedTargets.value);
 };
 
 watchEffect(() => {
   console.log('watchEffect');
 
   if ($props.company.lnglat) {
-    const { lnglat, radius } = $props.company;
+    const { lnglat, radius, markers }: { lnglat: TDT.LngLat; radius: number; markers: TDT.Marker[] } = $props.company;
 
     riskCircle = MapUtils.Circle(lnglat, radius, { weight: 1 });
     riskCircleRadius.value = radius;
+    checkedTargets.value = markers;
 
     M = MapUtils.Init('map', lnglat);
     M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
@@ -60,6 +86,7 @@ watchEffect(() => {
     M.addOverLay(riskCircle);
 
     riskCircleRadiusChange(radius);
+    checkedTargetsChange(markers);
   }
 });
 </script>
@@ -69,9 +96,9 @@ watchEffect(() => {
     <div class="map-annotation__sidebar">
       <div>
         <div class="map-annotation__markers">
-          <el-checkbox-group v-model="checkedMarkers">
-            <el-checkbox v-for="(m, i) in markers" :key="i" :value="m">
-              <span>{{ m.label }}</span>
+          <el-checkbox-group v-model="checkedTargets" @change="checkedTargetsChange">
+            <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
+              <span>{{ s.label }}</span>
               <el-icon><Position /></el-icon>
               <span>100米</span>
             </el-checkbox>

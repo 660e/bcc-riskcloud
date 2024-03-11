@@ -2,6 +2,12 @@ export namespace TDT {
   export type Icon = 'primary' | 'success' | 'warning' | 'danger';
   export type LngLat = [number, number];
 
+  export interface Marker {
+    id: number;
+    label: string;
+    lnglat: LngLat;
+  }
+
   export interface MenuItem {
     text: string;
     callback?: (lnglat: LngLat) => void;

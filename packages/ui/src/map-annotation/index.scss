@@ -29,6 +29,7 @@ $base-class: map-annotation;
           .el-checkbox {
             padding: 0 10px;
             margin: 0;
+            font-weight: 400;
             display: flex;
             &:hover {
               background-color: var(--el-fill-color-light);
