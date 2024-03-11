@@ -43,28 +43,21 @@ const sensitiveTargets = ref<TDT.Marker[]>([
 const checkedTargets = ref<TDT.Marker[]>();
 const checkedTargetsChange = (checked: TDT.Marker[]) => {
   const center = M.getCenter();
-  const activated: any[] = M.getOverlays();
+  const activated: any[] = M.getOverlays().filter((overlay: any) => {
+    // 获取所有标注（排除中心点）
+    return overlay.getType() === 2 && overlay.or.lng !== center.lng && overlay.or.lat !== center.lat;
+  });
 
-  console.log(center);
-  console.log(activated);
+  // 获取标注列表与地图标注差异
+  const diff1 = checked.filter(c => !activated.some(a => a.or.lng === c.lnglat[0] && a.or.lat === c.lnglat[1]));
+  const diff2 = activated.filter(a => !checked.some(c => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat));
 
-  console.log(checked);
-  // activated.forEach(a => {
-  //   console.log(a.getType());
-  // });
-  // const diff1 = activated.filter((a: any) => {
-  //   return checked.some(c => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat);
-  // });
-  // const diff2 = checked.filter((c: TDT.Marker) => {
-  //   return activated.some(a => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat);
-  // });
-  // console.log(activated[0].or);
-  // console.log(diff1);
-  // console.log(diff2);
-  // value.forEach((marker: Marker) => {
-  //   // M.addOverLay(MapUtils.Marker(marker.lnglat));
-  // });
-  // checkedTargets.value.forEach(marker => M.addOverLay(MapUtils.Marker(marker.lnglat, 'danger')));
+  // 根据差异创建或删除标注
+  if (diff1.length > diff2.length) {
+    diff1.forEach((marker: TDT.Marker) => M.addOverLay(MapUtils.Marker(marker.lnglat, 'danger')));
+  } else if (diff1.length < diff2.length) {
+    diff2.forEach((overlay: any) => M.removeOverLay(overlay));
+  }
 };
 const save = () => {
   console.log(checkedTargets.value);
