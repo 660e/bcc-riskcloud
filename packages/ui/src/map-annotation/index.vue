@@ -32,6 +32,12 @@ const riskCircleRadiusRadios = [
 const setRadius = (radius: number) => {
   riskCircle.setRadius(radius);
   M.setViewport(Object.values(riskCircle.getBounds()));
+  sensitiveTargets.value = [
+    { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
+    { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
+    { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
+    { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
+  ];
 };
 const riskCircleRadiusChange = (radius: number) => {
   ElMessageBox.confirm('调整风险范围将清空已标注的敏感目标', '系统提示', { type: 'warning' })
@@ -60,12 +66,7 @@ const contextMenu: TDT.MenuItem[] = [
 ];
 
 // 敏感目标列表
-const sensitiveTargets = ref<TDT.Marker[]>([
-  { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
-  { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
-  { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
-  { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
-]);
+const sensitiveTargets = ref<TDT.Marker[]>([]);
 
 const checkedTargets = ref<TDT.Marker[]>();
 const createTarget = (forms: any) => {

@@ -36,9 +36,12 @@ export class MapClass {
    * @returns 地图实例
    */
   Init(container: string, center: TDT.LngLat, zoom: number = 10) {
+    const zoomControl = new T.Control.Zoom();
+    zoomControl.setOptions({ position: 'bottomleft' });
+
     this.map = new T.Map(container);
     this.map.centerAndZoom(this.LngLat(center), zoom);
-    this.map.addControl(new T.Control.Zoom());
+    this.map.addControl(zoomControl);
     this.map.addControl(new T.Control.MapType());
 
     return this.map;
