@@ -1,21 +1,24 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 import CreateDialog from './dialogs/create.vue';
 
 const $props = defineProps<{ company: any }>();
+const $emit = defineEmits(['save']);
 
 // 地图实例
 let M: any;
-// 风险范围实例
-let riskCircle: any;
-
-// “添加敏感目标”弹窗
-const createDialogRef = ref();
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
+// “添加敏感目标”弹窗
+const createDialogRef = ref();
+
+// 风险范围实例
+let riskCircle: any;
+// 风险范围半径缓存
+let riskCircleRadiusCache: number;
 // 风险范围半径
 const riskCircleRadius = ref(0);
 const riskCircleRadiusRadios = [
@@ -25,10 +28,23 @@ const riskCircleRadiusRadios = [
   { label: '1000米', value: 1000 },
   { label: '2000米', value: 2000 }
 ];
-const riskCircleRadiusChange = (value: number) => {
-  riskCircle.setRadius(value);
+
+const setRadius = (radius: number) => {
+  riskCircle.setRadius(radius);
   M.setViewport(Object.values(riskCircle.getBounds()));
 };
+const riskCircleRadiusChange = (radius: number) => {
+  ElMessageBox.confirm('调整风险范围将清空已标注的敏感目标', '系统提示', { type: 'warning' })
+    .then(() => {
+      checkAllTargetsChange(false);
+      setRadius(radius);
+      riskCircleRadiusCache = radius;
+    })
+    .catch(() => {
+      riskCircleRadius.value = riskCircleRadiusCache;
+    });
+};
+
 // 右键菜单
 const contextMenu: TDT.MenuItem[] = [
   {
@@ -42,13 +58,15 @@ const contextMenu: TDT.MenuItem[] = [
     }
   }
 ];
-// 敏感目标
+
+// 敏感目标列表
 const sensitiveTargets = ref<TDT.Marker[]>([
   { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
   { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
   { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
   { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
 ]);
+
 const checkedTargets = ref<TDT.Marker[]>();
 const createTarget = (forms: any) => {
   const target = { id: new Date().getTime(), label: forms.name, lnglat: forms.lnglat };
@@ -90,6 +108,7 @@ const isIndeterminate = ref(true);
 const save = () => {
   console.log($props.company);
   console.log(checkedTargets.value);
+  $emit('save');
 };
 
 watch(
@@ -100,6 +119,7 @@ watch(
 
       riskCircle = MapUtils.Circle(center, radius, { weight: 1 });
       riskCircleRadius.value = radius;
+      riskCircleRadiusCache = radius;
       checkedTargets.value = markers;
 
       M = MapUtils.Init('map', center);
@@ -107,7 +127,7 @@ watch(
       M.addOverLay(MapUtils.Marker(center));
       M.addOverLay(riskCircle);
 
-      riskCircleRadiusChange(radius);
+      setRadius(radius);
       checkedTargetsChange(markers);
     }
   }
