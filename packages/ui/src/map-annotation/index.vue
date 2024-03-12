@@ -51,7 +51,10 @@ const sensitiveTargets = ref<TDT.Marker[]>([
 ]);
 const checkedTargets = ref<TDT.Marker[]>();
 const createTarget = (forms: any) => {
-  console.log(forms);
+  const target = { id: new Date().getTime(), label: forms.name, lnglat: forms.lnglat };
+  M.addOverLay(MapUtils.Marker(target.lnglat, 'danger'));
+  sensitiveTargets.value.push(target);
+  checkedTargets.value?.push(target);
 };
 
 // 全选
