@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
+import { ElMessage } from 'element-plus';
+
+import CreateDialog from './dialogs/create.vue';
 
 const $props = defineProps<{ company: any }>();
 
@@ -9,6 +12,8 @@ let M: any;
 // 风险范围实例
 let riskCircle: any;
 
+// “添加敏感目标”弹窗
+const createDialogRef = ref();
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
 // 风险范围半径
@@ -27,9 +32,13 @@ const riskCircleRadiusChange = (value: number) => {
 // 右键菜单
 const contextMenu: TDT.MenuItem[] = [
   {
-    text: '添加风险点位',
+    text: '添加敏感目标',
     callback: (lnglat: any) => {
-      console.log(MapUtils.PointInCircle([lnglat.lng, lnglat.lat], $props.company.lnglat, riskCircleRadius.value));
+      if (MapUtils.PointInCircle([lnglat.lng, lnglat.lat], $props.company.lnglat, riskCircleRadius.value)) {
+        createDialogRef.value.open(lnglat);
+      } else {
+        ElMessage.warning('请在圆形范围内添加敏感目标');
+      }
     }
   }
 ];
@@ -41,6 +50,9 @@ const sensitiveTargets = ref<TDT.Marker[]>([
   { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
 ]);
 const checkedTargets = ref<TDT.Marker[]>();
+const createTarget = (forms: any) => {
+  console.log(forms);
+};
 
 // 全选
 const checkAllTargets = ref(false);
@@ -131,6 +143,9 @@ watch(
         <el-radio-button v-for="r in riskCircleRadiusRadios" :key="r.value" :label="r.label" :value="r.value" />
       </el-radio-group>
     </div>
+
+    <!-- 添加敏感目标弹窗 -->
+    <create-dialog @confirm="createTarget" ref="createDialogRef" />
   </div>
 </template>
 
