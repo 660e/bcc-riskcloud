@@ -20,7 +20,7 @@ $base-class: sensitive-targets;
       flex: 1;
       display: flex;
       flex-direction: column;
-      .#{$base-class}__markers {
+      .#{$base-class}__targets {
         flex: 1;
         height: 0;
         overflow-y: auto;

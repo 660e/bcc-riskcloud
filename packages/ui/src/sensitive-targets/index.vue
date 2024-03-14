@@ -139,7 +139,7 @@ watch(
   <div class="sensitive-targets">
     <div class="sensitive-targets__sidebar">
       <div>
-        <div class="sensitive-targets__markers">
+        <div class="sensitive-targets__targets">
           <el-checkbox-group v-model="checkedTargets" @change="checkedTargetsChange">
             <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
               <span>{{ s.label }}</span>
