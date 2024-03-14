@@ -38,8 +38,10 @@ watch(
     <div class="map-annotation__sidebar">
       <div class="map-annotation__markers">
         <ul>
-          <li v-for="r in riskSources" :key="r.id">{{ r.label }}</li>
-          <li style="height: 2000px"></li>
+          <li v-for="r in riskSources" :key="r.id">
+            <el-icon><Location /></el-icon>
+            <span>{{ r.label }}</span>
+          </li>
         </ul>
       </div>
       <el-divider direction="vertical" />
