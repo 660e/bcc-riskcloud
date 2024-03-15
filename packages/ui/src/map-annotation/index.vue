@@ -23,8 +23,10 @@ const onEnd = (event: any) => {
   const rect = mapRef.value.getBoundingClientRect();
   const x = event.originalEvent.clientX - rect.left;
   const y = event.originalEvent.clientY - rect.top;
+  const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y) as TDT.LngLat, 'danger');
 
-  M.addOverLay(MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y) as TDT.LngLat, 'danger'));
+  M.addOverLay(marker);
+  marker.enableDragging();
 };
 
 watch(
@@ -36,6 +38,7 @@ watch(
       riskSources.value = risks;
 
       M = MapUtils.Init('map', center, 18);
+      M.addOverLay(MapUtils.Marker(center));
     }
   }
 );
@@ -44,15 +47,21 @@ watch(
 <template>
   <div class="map-annotation">
     <div class="map-annotation__sidebar">
-      <div class="map-annotation__markers">
-        <draggable v-model="riskSources" :sort="false" @end="onEnd" item-key="id">
-          <template #item="{ element }">
-            <div>
-              <el-icon><Location /></el-icon>
-              <span>{{ element.label }}</span>
-            </div>
-          </template>
-        </draggable>
+      <div>
+        <div class="map-annotation__markers">
+          <draggable v-model="riskSources" :sort="false" @end="onEnd" item-key="id">
+            <template #item="{ element }">
+              <div>
+                <el-icon><Location /></el-icon>
+                <span>{{ element.label }}</span>
+              </div>
+            </template>
+          </draggable>
+        </div>
+        <div class="map-annotation__buttons">
+          <el-button>重置</el-button>
+          <el-button type="primary">保存</el-button>
+        </div>
       </div>
       <el-divider direction="vertical" />
     </div>
