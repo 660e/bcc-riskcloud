@@ -6,6 +6,8 @@ export namespace TDT {
     id: number;
     label: string;
     lnglat: LngLat;
+    icon?: Icon;
+    drag?: boolean;
   }
 
   export interface MenuItem {

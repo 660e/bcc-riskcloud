@@ -15,42 +15,6 @@ const MapUtils: MapClass = new MapClass();
 // “添加敏感目标”弹窗
 const createDialogRef = ref();
 
-// 风险范围实例
-let riskCircle: any;
-// 风险范围半径缓存
-let riskCircleRadiusCache: number;
-// 风险范围半径
-const riskCircleRadius = ref(0);
-const riskCircleRadiusRadios = [
-  { label: '100米', value: 100 },
-  { label: '200米', value: 200 },
-  { label: '500米', value: 500 },
-  { label: '1000米', value: 1000 },
-  { label: '2000米', value: 2000 }
-];
-
-const setRadius = (radius: number) => {
-  riskCircle.setRadius(radius);
-  M.setViewport(Object.values(riskCircle.getBounds()));
-  sensitiveTargets.value = [
-    { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
-    { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
-    { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
-    { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
-  ];
-};
-const riskCircleRadiusChange = (radius: number) => {
-  ElMessageBox.confirm('调整风险范围将清空已标注的敏感目标', '系统提示', { type: 'warning' })
-    .then(() => {
-      checkAllTargetsChange(false);
-      setRadius(radius);
-      riskCircleRadiusCache = radius;
-    })
-    .catch(() => {
-      riskCircleRadius.value = riskCircleRadiusCache;
-    });
-};
-
 // 右键菜单
 const contextMenu: TDT.MenuItem[] = [
   {
@@ -65,15 +29,76 @@ const contextMenu: TDT.MenuItem[] = [
   }
 ];
 
+// 风险范围实例
+let riskCircle: any;
+// 风险范围半径缓存
+let riskCircleRadiusCache: number;
+// 风险范围半径
+const riskCircleRadius = ref(0);
+// 风险范围半径选项
+const riskCircleRadiusRadios = [
+  { label: '100米', value: 100 },
+  { label: '200米', value: 200 },
+  { label: '500米', value: 500 },
+  { label: '1000米', value: 1000 },
+  { label: '2000米', value: 2000 }
+];
+// 设置风险范围半径
+const setRadius = (radius: number) => {
+  riskCircle.setRadius(radius);
+  M.setViewport(Object.values(riskCircle.getBounds()));
+  sensitiveTargets.value = [
+    { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
+    { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
+    { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
+    { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
+  ];
+};
+// 风险范围半径改变时触发
+const riskCircleRadiusChange = (radius: number) => {
+  ElMessageBox.confirm('调整风险范围将清空已标注的敏感目标', '系统提示', { type: 'warning' })
+    .then(() => {
+      checkAllTargetsChange(false);
+      setRadius(radius);
+      riskCircleRadiusCache = radius;
+    })
+    .catch(() => {
+      riskCircleRadius.value = riskCircleRadiusCache;
+    });
+};
+
+// 当前正在拖动的自定义敏感目标
+let draggingTarget: any;
 // 敏感目标列表
 const sensitiveTargets = ref<TDT.Marker[]>([]);
-
+// 已标注敏感目标
 const checkedTargets = ref<TDT.Marker[]>();
+// 自定义敏感目标
 const createTarget = (forms: any) => {
-  const target = { id: new Date().getTime(), label: forms.name, lnglat: forms.lnglat };
-  M.addOverLay(MapUtils.Marker(target.lnglat, 'danger'));
+  const target: TDT.Marker = {
+    id: new Date().getTime(),
+    label: forms.label,
+    lnglat: forms.lnglat,
+    icon: 'warning',
+    drag: true
+  };
+  const marker = MapUtils.Marker(target.lnglat, target.icon);
+
+  M.addOverLay(marker);
+  addDragEvent(marker);
+
   sensitiveTargets.value.push(target);
   checkedTargets.value?.push(target);
+};
+// 添加拖拽事件监听
+const addDragEvent = (marker: any) => {
+  marker.enableDragging();
+  marker.addEventListener('dragstart', ({ target }) => {
+    draggingTarget = sensitiveTargets.value.find(t => t.lnglat[0] === target.or.lng && t.lnglat[1] === target.or.lat);
+  });
+  marker.addEventListener('dragend', ({ lnglat }) => {
+    draggingTarget.lnglat = [lnglat.lng, lnglat.lat];
+  });
 };
 
 // 全选
@@ -96,7 +121,11 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
 
   // 根据差异添加或移除标注
   if (diff1.length > diff2.length) {
-    diff1.forEach((target: TDT.Marker) => M.addOverLay(MapUtils.Marker(target.lnglat, 'danger')));
+    diff1.forEach((target: TDT.Marker) => {
+      const marker = MapUtils.Marker(target.lnglat, target.icon || 'danger');
+      M.addOverLay(marker);
+      if (target.drag) addDragEvent(marker);
+    });
   } else if (diff1.length < diff2.length) {
     diff2.forEach((overlay: any) => M.removeOverLay(overlay));
   }
@@ -105,6 +134,7 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
   isIndeterminate.value = checked.length > 0 && checked.length < sensitiveTargets.value.length;
 };
 const isIndeterminate = ref(true);
+
 // 保存
 const save = () => {
   console.log($props.company);

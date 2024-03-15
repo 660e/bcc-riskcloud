@@ -10,12 +10,12 @@ const forms = ref({
   lnglat: [0, 0],
   type: '',
   subtype: '',
-  name: ''
+  label: ''
 });
 const rules = reactive<FormRules>({
   type: [{ required: false, message: '请选择敏感目标类型', trigger: 'change' }],
   subtype: [{ required: false, message: '请选择敏感目标子类型', trigger: 'change' }],
-  name: [{ required: true, message: '请填写敏感目标名称', trigger: 'blur' }]
+  label: [{ required: true, message: '请填写敏感目标名称', trigger: 'blur' }]
 });
 
 const open = (lnglat: any) => {
@@ -47,8 +47,8 @@ defineExpose({ open });
       <el-form-item label="敏感目标子类型" prop="subtype">
         <el-select v-model="forms.subtype"></el-select>
       </el-form-item>
-      <el-form-item label="敏感目标名称" prop="name">
-        <el-input v-model="forms.name" />
+      <el-form-item label="敏感目标名称" prop="label">
+        <el-input v-model="forms.label" />
       </el-form-item>
     </el-form>
 
