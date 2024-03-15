@@ -58,11 +58,13 @@ export class MapClass {
   /**
    * @param lnglat 地理经纬度
    * @param icon 图标
+   * @param params 额外参数
    * @returns 图像标注实例
    */
-  Marker(lnglat: TDT.LngLat, icon: TDT.Icon = 'primary') {
+  Marker(lnglat: TDT.LngLat, icon: TDT.Icon = 'primary', params: any = {}) {
     return new T.Marker(this.LngLat(lnglat), {
-      icon: new T.Icon({ iconUrl: this.getIconUrl(icon), iconSize, iconAnchor })
+      icon: new T.Icon({ iconUrl: this.getIconUrl(icon), iconSize, iconAnchor }),
+      title: params
     });
   }
 

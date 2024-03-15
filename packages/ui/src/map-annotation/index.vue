@@ -12,21 +12,27 @@ const $props = defineProps<{ company: any }>();
 
 // 地图实例
 let M: any;
+// 地图容器
+const mapRef = ref();
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
 
-// 风险源
+// 风险源列表
 const riskSources = ref<Risk[]>();
-const mapRef = ref();
-
+// 标注风险源
 const onEnd = (event: any) => {
   const rect = mapRef.value.getBoundingClientRect();
   const x = event.originalEvent.clientX - rect.left;
   const y = event.originalEvent.clientY - rect.top;
-  const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y) as TDT.LngLat, 'danger');
+  const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y) as TDT.LngLat, 'danger', { id: 1 });
 
   M.addOverLay(marker);
   marker.enableDragging();
+};
+
+// 保存
+const save = () => {
+  console.log(M.getOverlays());
 };
 
 watch(
@@ -36,6 +42,7 @@ watch(
       const { lnglat: center, risks }: { lnglat: TDT.LngLat; risks: Risk[] } = company;
 
       riskSources.value = risks;
+      console.log(risks);
 
       M = MapUtils.Init('map', center, 18);
       M.addOverLay(MapUtils.Marker(center));
@@ -60,7 +67,7 @@ watch(
         </div>
         <div class="map-annotation__buttons">
           <el-button>重置</el-button>
-          <el-button type="primary">保存</el-button>
+          <el-button @click="save" type="primary">保存</el-button>
         </div>
       </div>
       <el-divider direction="vertical" />
