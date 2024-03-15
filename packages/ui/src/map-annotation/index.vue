@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
 import draggable from 'vuedraggable';
 
-interface Risk {
+interface RiskSource {
   id: number;
   label: string;
 }
@@ -18,7 +18,9 @@ const mapRef = ref();
 const MapUtils: MapClass = new MapClass();
 
 // 风险源列表
-const riskSources = ref<Risk[]>();
+const riskSources = ref<RiskSource[]>([]);
+// 已标注风险源列表
+const checkedSources = ref<RiskSource[]>([]);
 // 标注风险源
 const onEnd = (event: any) => {
   const clientX = event.originalEvent.clientX;
@@ -34,21 +36,22 @@ const onEnd = (event: any) => {
 
     M.addOverLay(marker);
     marker.enableDragging();
+    checkedSources.value.push(riskSources.value.find((risk: RiskSource) => risk.id === Number(item.dataset.riskId))!);
   }
 };
 
 // 保存
 const save = () => {
-  console.log(M.getOverlays());
+  console.log(checkedSources.value);
 };
 
 watch(
   () => $props.company,
   company => {
     if (company.lnglat) {
-      const { lnglat: center, risks }: { lnglat: TDT.LngLat; risks: Risk[] } = company;
+      const { lnglat: center, sources }: { lnglat: TDT.LngLat; sources: RiskSource[] } = company;
 
-      riskSources.value = risks;
+      riskSources.value = sources;
 
       M = MapUtils.Init('map', center, 18);
       M.addOverLay(MapUtils.Marker(center));
@@ -61,7 +64,7 @@ watch(
   <div class="map-annotation">
     <div class="map-annotation__sidebar">
       <div>
-        <div class="map-annotation__markers">
+        <div class="map-annotation__sources">
           <draggable v-model="riskSources" :sort="false" @end="onEnd" item-key="id">
             <template #item="{ element }">
               <div :data-risk-id="element.id">

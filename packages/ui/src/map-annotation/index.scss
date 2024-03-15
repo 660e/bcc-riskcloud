@@ -19,7 +19,7 @@ $base-class: map-annotation;
       flex: 1;
       display: flex;
       flex-direction: column;
-      .#{$base-class}__markers {
+      .#{$base-class}__sources {
         flex: 1;
         height: 0;
         overflow-y: auto;

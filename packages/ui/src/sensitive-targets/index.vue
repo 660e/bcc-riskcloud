@@ -71,8 +71,8 @@ const riskCircleRadiusChange = (radius: number) => {
 let draggingTarget: any;
 // 敏感目标列表
 const sensitiveTargets = ref<TDT.Marker[]>([]);
-// 已标注敏感目标
-const checkedTargets = ref<TDT.Marker[]>();
+// 已标注敏感目标列表
+const checkedTargets = ref<TDT.Marker[]>([]);
 // 自定义敏感目标
 const createTarget = (forms: any) => {
   const target: TDT.Marker = {
@@ -88,7 +88,7 @@ const createTarget = (forms: any) => {
   addDragEvent(marker);
 
   sensitiveTargets.value.push(target);
-  checkedTargets.value?.push(target);
+  checkedTargets.value.push(target);
 };
 // 添加拖拽事件监听
 const addDragEvent = (marker: any) => {
