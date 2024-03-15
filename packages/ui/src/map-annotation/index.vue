@@ -21,13 +21,20 @@ const MapUtils: MapClass = new MapClass();
 const riskSources = ref<Risk[]>();
 // 标注风险源
 const onEnd = (event: any) => {
-  const rect = mapRef.value.getBoundingClientRect();
-  const x = event.originalEvent.clientX - rect.left;
-  const y = event.originalEvent.clientY - rect.top;
-  const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y) as TDT.LngLat, 'danger', { id: 1 });
+  const clientX = event.originalEvent.clientX;
+  const clientY = event.originalEvent.clientY;
+  const element = document.elementFromPoint(clientX, clientY);
 
-  M.addOverLay(marker);
-  marker.enableDragging();
+  if (element?.id === 'map') {
+    const { item }: { item: HTMLDivElement } = event;
+    const rect = mapRef.value.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y), 'danger', { id: Number(item.dataset.riskId) });
+
+    M.addOverLay(marker);
+    marker.enableDragging();
+  }
 };
 
 // 保存
@@ -42,7 +49,6 @@ watch(
       const { lnglat: center, risks }: { lnglat: TDT.LngLat; risks: Risk[] } = company;
 
       riskSources.value = risks;
-      console.log(risks);
 
       M = MapUtils.Init('map', center, 18);
       M.addOverLay(MapUtils.Marker(center));
@@ -58,7 +64,7 @@ watch(
         <div class="map-annotation__markers">
           <draggable v-model="riskSources" :sort="false" @end="onEnd" item-key="id">
             <template #item="{ element }">
-              <div>
+              <div :data-risk-id="element.id">
                 <el-icon><Location /></el-icon>
                 <span>{{ element.label }}</span>
               </div>

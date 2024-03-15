@@ -123,7 +123,7 @@ export class MapClass {
    * @param y 点距离容器顶部距离（px）
    * @returns 转换为经纬度坐标
    */
-  ContainerPointToLngLat(x: number, y: number) {
+  ContainerPointToLngLat(x: number, y: number): TDT.LngLat {
     const lnglat: any = this.map.containerPointToLngLat(new T.Point(x, y));
     return [lnglat.lng, lnglat.lat];
   }
