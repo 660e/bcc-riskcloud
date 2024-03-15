@@ -82,7 +82,7 @@ const createTarget = (forms: any) => {
     icon: 'warning',
     drag: true
   };
-  const marker = MapUtils.Marker(target.lnglat, target.icon);
+  const marker = MapUtils.Marker(target.lnglat, target.icon, { id: target.id });
 
   M.addOverLay(marker);
   addDragEvent(marker);
@@ -94,7 +94,7 @@ const createTarget = (forms: any) => {
 const addDragEvent = (marker: any) => {
   marker.enableDragging();
   marker.addEventListener('dragstart', ({ target }) => {
-    draggingTarget = sensitiveTargets.value.find(t => t.lnglat[0] === target.or.lng && t.lnglat[1] === target.or.lat);
+    draggingTarget = sensitiveTargets.value.find(t => t.id === target.options.title.id);
   });
   marker.addEventListener('dragend', ({ lnglat }) => {
     draggingTarget.lnglat = [lnglat.lng, lnglat.lat];
@@ -102,27 +102,26 @@ const addDragEvent = (marker: any) => {
 };
 
 // 全选
+const isIndeterminate = ref(true);
 const checkAllTargets = ref(false);
 const checkAllTargetsChange = (check: boolean) => {
   checkedTargets.value = check ? sensitiveTargets.value : [];
   checkedTargetsChange(check ? sensitiveTargets.value : []);
 };
 const checkedTargetsChange = (checked: TDT.Marker[]) => {
-  const center = M.getCenter();
-
-  // 获取所有标注（排除中心点）
+  // 获取所有标注（排除中心点Marker和范围Circle）
   const activated: any[] = M.getOverlays().filter((overlay: any) => {
-    return overlay.getType() === 2 && overlay.or.lng !== center.lng && overlay.or.lat !== center.lat;
+    return overlay.getType() === 2 && overlay.options.title.id;
   });
 
   // 获取标注列表与地图标注差异
-  const diff1 = checked.filter(c => !activated.some(a => a.or.lng === c.lnglat[0] && a.or.lat === c.lnglat[1]));
-  const diff2 = activated.filter(a => !checked.some(c => c.lnglat[0] === a.or.lng && c.lnglat[1] === a.or.lat));
+  const diff1 = checked.filter(c => !activated.some(a => a.options.title.id === c.id));
+  const diff2 = activated.filter(a => !checked.some(c => c.id === a.options.title.id));
 
   // 根据差异添加或移除标注
   if (diff1.length > diff2.length) {
     diff1.forEach((target: TDT.Marker) => {
-      const marker = MapUtils.Marker(target.lnglat, target.icon || 'danger');
+      const marker = MapUtils.Marker(target.lnglat, target.icon || 'danger', { id: target.id });
       M.addOverLay(marker);
       if (target.drag) addDragEvent(marker);
     });
@@ -133,7 +132,6 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
   checkAllTargets.value = checked.length === sensitiveTargets.value.length;
   isIndeterminate.value = checked.length > 0 && checked.length < sensitiveTargets.value.length;
 };
-const isIndeterminate = ref(true);
 
 // 保存
 const save = () => {
