@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
-import draggable from 'vuedraggable';
 
 interface RiskSource {
   id: number;
@@ -17,27 +16,29 @@ const mapRef = ref();
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
 
+// 当前正在拖拽的风险源
+let draggingSource: RiskSource | undefined;
 // 风险源列表
 const riskSources = ref<RiskSource[]>([]);
 // 已标注风险源列表
 const checkedSources = ref<RiskSource[]>([]);
 // 标注风险源
-const onEnd = (event: any) => {
-  const clientX = event.originalEvent.clientX;
-  const clientY = event.originalEvent.clientY;
-  const element = document.elementFromPoint(clientX, clientY);
-
-  if (element?.id === 'map') {
-    const { item }: { item: HTMLDivElement } = event;
-    const rect = mapRef.value.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(x, y), 'danger', { id: Number(item.dataset.riskId) });
-
+const ondragstart = (event: DragEvent) => {
+  draggingSource = riskSources.value.find((risk: RiskSource) => risk.id === Number((event.target as HTMLElement)?.id));
+};
+const ondragover = (event: DragEvent) => event.preventDefault();
+const ondrop = (event: DragEvent) => {
+  if (draggingSource) {
+    const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(event.offsetX, event.offsetY), 'danger', draggingSource);
     M.addOverLay(marker);
     marker.enableDragging();
-    checkedSources.value.push(riskSources.value.find((risk: RiskSource) => risk.id === Number(item.dataset.riskId))!);
+    checkedSources.value.push(draggingSource);
   }
+};
+
+// 重置
+const reset = () => {
+  console.log('reset');
 };
 
 // 保存
@@ -65,24 +66,22 @@ watch(
     <div class="map-annotation__sidebar">
       <div>
         <div class="map-annotation__sources">
-          <draggable v-model="riskSources" :sort="false" @end="onEnd" item-key="id">
-            <template #item="{ element }">
-              <div :data-risk-id="element.id">
-                <el-icon><Location /></el-icon>
-                <span>{{ element.label }}</span>
-              </div>
-            </template>
-          </draggable>
+          <div>
+            <div v-for="r in riskSources" :key="r.id" :id="r.id" :ondragstart="ondragstart" draggable="true">
+              <el-icon><Location /></el-icon>
+              <span>{{ r.label }}</span>
+            </div>
+          </div>
         </div>
         <div class="map-annotation__buttons">
-          <el-button>重置</el-button>
+          <el-button @click="reset">重置</el-button>
           <el-button @click="save" type="primary">保存</el-button>
         </div>
       </div>
       <el-divider direction="vertical" />
     </div>
 
-    <div id="map" ref="mapRef"></div>
+    <div :ondragover="ondragover" :ondrop="ondrop" id="map" ref="mapRef"></div>
   </div>
 </template>
 

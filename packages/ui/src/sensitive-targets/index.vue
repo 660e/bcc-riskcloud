@@ -67,7 +67,7 @@ const riskCircleRadiusChange = (radius: number) => {
     });
 };
 
-// 当前正在拖动的自定义敏感目标
+// 当前正在拖拽的自定义敏感目标
 let draggingTarget: any;
 // 敏感目标列表
 const sensitiveTargets = ref<TDT.Marker[]>([]);
