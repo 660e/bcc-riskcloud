@@ -1,5 +1,6 @@
 import { ElMessage } from 'element-plus';
 import { TDT } from './interface/tianditu';
+import { isString } from './is';
 import * as turf from '@turf/turf';
 
 import markerPrimary from './assets/tianditu/marker-primary.svg';
@@ -43,6 +44,16 @@ export class MapClass {
     this.map.centerAndZoom(this.LngLat(center), zoom);
     this.map.addControl(zoomControl);
     this.map.addControl(new T.Control.MapType());
+
+    this.map.addEventListener('addoverlay', ({ addoverlay }) => {
+      if (addoverlay.getType() === 2) {
+        if (isString(addoverlay.options.title)) {
+          addoverlay.Fr.title = addoverlay.options.title;
+        } else {
+          addoverlay.Fr.title = addoverlay.options.title.label || '';
+        }
+      }
+    });
 
     return this.map;
   }

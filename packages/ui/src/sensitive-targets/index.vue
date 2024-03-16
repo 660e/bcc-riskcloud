@@ -82,7 +82,7 @@ const createTarget = (forms: any) => {
     icon: 'warning',
     drag: true
   };
-  const marker = MapUtils.Marker(target.lnglat, target.icon, { id: target.id });
+  const marker = MapUtils.Marker(target.lnglat, target.icon, target);
 
   M.addOverLay(marker);
   addDragEvent(marker);
@@ -121,7 +121,7 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
   // 根据差异添加或移除标注
   if (diff1.length > diff2.length) {
     diff1.forEach((target: TDT.Marker) => {
-      const marker = MapUtils.Marker(target.lnglat, target.icon || 'danger', { id: target.id });
+      const marker = MapUtils.Marker(target.lnglat, target.icon || 'danger', target);
       M.addOverLay(marker);
       if (target.drag) addDragEvent(marker);
     });

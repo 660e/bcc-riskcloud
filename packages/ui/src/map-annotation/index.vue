@@ -30,8 +30,13 @@ const ondragover = (event: DragEvent) => event.preventDefault();
 const ondrop = (event: DragEvent) => {
   if (draggingSource) {
     const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(event.offsetX, event.offsetY), 'danger', draggingSource);
+
     M.addOverLay(marker);
     marker.enableDragging();
+    marker.addEventListener('mouseover', ({ target }) => {
+      console.log(target.options.title);
+    });
+
     checkedSources.value.push(draggingSource);
   }
 };
