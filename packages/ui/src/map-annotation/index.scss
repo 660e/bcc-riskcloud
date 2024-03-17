@@ -55,4 +55,26 @@ $base-class: map-annotation;
       height: 100%;
     }
   }
+
+  .#{$base-class}__tooltip {
+    padding: 0 16px;
+    height: 32px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    transform: translateX(-50%);
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    z-index: 500;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }

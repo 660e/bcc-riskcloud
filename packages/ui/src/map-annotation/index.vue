@@ -18,13 +18,17 @@ const MapUtils: MapClass = new MapClass();
 
 // 当前正在拖拽的风险源
 let draggingSource: RiskSource | undefined;
+// 当前选中的风险源
+const currentSource = ref();
 // 风险源列表
 const riskSources = ref<RiskSource[]>([]);
 // 已标注风险源列表
 const checkedSources = ref<RiskSource[]>([]);
 // 标注风险源
 const ondragstart = (event: DragEvent) => {
-  draggingSource = riskSources.value.find((risk: RiskSource) => risk.id === Number((event.target as HTMLElement)?.id));
+  draggingSource = riskSources.value.find((risk: RiskSource) => {
+    return risk.id === Number((event.target as HTMLElement)?.dataset.id);
+  });
 };
 const ondragover = (event: DragEvent) => event.preventDefault();
 const ondrop = (event: DragEvent) => {
@@ -33,9 +37,8 @@ const ondrop = (event: DragEvent) => {
 
     M.addOverLay(marker);
     marker.enableDragging();
-    marker.addEventListener('mouseover', ({ target }) => {
-      console.log(target.options.title);
-    });
+    marker.addEventListener('mouseover', ({ target }) => (currentSource.value = target));
+    marker.addEventListener('mouseout', () => (currentSource.value = null));
 
     checkedSources.value.push(draggingSource);
   }
@@ -72,7 +75,7 @@ watch(
       <div>
         <div class="map-annotation__sources">
           <div>
-            <div v-for="r in riskSources" :key="r.id" :id="r.id" :ondragstart="ondragstart" draggable="true">
+            <div v-for="r in riskSources" :key="r.id" :data-id="r.id" :ondragstart="ondragstart" draggable="true">
               <el-icon><Location /></el-icon>
               <span>{{ r.label }}</span>
             </div>
@@ -86,7 +89,16 @@ watch(
       <el-divider direction="vertical" />
     </div>
 
-    <div :ondragover="ondragover" :ondrop="ondrop" id="map" ref="mapRef"></div>
+    <div :ondragover="ondragover" :ondrop="ondrop" id="map" ref="mapRef">
+      <transition name="fade">
+        <el-alert
+          v-if="currentSource"
+          :title="currentSource.options.title.label"
+          :closable="false"
+          class="map-annotation__tooltip"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
