@@ -5,8 +5,29 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 
 import CreateDialog from './dialogs/create.vue';
 
-const $props = defineProps<{ company: any }>();
 const $emit = defineEmits(['save']);
+const $props = defineProps<{ company: any }>();
+watch(
+  () => $props.company,
+  company => {
+    if (company.lnglat) {
+      const { lnglat: center, radius, targets }: { lnglat: TDT.LngLat; radius: number; targets: TDT.Marker[] } = company;
+
+      riskCircle = MapUtils.Circle(center, radius, { weight: 1 });
+      riskCircleRadius.value = radius;
+      riskCircleRadiusCache = radius;
+      checkedTargets.value = targets;
+
+      M = MapUtils.Init('map', center);
+      M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
+      M.addOverLay(MapUtils.Marker(center));
+      M.addOverLay(riskCircle);
+
+      setRadius(radius);
+      checkedTargetsChange(targets);
+    }
+  }
+);
 
 // 地图实例
 let M: any;
@@ -139,28 +160,6 @@ const save = () => {
   console.log(checkedTargets.value);
   $emit('save');
 };
-
-watch(
-  () => $props.company,
-  company => {
-    if (company.lnglat) {
-      const { lnglat: center, radius, targets }: { lnglat: TDT.LngLat; radius: number; targets: TDT.Marker[] } = company;
-
-      riskCircle = MapUtils.Circle(center, radius, { weight: 1 });
-      riskCircleRadius.value = radius;
-      riskCircleRadiusCache = radius;
-      checkedTargets.value = targets;
-
-      M = MapUtils.Init('map', center);
-      M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
-      M.addOverLay(MapUtils.Marker(center));
-      M.addOverLay(riskCircle);
-
-      setRadius(radius);
-      checkedTargetsChange(targets);
-    }
-  }
-);
 </script>
 
 <template>

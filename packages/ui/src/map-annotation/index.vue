@@ -8,6 +8,19 @@ interface RiskSource {
 }
 
 const $props = defineProps<{ company: any }>();
+watch(
+  () => $props.company,
+  company => {
+    if (company.lnglat) {
+      const { lnglat: center, sources }: { lnglat: TDT.LngLat; sources: RiskSource[] } = company;
+
+      riskSources.value = sources;
+
+      M = MapUtils.Init('map', center, 18);
+      M.addOverLay(MapUtils.Marker(center));
+    }
+  }
+);
 
 // 地图实例
 let M: any;
@@ -53,20 +66,6 @@ const reset = () => {
 const save = () => {
   console.log(checkedSources.value);
 };
-
-watch(
-  () => $props.company,
-  company => {
-    if (company.lnglat) {
-      const { lnglat: center, sources }: { lnglat: TDT.LngLat; sources: RiskSource[] } = company;
-
-      riskSources.value = sources;
-
-      M = MapUtils.Init('map', center, 18);
-      M.addOverLay(MapUtils.Marker(center));
-    }
-  }
-);
 </script>
 
 <template>
@@ -75,7 +74,14 @@ watch(
       <div>
         <div class="map-annotation__sources">
           <div>
-            <div v-for="r in riskSources" :key="r.id" :data-id="r.id" :ondragstart="ondragstart" draggable="true">
+            <div
+              v-for="r in riskSources"
+              :key="r.id"
+              :data-id="r.id"
+              :ondragstart="ondragstart"
+              :class="{ checked: checkedSources.map((c: RiskSource) => c.id).includes(r.id) }"
+              draggable="true"
+            >
               <el-icon><Location /></el-icon>
               <span>{{ r.label }}</span>
             </div>
