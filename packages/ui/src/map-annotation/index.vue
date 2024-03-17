@@ -53,8 +53,17 @@ const ondrop = (event: DragEvent) => {
     marker.addEventListener('mouseover', ({ target }) => (currentSource.value = target));
     marker.addEventListener('mouseout', () => (currentSource.value = null));
 
+    if (checkedSources.value.some(checked => checked.id === draggingSource?.id)) {
+      removeSource(draggingSource.id);
+    }
     checkedSources.value.push(draggingSource);
   }
+};
+// 移除风险源
+const removeSource = (id: number) => {
+  const overlay = M.getOverlays().find((overlay: any) => overlay.options.title.id === id);
+  M.removeOverLay(overlay);
+  checkedSources.value = checkedSources.value.filter(checked => checked.id !== id);
 };
 
 // 重置
@@ -82,8 +91,8 @@ const save = () => {
               :class="{ checked: checkedSources.map((c: RiskSource) => c.id).includes(r.id) }"
               draggable="true"
             >
-              <el-icon><Location /></el-icon>
               <span>{{ r.label }}</span>
+              <el-icon @click="removeSource(r.id)"><DeleteLocation /></el-icon>
             </div>
           </div>
         </div>

@@ -30,15 +30,24 @@ $base-class: map-annotation;
             cursor: grab;
             user-select: none;
             display: flex;
+            justify-content: space-between;
             align-items: center;
             span {
               padding-left: 8px;
+            }
+            .el-icon {
+              display: none;
             }
             &:hover {
               background-color: var(--el-fill-color-light);
             }
             &.checked {
               color: var(--el-color-primary);
+              .el-icon {
+                color: var(--el-color-danger);
+                display: block;
+                cursor: pointer;
+              }
             }
           }
         }
@@ -72,7 +81,7 @@ $base-class: map-annotation;
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.1s;
+  transition: opacity 0.3s;
 }
 .fade-enter-from,
 .fade-leave-to {
