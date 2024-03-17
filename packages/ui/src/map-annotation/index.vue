@@ -52,18 +52,20 @@ const ondrop = (event: DragEvent) => {
     M.addOverLay(marker);
     marker.enableDragging();
     marker.addEventListener('mouseover', ({ target }) => {
-      if (!catching) currentSource.value = target;
+      if (!catching) currentSource.value = target.options.title;
     });
-    marker.addEventListener('mouseout', () => (currentSource.value = null));
+    marker.addEventListener('mouseout', () => {
+      currentSource.value = null;
+    });
     marker.addEventListener('dragstart', () => {
       catching = true;
       currentSource.value = null;
     });
-    marker.addEventListener('dragend', () => (catching = false));
+    marker.addEventListener('dragend', () => {
+      catching = false;
+    });
 
-    if (checkedSources.value.some(checked => checked.id === draggingSource?.id)) {
-      removeSource(draggingSource.id);
-    }
+    if (checkedSources.value.some(checked => checked.id === draggingSource?.id)) removeSource(draggingSource.id);
     checkedSources.value.push(draggingSource);
   }
 };
@@ -114,12 +116,7 @@ const save = () => {
 
     <div :ondragover="ondragover" :ondrop="ondrop" id="map" ref="mapRef">
       <transition name="fade">
-        <el-alert
-          v-if="currentSource"
-          :title="currentSource.options.title.label"
-          :closable="false"
-          class="map-annotation__tooltip"
-        />
+        <el-alert v-if="currentSource" :title="currentSource.label" :closable="false" class="map-annotation__tooltip" />
       </transition>
     </div>
   </div>
