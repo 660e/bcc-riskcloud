@@ -33,6 +33,7 @@ const MapUtils: MapClass = new MapClass();
 let draggingSource: RiskSource | undefined;
 // 当前选中的风险源
 const currentSource = ref();
+let catching = false;
 // 风险源列表
 const riskSources = ref<RiskSource[]>([]);
 // 已标注风险源列表
@@ -50,8 +51,15 @@ const ondrop = (event: DragEvent) => {
 
     M.addOverLay(marker);
     marker.enableDragging();
-    marker.addEventListener('mouseover', ({ target }) => (currentSource.value = target));
+    marker.addEventListener('mouseover', ({ target }) => {
+      if (!catching) currentSource.value = target;
+    });
     marker.addEventListener('mouseout', () => (currentSource.value = null));
+    marker.addEventListener('dragstart', () => {
+      catching = true;
+      currentSource.value = null;
+    });
+    marker.addEventListener('dragend', () => (catching = false));
 
     if (checkedSources.value.some(checked => checked.id === draggingSource?.id)) {
       removeSource(draggingSource.id);
