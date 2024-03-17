@@ -1,6 +1,5 @@
 import { ElMessage } from 'element-plus';
 import { TDT } from './interface/tianditu';
-import { isString } from './is';
 import * as turf from '@turf/turf';
 
 import markerPrimary from './assets/tianditu/marker-primary.svg';
@@ -37,22 +36,16 @@ export class MapClass {
    * @returns 地图实例
    */
   Init(container: string, center: TDT.LngLat, zoom: number = 10) {
-    const zoomControl = new T.Control.Zoom();
-    zoomControl.setOptions({ position: 'bottomleft' });
-
     this.map = new T.Map(container);
-    this.map.centerAndZoom(this.LngLat(center), zoom);
-    this.map.addControl(zoomControl);
-    this.map.addControl(new T.Control.MapType());
 
+    const mapTypeControl = new T.Control.MapType();
+    mapTypeControl.setOptions({ position: 'bottomright' });
+
+    this.map.centerAndZoom(this.LngLat(center), zoom);
+    this.map.addControl(new T.Control.Zoom());
+    this.map.addControl(mapTypeControl);
     this.map.addEventListener('addoverlay', ({ addoverlay }) => {
-      if (addoverlay.getType() === 2) {
-        if (isString(addoverlay.options.title)) {
-          addoverlay.Fr.title = addoverlay.options.title;
-        } else {
-          addoverlay.Fr.title = addoverlay.options.title.label || '';
-        }
-      }
+      if (addoverlay.getType && addoverlay.getType() === 2) addoverlay.Fr.title = '';
     });
 
     return this.map;
@@ -72,7 +65,7 @@ export class MapClass {
    * @param params 额外参数
    * @returns 图像标注实例
    */
-  Marker(lnglat: TDT.LngLat, icon: TDT.Icon = 'primary', params: any = {}) {
+  Marker(lnglat: TDT.LngLat, icon: TDT.Icon = 'primary', params: { [key: string]: any } = {}) {
     return new T.Marker(this.LngLat(lnglat), {
       icon: new T.Icon({ iconUrl: this.getIconUrl(icon), iconSize, iconAnchor }),
       title: params
