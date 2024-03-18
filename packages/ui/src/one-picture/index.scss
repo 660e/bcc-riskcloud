@@ -1,0 +1,13 @@
+$base-class: one-picture;
+
+.#{$base-class} {
+  display: flex;
+  #map {
+    flex: 1;
+  }
+  :deep(.tdt-container) {
+    .tdt-control-copyright {
+      display: none;
+    }
+  }
+}

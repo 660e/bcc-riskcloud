@@ -24,8 +24,6 @@ watch(
 
 // 地图实例
 let M: any;
-// 地图容器
-const mapRef = ref();
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
 
@@ -126,7 +124,7 @@ const save = () => {
       <el-divider direction="vertical" />
     </div>
 
-    <div :ondragover="ondragover" :ondrop="ondrop" id="map" ref="mapRef">
+    <div :ondragover="ondragover" :ondrop="ondrop" id="map">
       <transition name="fade">
         <el-alert v-if="currentSource" :title="currentSource.label" :closable="false" class="map-annotation__tooltip" />
       </transition>
