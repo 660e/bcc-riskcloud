@@ -12,6 +12,7 @@ dist
 dist-ssr
 stats.html
 *.local
+.svn
 
 # Editor directories and files
 .vscode/*
