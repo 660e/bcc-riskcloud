@@ -51,18 +51,13 @@ const ondrop = (event: DragEvent) => {
 
     M.addOverLay(marker);
     marker.enableDragging();
+    marker.addEventListener('dragstart', () => (catching = true));
+    marker.addEventListener('dragend', () => (catching = false));
     marker.addEventListener('mouseover', ({ target }) => {
-      if (!catching) currentSource.value = target.options.title;
+      currentSource.value = target.options.title;
     });
     marker.addEventListener('mouseout', () => {
-      currentSource.value = null;
-    });
-    marker.addEventListener('dragstart', () => {
-      catching = true;
-      currentSource.value = null;
-    });
-    marker.addEventListener('dragend', () => {
-      catching = false;
+      if (!catching) currentSource.value = null;
     });
 
     if (checkedSources.value.some(checked => checked.id === draggingSource?.id)) removeSource(draggingSource.id);
@@ -78,12 +73,29 @@ const removeSource = (id: number) => {
 
 // 重置
 const reset = () => {
-  console.log('reset');
+  checkedSources.value = [];
+  M.getOverlays()
+    .filter((overlay: any) => {
+      return overlay.options.title.id;
+    })
+    .forEach((overlay: any) => {
+      M.removeOverLay(overlay);
+    });
 };
 
 // 保存
 const save = () => {
-  console.log(checkedSources.value);
+  const params = checkedSources.value.map(checked => {
+    const lnglat = M.getOverlays()
+      .find((overlay: any) => overlay.options.title.id === checked.id)
+      .getLngLat();
+    return {
+      lnglat: [lnglat.lng, lnglat.lat],
+      ...checked
+    };
+  });
+
+  console.log(params);
 };
 </script>
 
