@@ -46,7 +46,7 @@ const ondragstart = (event: DragEvent) => {
 };
 const ondragover = (event: DragEvent) => event.preventDefault();
 const ondrop = (event: DragEvent) => {
-  if (draggingSource) {
+  if ((event.target as HTMLElement).id === 'map' && draggingSource) {
     const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(event.offsetX, event.offsetY), 'danger', draggingSource);
 
     M.addOverLay(marker);
