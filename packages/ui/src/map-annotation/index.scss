@@ -5,11 +5,6 @@ $base-class: map-annotation;
   #map {
     flex: 1;
   }
-  :deep(.tdt-container) {
-    .tdt-control-copyright {
-      display: none;
-    }
-  }
   .#{$base-class}__sidebar {
     width: 300px;
     display: flex;

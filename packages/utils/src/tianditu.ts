@@ -39,11 +39,14 @@ export class MapClass {
     this.map = new T.Map(container);
 
     const mapTypeControl = new T.Control.MapType();
+    const zoomControl = new T.Control.Zoom();
+
     mapTypeControl.setOptions({ position: 'bottomright' });
+    zoomControl.setOptions({ position: 'bottomright' });
 
     this.map.centerAndZoom(this.LngLat(center), zoom);
-    this.map.addControl(new T.Control.Zoom());
     this.map.addControl(mapTypeControl);
+    this.map.addControl(zoomControl);
     this.map.addEventListener('addoverlay', ({ addoverlay }) => {
       if (addoverlay.getType && addoverlay.getType() === 2) addoverlay.Fr.title = '';
     });

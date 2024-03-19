@@ -25,5 +25,6 @@ const MapUtils: MapClass = new MapClass();
 </template>
 
 <style lang="scss" scoped>
+@import '@bcc/utils';
 @import './index.scss';
 </style>

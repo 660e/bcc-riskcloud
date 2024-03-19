@@ -1,0 +1,10 @@
+.tdt-container {
+  :deep(.tdt-control-container) {
+    .tdt-control-copyright {
+      display: none;
+    }
+    .tdt-iconLayers_bottomright .tdt-iconLayers-layerCell {
+      padding-top: 0;
+    }
+  }
+}
