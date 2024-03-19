@@ -65,6 +65,9 @@ importers:
       screenfull:
         specifier: ^6.0.2
         version: 6.0.2
+      sm4js:
+        specifier: ^0.0.6
+        version: 0.0.6
       sortablejs:
         specifier: ^1.15.1
         version: 1.15.2
@@ -4240,6 +4243,10 @@ packages:
   /balanced-match@2.0.0:
     resolution: {integrity: sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==}
     dev: true
+
+  /base64-js@1.5.1:
+    resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    dev: false
 
   /base@0.11.2:
     resolution: {integrity: sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==}
@@ -8652,6 +8659,12 @@ packages:
       is-fullwidth-code-point: 5.0.0
     dev: true
 
+  /sm4js@0.0.6:
+    resolution: {integrity: sha512-lKJWSaSksB4MbVpYXfb0cFRgTAjEAAZSxoMZ498BuGtwVQ5aB/23wJVxFLRIZQx9cyoVihK98FiOYH7VxIZyMg==}
+    dependencies:
+      base64-js: 1.5.1
+    dev: false
+
   /snabbdom@3.6.2:
     resolution: {integrity: sha512-ig5qOnCDbugFntKi6c7Xlib8bA6xiJVk8O+WdFrV3wxbMqeHO0hXFQC4nAhPVWfZfi8255lcZkNhtIBINCc4+Q==}
     engines: {node: '>=12.17.0'}
@@ -10064,7 +10077,6 @@ packages:
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
-    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 7.0.0
       workbox-core: 7.0.0
