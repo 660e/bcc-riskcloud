@@ -15,10 +15,33 @@
 
 根据开发任务，克隆相应子工程（单位端、政府端）到 apps 文件夹
 
+- 平台端 svn://192.168.60.69/security/成都二期2024前端/base/branches/dev
+- 单位端 svn://192.168.60.69/security/成都二期2024前端/co/branches/dev
+- 政府端 svn://192.168.60.69/security/成都二期2024前端/gov/branches/dev
+
+注意最终目录结构
+
 ```
-cd apps
-git clone https://xxx.xxx.xxx/co.git
-git clone https://xxx.xxx.xxx/gov.git
+root                             # 平台端工程（svn）
+├─ /.vscode                      # vscode 配置文件
+├─ /apps                         # 应用
+│  ├─ co                         # 单位端工程（svn）
+│  ├─ gov                        # 政府端工程（svn）
+├─ /packages                     # 共享包
+│  ├─ components                 # 组件库
+│  ├─ template                   # 代码生成模板
+│  ├─ ui                         # ui库
+│  ├─ utils                      # 工具库
+├─ .editorconfig                 # 编辑器通用配置文件
+├─ .eslintignore                 # eslint 忽略目录
+├─ .eslintrc.cjs                 # eslint 配置文件
+├─ .gitignore                    # git 忽略目录
+├─ .prettierignore               # prettier 忽略目录
+├─ .prettierrc.cjs               # prettier 配置文件
+├─ package.json                  # 依赖包配置文件
+├─ pnpm-lock.yaml                # 依赖包锁定配置文件
+├─ pnpm-workspace.yaml           # 工作空间配置文件
+├─ README.md                     # 说明文档
 ```
 
 检查本地 nodejs 版本
@@ -35,7 +58,7 @@ node -v
 npm i pnpm -g
 ```
 
-跳转到平台端根目录，使用 pnpm 安装依赖包（同时会自动安装子工程依赖包）
+转到平台端根目录，使用 pnpm 安装依赖包（同时会自动安装子工程依赖包）
 
 ```
 pnpm i
@@ -63,13 +86,7 @@ build:gov:prod     // 政府端生产环境
 
 ### 提交
 
-平台端提交
-
-```
-git commit
-```
-
-子工程由独立 git 仓库管理，需要到子工程目录进行提交
+子工程由独立 git/svn 仓库管理，需要到子工程目录进行提交
 
 ```
 cd apps/co
@@ -87,28 +104,4 @@ git commit
 
 ```
 <type>: <subject>
-```
-
-## 目录结构
-
-```
-├─ /.vscode                      # vscode 配置文件
-├─ /apps                         # 应用
-│  ├─ co                         # 单位端工程
-│  ├─ gov                        # 政府端工程
-├─ /packages                     # 共享包
-│  ├─ components                 # 组件库
-│  ├─ template                   # 代码生成模板
-│  ├─ ui                         # ui库
-│  ├─ utils                      # 工具库
-├─ .editorconfig                 # 编辑器通用配置文件
-├─ .eslintignore                 # eslint 忽略目录
-├─ .eslintrc.cjs                 # eslint 配置文件
-├─ .gitignore                    # git 忽略目录
-├─ .prettierignore               # prettier 忽略目录
-├─ .prettierrc.cjs               # prettier 配置文件
-├─ package.json                  # 依赖包配置文件
-├─ pnpm-lock.yaml                # 依赖包锁定配置文件
-├─ pnpm-workspace.yaml           # 工作空间配置文件
-├─ README.md                     # 说明文档
 ```
