@@ -1,3 +1,6 @@
+@import '@bcc/utils/styles/tianditu.scss';
+@import '@bcc/utils/styles/transition.scss';
+
 $base-class: map-annotation;
 
 .#{$base-class} {
