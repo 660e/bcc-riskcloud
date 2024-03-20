@@ -1,5 +1,6 @@
 import { ElMessage } from 'element-plus';
 import { TDT } from './interface/tianditu';
+import axios from 'axios';
 import * as turf from '@turf/turf';
 
 import markerPrimary from './assets/tianditu/marker-primary.svg';
@@ -151,9 +152,20 @@ export class MapClass {
           needPolygon: true,
           needPre: true
         },
-        (result: any) => {
+        async (result: any) => {
           if (result.getStatus() === 100) {
-            resolve(result.getData());
+            const data = result.getData();
+            const geo1 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
+            const geo2 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`);
+
+            data.child = data.child.map((child: any) => {
+              const feature = geo2.data.features.find((feature: any) => {
+                return child.cityCode === `156${feature.properties.adcode}`;
+              });
+              return { ...child, ...feature };
+            });
+
+            resolve({ ...data, ...geo1.data.features[0] });
           } else {
             ElMessage.warning(result.getMsg());
             resolve(false);

@@ -11,14 +11,18 @@ watch(
 
       if (administrative) {
         console.log(administrative);
-        MapUtils.Init('map', [administrative.lnt, administrative.lat], 10);
+
+        const bound = administrative.bound.split(',');
+
+        M = MapUtils.Init('map', [administrative.lnt, administrative.lat]);
+        M.setViewport([MapUtils.LngLat([bound[0], bound[1]]), MapUtils.LngLat([bound[2], bound[3]])]);
       }
     }
   }
 );
 
 // 地图实例
-// let M: any;
+let M: any;
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
 </script>
