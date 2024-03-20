@@ -2,13 +2,24 @@
 import { watch } from 'vue';
 import { MapClass } from '@bcc/utils';
 
-const $props = defineProps<{ data: any }>();
+const $props = defineProps<{ city: string }>();
 watch(
-  () => $props.data,
-  data => {
-    console.log(data);
+  () => $props.city,
+  async city => {
+    if (city) {
+      const administrative: any = await MapUtils.AdministrativeDivision({
+        searchWord: city,
+        searchType: 1,
+        needSubInfo: true,
+        needAll: true,
+        needPolygon: true
+      });
 
-    MapUtils.Init('map', [104.06333, 30.66125], 10);
+      if (administrative.length) {
+        console.log(administrative[0]);
+        MapUtils.Init('map', [administrative[0].lnt, administrative[0].lat], 10);
+      }
+    }
   }
 );
 
