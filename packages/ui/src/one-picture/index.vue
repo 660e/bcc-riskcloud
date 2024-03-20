@@ -2,7 +2,7 @@
 import { watch } from 'vue';
 import { MapClass } from '@bcc/utils';
 
-const $props = defineProps<{ code: string }>();
+const $props = defineProps<{ code: any }>();
 watch(
   () => $props.code,
   async code => {

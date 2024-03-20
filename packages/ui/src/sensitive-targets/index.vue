@@ -170,10 +170,7 @@ const save = () => {
           <el-checkbox-group v-model="checkedTargets" @change="checkedTargetsChange">
             <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
               <span>{{ s.label }}</span>
-              <template v-if="company.lnglat">
-                <el-icon><Position /></el-icon>
-                <span>{{ MapUtils.PointToPointDistance(company.lnglat, s.lnglat) }}米</span>
-              </template>
+              <span v-if="company.lnglat">{{ MapUtils.PointToPointDistance(company.lnglat, s.lnglat) }}米</span>
             </el-checkbox>
           </el-checkbox-group>
         </div>
@@ -187,12 +184,12 @@ const save = () => {
       <el-divider direction="vertical" />
     </div>
 
-    <div id="map"></div>
-
-    <div class="sensitive-targets__radius">
-      <el-radio-group v-model="riskCircleRadius" @change="riskCircleRadiusChange">
-        <el-radio-button v-for="r in riskCircleRadiusRadios" :key="r.value" :label="r.label" :value="r.value" />
-      </el-radio-group>
+    <div id="map">
+      <div class="sensitive-targets__radius">
+        <el-radio-group v-model="riskCircleRadius" @change="riskCircleRadiusChange">
+          <el-radio-button v-for="r in riskCircleRadiusRadios" :key="r.value" :label="r.label" :value="r.value" />
+        </el-radio-group>
+      </div>
     </div>
 
     <!-- 添加敏感目标弹窗 -->
