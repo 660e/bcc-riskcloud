@@ -2,22 +2,16 @@
 import { watch } from 'vue';
 import { MapClass } from '@bcc/utils';
 
-const $props = defineProps<{ city: string }>();
+const $props = defineProps<{ code: string }>();
 watch(
-  () => $props.city,
-  async city => {
-    if (city) {
-      const administrative: any = await MapUtils.AdministrativeDivision({
-        searchWord: city,
-        searchType: 1,
-        needSubInfo: true,
-        needAll: true,
-        needPolygon: true
-      });
+  () => $props.code,
+  async code => {
+    if (code) {
+      const administrative: any = await MapUtils.AdministrativeDivision(code);
 
-      if (administrative.length) {
-        console.log(administrative[0]);
-        MapUtils.Init('map', [administrative[0].lnt, administrative[0].lat], 10);
+      if (administrative) {
+        console.log(administrative);
+        MapUtils.Init('map', [administrative.lnt, administrative.lat], 10);
       }
     }
   }

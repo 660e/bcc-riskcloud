@@ -23,13 +23,4 @@ export namespace TDT {
     fillOpacity?: number;
     lineStyle?: 'solid' | 'dashed';
   }
-
-  export interface AdministrativeDivisionOptions {
-    searchWord?: string;
-    searchType?: number;
-    needSubInfo?: boolean;
-    needAll?: boolean;
-    needPolygon?: boolean;
-    needPre?: boolean;
-  }
 }

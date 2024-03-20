@@ -136,25 +136,30 @@ export class MapClass {
   }
 
   /**
-   * @param searchWord 查询行政区划的名称
-   * @param searchType 查询类型 0:据code查询 1:根据名称查询
-   * @param needSubInfo 是否需要下一级信息
-   * @param needAll 是否需要所有子节点
-   * @param needPolygon 是否需要行政区划范围
-   * @param needPre 是否需要上一级所有信息
+   * @param code 行政区划代码
    * @returns 获取行政区划信息
    */
-  AdministrativeDivision(opts: TDT.AdministrativeDivisionOptions) {
+  AdministrativeDivision(code: string) {
     const administrative = new T.AdministrativeDivision();
+
     return new Promise(resolve => {
-      administrative.search(opts, (result: any) => {
-        if (result.getStatus() === 100) {
-          resolve(result.getData());
-        } else {
-          ElMessage.warning(result.getMsg());
-          resolve([]);
+      administrative.search(
+        {
+          searchWord: `156${code}`,
+          needSubInfo: true,
+          needAll: true,
+          needPolygon: true,
+          needPre: true
+        },
+        (result: any) => {
+          if (result.getStatus() === 100) {
+            resolve(result.getData());
+          } else {
+            ElMessage.warning(result.getMsg());
+            resolve(false);
+          }
         }
-      });
+      );
     });
   }
 }
