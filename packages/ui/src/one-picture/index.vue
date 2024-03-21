@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
 
 const $props = defineProps<{ code: number | undefined }>();
@@ -17,11 +17,16 @@ watch(
   }
 );
 
+// 区域详情
+const detail = ref();
+
 // 绘制区域
 const drawPolygon = async (code: number, level: TDT.Level) => {
   M.clearOverLays();
   const geojson: any = await MapUtils.GetGeoJson(code, level);
   const isLeaf = !geojson.children?.length;
+
+  detail.value = geojson.properties;
 
   // 当前行政区划
   geojson.geometry.coordinates.forEach((coordinate: any) => {
@@ -67,7 +72,16 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
 
 <template>
   <div class="one-picture">
-    <div id="map"></div>
+    <div id="map">
+      <div class="one-picture__detail">
+        <div class="one-picture__detail__title">
+          <h1>{{ detail?.name }}</h1>
+          <el-button v-if="detail?.level === 'district'" @click="drawPolygon(detail.parent.adcode, 'city')" type="primary" link>
+            返回
+          </el-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
