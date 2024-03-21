@@ -12,7 +12,7 @@ watch(
   code => {
     if (code) {
       M = MapUtils.Init('map');
-      drawPolygon(code, 'province');
+      drawPolygon(code, 'country');
     }
   }
 );
@@ -21,16 +21,17 @@ watch(
 const drawPolygon = async (code: number, level: TDT.Level) => {
   M.clearOverLays();
   const geojson: any = await MapUtils.GetGeoJson(code, level);
+  const isLeaf = !geojson.children?.length;
 
   // 当前行政区划
   geojson.geometry.coordinates.forEach((coordinate: any) => {
     coordinate.forEach((c: any) => {
-      M.addOverLay(MapUtils.Polygon(c, { fillOpacity: geojson.properties.level === 'district' ? 0.2 : 0 }));
+      M.addOverLay(MapUtils.Polygon(c, { fillOpacity: isLeaf ? 0.2 : 0 }));
     });
   });
 
   // 下级行政区划
-  if (geojson.properties.level !== 'district') {
+  if (!isLeaf) {
     geojson.children.forEach((child: any) => {
       const polygons = {
         adcode: child.properties.adcode,

@@ -154,20 +154,21 @@ export class MapClass {
    * @param level 行政区划层级
    */
   GetGeoJson(code: number, level: TDT.Level) {
+    if (code === 710000) level = 'district';
+
     return new Promise(async resolve => {
       switch (level) {
-        case 'province': {
-          const geo1 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
-          const geo2 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`);
-          geo1.data.features[0].children = geo2.data.features;
-          resolve(geo1.data.features[0]);
-          break;
-        }
         case 'district': {
           const geo = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
           resolve(geo.data.features[0]);
           break;
         }
+        default:
+          const geo1 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
+          const geo2 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`);
+          geo1.data.features[0].children = geo2.data.features;
+          resolve(geo1.data.features[0]);
+          break;
       }
     });
   }
