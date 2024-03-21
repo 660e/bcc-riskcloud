@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { watch } from 'vue';
-import { MapClass } from '@bcc/utils';
+import { MapClass, TDT } from '@bcc/utils';
 
 const $props = defineProps<{ code: any }>();
 // 地图实例
@@ -12,28 +12,27 @@ watch(
   code => {
     if (code) {
       M = MapUtils.Init('map');
-      drawPolygon(code);
+      drawPolygon(code, 'province');
     }
   }
 );
 
 // 绘制区域
-const drawPolygon = async (code: string) => {
-  const administrative: any = await MapUtils.AdministrativeDivision(code);
+const drawPolygon = async (code: number, level: TDT.Level) => {
+  const geojson: any = await MapUtils.GetGeoJson(code, level);
 
   // 当前行政区划
-  administrative.geometry.coordinates.forEach((coordinate: any) => {
+  geojson.geometry.coordinates.forEach((coordinate: any) => {
     coordinate.forEach((c: any) => M.addOverLay(MapUtils.Polygon(c, { fillOpacity: 0 })));
   });
 
   // 下级行政区划
-  administrative.child.forEach((child: any) => {
+  geojson.children.forEach((child: any) => {
     const polygons = {
       adcode: child.properties.adcode,
       name: child.properties.name,
       data: [] as any[]
     };
-
     child.geometry.coordinates.forEach((coordinate: any) => {
       coordinate.forEach((c: any) => {
         const polygon = MapUtils.Polygon(c, { weight: 1, lineStyle: 'dashed' });
@@ -41,7 +40,6 @@ const drawPolygon = async (code: string) => {
         polygons.data.push(polygon);
       });
     });
-
     polygons.data.forEach((polygon: any) => {
       polygon.addEventListener('mouseover', () => {
         polygons.data.forEach((p: any) => p.setColor('#f00'));
@@ -56,8 +54,7 @@ const drawPolygon = async (code: string) => {
   });
 
   // 自适应
-  const bound = administrative.bound.split(',');
-  M.setViewport([MapUtils.LngLat([bound[0], bound[1]]), MapUtils.LngLat([bound[2], bound[3]])]);
+  M.setViewport(geojson.geometry.coordinates.flat(2).map((c: any) => MapUtils.LngLat([c[0], c[1]])));
 };
 </script>
 

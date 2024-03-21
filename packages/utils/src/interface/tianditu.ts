@@ -1,6 +1,7 @@
 export namespace TDT {
   export type Icon = 'primary' | 'success' | 'warning' | 'danger';
   export type LngLat = [number, number];
+  export type Level = 'province' | 'district';
 
   export interface Marker {
     id: number;

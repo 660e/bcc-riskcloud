@@ -31,10 +31,10 @@ export class MapClass {
   }
 
   /**
+   * @description 初始化地图
    * @param container 用于显示地图的对象id
    * @param center 地图的初始化中心点
    * @param zoom 地图的初始化级别
-   * @returns 地图实例
    */
   Init(container: string, center: TDT.LngLat = [0, 0], zoom: number = 10) {
     this.map = new T.Map(container);
@@ -56,18 +56,18 @@ export class MapClass {
   }
 
   /**
+   * @description 获取地理位置坐标点
    * @param lnglat 地理经纬度
-   * @returns 地理位置坐标点
    */
   LngLat(lnglat: TDT.LngLat) {
     return new T.LngLat(lnglat[0], lnglat[1]);
   }
 
   /**
+   * @description 图像标注
    * @param lnglat 地理经纬度
    * @param icon 图标
    * @param params 额外参数
-   * @returns 图像标注实例
    */
   Marker(lnglat: TDT.LngLat, icon: TDT.Icon = 'primary', params: { [key: string]: any } = {}) {
     return new T.Marker(this.LngLat(lnglat), {
@@ -77,9 +77,9 @@ export class MapClass {
   }
 
   /**
+   * @description 右键菜单
    * @param contextMenu 菜单
    * @param width 菜单项的宽度
-   * @returns 右键菜单实例
    */
   ContextMenu(contextMenu: TDT.MenuItem[], width: number = 100) {
     const menu = new T.ContextMenu({ width });
@@ -98,19 +98,19 @@ export class MapClass {
   }
 
   /**
+   * @description 圆覆盖物
    * @param center 圆心经纬度坐标
    * @param radius 圆的半径（米）
    * @param opts
-   * @returns 圆覆盖物实例
    */
   Circle(center: TDT.LngLat, radius: number = 0, opts?: TDT.CircleOptions) {
     return new T.Circle(this.LngLat(center), radius, opts);
   }
 
   /**
+   * @description 多边形覆盖物
    * @param points 坐标数组
    * @param opts
-   * @returns 多边形覆盖物实例
    */
   Polygon(points: TDT.LngLat[], opts?: TDT.PolygonOptions) {
     return new T.Polygon(
@@ -120,28 +120,28 @@ export class MapClass {
   }
 
   /**
+   * @description 判断点是否在范围内
    * @param point 点
    * @param center 圆心经纬度坐标
    * @param radius 圆的半径（米）
-   * @returns 点是否在范围内
    */
   PointInCircle(point: TDT.LngLat, center: TDT.LngLat, radius: number) {
     return radius >= turf.distance(turf.point(point), turf.point(center), { units: 'meters' });
   }
 
   /**
+   * @description 获取两点距离（米）
    * @param pointA A点经纬度坐标
    * @param pointB B点经纬度坐标
-   * @returns 两点距离（米）
    */
   PointToPointDistance(pointA: TDT.LngLat, pointB: TDT.LngLat) {
     return Math.round(turf.distance(turf.point(pointA), turf.point(pointB), { units: 'meters' }));
   }
 
   /**
+   * @description px转换为经纬度坐标
    * @param x 点距离容器左侧距离（px）
    * @param y 点距离容器顶部距离（px）
-   * @returns 转换为经纬度坐标
    */
   ContainerPointToLngLat(x: number, y: number): TDT.LngLat {
     const lnglat: any = this.map.containerPointToLngLat(new T.Point(x, y));
@@ -149,41 +149,26 @@ export class MapClass {
   }
 
   /**
+   * @description 获取行政区划信息
    * @param code 行政区划代码
-   * @returns 获取行政区划信息
+   * @param level 行政区划层级
    */
-  AdministrativeDivision(code: string) {
-    const administrative = new T.AdministrativeDivision();
-
-    return new Promise(resolve => {
-      administrative.search(
-        {
-          searchWord: `156${code}`,
-          needSubInfo: true,
-          needAll: true,
-          needPolygon: true,
-          needPre: true
-        },
-        async (result: any) => {
-          if (result.getStatus() === 100) {
-            const data = result.getData();
-            const geo1 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
-            const geo2 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`);
-
-            data.child = data.child.map((child: any) => {
-              const feature = geo2.data.features.find((feature: any) => {
-                return child.cityCode === `156${feature.properties.adcode}`;
-              });
-              return { ...child, ...feature };
-            });
-
-            resolve({ ...data, ...geo1.data.features[0] });
-          } else {
-            ElMessage.warning(result.getMsg());
-            resolve(false);
-          }
+  GetGeoJson(code: number, level: TDT.Level) {
+    return new Promise(async resolve => {
+      switch (level) {
+        case 'province': {
+          const geo1 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
+          const geo2 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`);
+          geo1.data.features[0].children = geo2.data.features;
+          resolve(geo1.data.features[0]);
+          break;
         }
-      );
+        case 'district': {
+          const geo = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
+          resolve(geo);
+          break;
+        }
+      }
     });
   }
 }
