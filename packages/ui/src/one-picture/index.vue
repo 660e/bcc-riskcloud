@@ -3,6 +3,8 @@ import { watch } from 'vue';
 import { MapClass } from '@bcc/utils';
 
 const $props = defineProps<{ code: any }>();
+// 行政区划信息
+let administrative: any;
 // 地图实例
 let M: any;
 // 地图工具类
@@ -11,24 +13,42 @@ watch(
   () => $props.code,
   async code => {
     if (code) {
-      const administrative: any = await MapUtils.AdministrativeDivision(code);
+      administrative = await MapUtils.AdministrativeDivision(code);
 
       if (administrative) {
         console.log(administrative);
 
-        const bound = administrative.bound.split(',');
-
         M = MapUtils.Init('map');
-        M.setViewport([MapUtils.LngLat([bound[0], bound[1]]), MapUtils.LngLat([bound[2], bound[3]])]);
-        M.addOverLay(MapUtils.Polygon(administrative.geometry.coordinates[0][0], { fillOpacity: 0 }));
-
-        administrative.child.forEach((child: any) => {
-          M.addOverLay(MapUtils.Polygon(child.geometry.coordinates[0][0], { weight: 1, lineStyle: 'dashed' }));
-        });
+        drawPolygon();
       }
     }
   }
 );
+
+// 绘制区域
+const drawPolygon = () => {
+  // 当前行政区划
+  administrative.geometry.coordinates.forEach((coordinate: any) => {
+    coordinate.forEach((c: any) => {
+      const polygon = MapUtils.Polygon(c, { fillOpacity: 0 });
+      M.addOverLay(polygon);
+    });
+  });
+
+  // 下级行政区划
+  administrative.child.forEach((child: any) => {
+    child.geometry.coordinates.forEach((coordinate: any) => {
+      coordinate.forEach((c: any) => {
+        const polygon = MapUtils.Polygon(c, { weight: 1, lineStyle: 'dashed' });
+        M.addOverLay(polygon);
+      });
+    });
+  });
+
+  // 自适应
+  const bound = administrative.bound.split(',');
+  M.setViewport([MapUtils.LngLat([bound[0], bound[1]]), MapUtils.LngLat([bound[2], bound[3]])]);
+};
 </script>
 
 <template>
