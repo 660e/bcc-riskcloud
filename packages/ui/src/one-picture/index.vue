@@ -2,6 +2,8 @@
 import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
 
+import DetailComponent from './components/detail.vue';
+
 const $props = defineProps<{ code: number | undefined }>();
 // 地图实例
 let M: any;
@@ -73,14 +75,7 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
 <template>
   <div class="one-picture">
     <div id="map">
-      <div class="one-picture__detail">
-        <div class="one-picture__detail__title">
-          <h1>{{ detail?.name }}</h1>
-          <el-button v-if="detail?.level === 'district'" @click="drawPolygon(detail.parent.adcode, 'city')" type="primary" link>
-            返回
-          </el-button>
-        </div>
-      </div>
+      <detail-component :detail="detail" @back="drawPolygon(detail.parent.adcode, 'city')" />
     </div>
   </div>
 </template>

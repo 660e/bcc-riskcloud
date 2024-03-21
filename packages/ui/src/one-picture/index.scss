@@ -7,28 +7,4 @@ $base-class: one-picture;
   #map {
     flex: 1;
   }
-  .#{$base-class}__detail {
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 4px;
-    color: #fff;
-    padding: 10px;
-    width: 300px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 500;
-    &__title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      h1 {
-        font-size: 20px;
-        line-height: 1;
-      }
-      .el-button {
-        border: 0;
-        padding: 0;
-      }
-    }
-  }
 }
