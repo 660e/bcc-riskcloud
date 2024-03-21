@@ -2,7 +2,7 @@
 import { watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
 
-const $props = defineProps<{ code: any }>();
+const $props = defineProps<{ code: number | undefined }>();
 // 地图实例
 let M: any;
 // 地图工具类
@@ -19,39 +19,45 @@ watch(
 
 // 绘制区域
 const drawPolygon = async (code: number, level: TDT.Level) => {
+  M.clearOverLays();
   const geojson: any = await MapUtils.GetGeoJson(code, level);
 
   // 当前行政区划
   geojson.geometry.coordinates.forEach((coordinate: any) => {
-    coordinate.forEach((c: any) => M.addOverLay(MapUtils.Polygon(c, { fillOpacity: 0 })));
+    coordinate.forEach((c: any) => {
+      M.addOverLay(MapUtils.Polygon(c, { fillOpacity: geojson.properties.level === 'district' ? 0.2 : 0 }));
+    });
   });
 
   // 下级行政区划
-  geojson.children.forEach((child: any) => {
-    const polygons = {
-      adcode: child.properties.adcode,
-      name: child.properties.name,
-      data: [] as any[]
-    };
-    child.geometry.coordinates.forEach((coordinate: any) => {
-      coordinate.forEach((c: any) => {
-        const polygon = MapUtils.Polygon(c, { weight: 1, lineStyle: 'dashed' });
-        M.addOverLay(polygon);
-        polygons.data.push(polygon);
+  if (geojson.properties.level !== 'district') {
+    geojson.children.forEach((child: any) => {
+      const polygons = {
+        adcode: child.properties.adcode,
+        name: child.properties.name,
+        level: child.properties.level,
+        data: [] as any[]
+      };
+      child.geometry.coordinates.forEach((coordinate: any) => {
+        coordinate.forEach((c: any) => {
+          const polygon = MapUtils.Polygon(c, { weight: 1, lineStyle: 'dashed' });
+          M.addOverLay(polygon);
+          polygons.data.push(polygon);
+        });
+      });
+      polygons.data.forEach((polygon: any) => {
+        polygon.addEventListener('mouseover', () => {
+          polygons.data.forEach((p: any) => p.setColor('#f00'));
+        });
+        polygon.addEventListener('mouseout', () => {
+          polygons.data.forEach((p: any) => p.setColor('#00f'));
+        });
+        polygon.addEventListener('click', () => {
+          drawPolygon(polygons.adcode, polygons.level);
+        });
       });
     });
-    polygons.data.forEach((polygon: any) => {
-      polygon.addEventListener('mouseover', () => {
-        polygons.data.forEach((p: any) => p.setColor('#f00'));
-      });
-      polygon.addEventListener('mouseout', () => {
-        polygons.data.forEach((p: any) => p.setColor('#00f'));
-      });
-      polygon.addEventListener('click', () => {
-        console.log(polygons);
-      });
-    });
-  });
+  }
 
   // 自适应
   M.setViewport(geojson.geometry.coordinates.flat(2).map((c: any) => MapUtils.LngLat([c[0], c[1]])));

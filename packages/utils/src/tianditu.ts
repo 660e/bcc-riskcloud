@@ -165,7 +165,7 @@ export class MapClass {
         }
         case 'district': {
           const geo = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
-          resolve(geo);
+          resolve(geo.data.features[0]);
           break;
         }
       }
