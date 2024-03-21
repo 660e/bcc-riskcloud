@@ -12,7 +12,7 @@ watch(
   code => {
     if (code) {
       M = MapUtils.Init('map');
-      drawPolygon(code, 'country');
+      drawPolygon(150000, 'country');
     }
   }
 );

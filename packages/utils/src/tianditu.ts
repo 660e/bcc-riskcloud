@@ -166,6 +166,22 @@ export class MapClass {
         default:
           const geo1 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}.json`);
           const geo2 = await axios.get(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`);
+
+          if (geo1.data.features[0].properties.adcode === 150000) {
+            geo1.data.features[0].geometry.coordinates = geo1.data.features[0].geometry.coordinates.map((coordinate: any) => {
+              return [coordinate];
+            });
+          }
+
+          // if (geo2.data.features.find((feature: any) => feature.properties.adcode === 150700)) {
+          //   geo2.data.features.find((feature: any) => feature.properties.adcode === 150700).geometry.coordinates =
+          //     geo2.data.features
+          //       .find((feature: any) => feature.properties.adcode === 150700)
+          //       .geometry.coordinates.map((coordinate: any) => {
+          //         return [coordinate];
+          //       });
+          // }
+
           geo1.data.features[0].children = geo2.data.features;
           resolve(geo1.data.features[0]);
           break;
