@@ -5,8 +5,11 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 
 import CreateDialog from './dialogs/create.vue';
 
-const $emit = defineEmits(['save']);
 const $props = defineProps<{ company: any }>();
+// 地图实例
+let M: any;
+// 地图工具类
+const MapUtils: MapClass = new MapClass();
 watch(
   () => $props.company,
   company => {
@@ -29,13 +32,8 @@ watch(
   }
 );
 
-// 地图实例
-let M: any;
-// 地图工具类
-const MapUtils: MapClass = new MapClass();
 // “添加敏感目标”弹窗
 const createDialogRef = ref();
-
 // 右键菜单
 const contextMenu: TDT.MenuItem[] = [
   {
@@ -155,6 +153,7 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
 };
 
 // 保存
+const $emit = defineEmits(['save']);
 const save = () => {
   console.log($props.company);
   console.log(checkedTargets.value);

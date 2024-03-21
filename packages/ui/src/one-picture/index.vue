@@ -3,6 +3,10 @@ import { watch } from 'vue';
 import { MapClass } from '@bcc/utils';
 
 const $props = defineProps<{ code: any }>();
+// 地图实例
+let M: any;
+// 地图工具类
+const MapUtils: MapClass = new MapClass();
 watch(
   () => $props.code,
   async code => {
@@ -25,11 +29,6 @@ watch(
     }
   }
 );
-
-// 地图实例
-let M: any;
-// 地图工具类
-const MapUtils: MapClass = new MapClass();
 </script>
 
 <template>

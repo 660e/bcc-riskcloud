@@ -8,6 +8,10 @@ interface RiskSource {
 }
 
 const $props = defineProps<{ company: any }>();
+// 地图实例
+let M: any;
+// 地图工具类
+const MapUtils: MapClass = new MapClass();
 watch(
   () => $props.company,
   company => {
@@ -21,11 +25,6 @@ watch(
     }
   }
 );
-
-// 地图实例
-let M: any;
-// 地图工具类
-const MapUtils: MapClass = new MapClass();
 
 // 当前正在拖拽的风险源
 let draggingSource: RiskSource | undefined;
