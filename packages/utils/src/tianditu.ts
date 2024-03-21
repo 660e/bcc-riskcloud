@@ -36,7 +36,7 @@ export class MapClass {
    * @param zoom 地图的初始化级别
    * @returns 地图实例
    */
-  Init(container: string, center: TDT.LngLat, zoom: number = 10) {
+  Init(container: string, center: TDT.LngLat = [0, 0], zoom: number = 10) {
     this.map = new T.Map(container);
 
     const mapTypeControl = new T.Control.MapType();
@@ -105,6 +105,18 @@ export class MapClass {
    */
   Circle(center: TDT.LngLat, radius: number = 0, opts?: TDT.CircleOptions) {
     return new T.Circle(this.LngLat(center), radius, opts);
+  }
+
+  /**
+   * @param points 坐标数组
+   * @param opts
+   * @returns 多边形覆盖物实例
+   */
+  Polygon(points: TDT.LngLat[], opts?: TDT.PolygonOptions) {
+    return new T.Polygon(
+      points.map(point => this.LngLat(point)),
+      opts
+    );
   }
 
   /**

@@ -23,4 +23,13 @@ export namespace TDT {
     fillOpacity?: number;
     lineStyle?: 'solid' | 'dashed';
   }
+
+  export interface PolygonOptions {
+    color?: string;
+    weight?: number;
+    opacity?: number;
+    fillColor?: string;
+    fillOpacity?: number;
+    lineStyle?: 'solid' | 'dashed';
+  }
 }

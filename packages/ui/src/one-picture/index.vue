@@ -14,8 +14,13 @@ watch(
 
         const bound = administrative.bound.split(',');
 
-        M = MapUtils.Init('map', [administrative.lnt, administrative.lat]);
+        M = MapUtils.Init('map');
         M.setViewport([MapUtils.LngLat([bound[0], bound[1]]), MapUtils.LngLat([bound[2], bound[3]])]);
+        M.addOverLay(MapUtils.Polygon(administrative.geometry.coordinates[0][0], { fillOpacity: 0 }));
+
+        administrative.child.forEach((child: any) => {
+          M.addOverLay(MapUtils.Polygon(child.geometry.coordinates[0][0], { weight: 1, lineStyle: 'dashed' }));
+        });
       }
     }
   }
