@@ -1,69 +1,64 @@
 @import '@bcc/utils/styles/tianditu.scss';
 @import '@bcc/utils/styles/transition.scss';
 
-$base-class: map-annotation;
-
-.#{$base-class} {
+.map-annotation {
   display: flex;
-  #map {
-    flex: 1;
-  }
-  .#{$base-class}__sidebar {
+  &__sidebar {
     width: 300px;
     display: flex;
     & > div:first-child {
       flex: 1;
       display: flex;
       flex-direction: column;
-      .#{$base-class}__sources {
-        flex: 1;
-        height: 0;
-        overflow-y: auto;
-        & > div {
-          padding-top: 10px;
-          & > div {
-            color: var(--el-text-color-regular);
-            height: 32px;
-            padding: 0 10px;
-            cursor: grab;
-            user-select: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            span {
-              padding-left: 8px;
-            }
-            .el-icon {
-              display: none;
-            }
-            &:hover {
-              background-color: var(--el-fill-color-light);
-            }
-            &.checked {
-              color: var(--el-color-primary);
-              .el-icon {
-                color: var(--el-color-danger);
-                display: block;
-                cursor: pointer;
-              }
-            }
-          }
-        }
-      }
-      .#{$base-class}__buttons {
-        padding: 10px;
-        display: flex;
-        .el-button {
-          flex: 1;
-        }
-      }
     }
     & > .el-divider {
       margin: 0;
       height: 100%;
     }
   }
-  .#{$base-class}__tooltip {
+  &__sources {
+    flex: 1;
+    height: 0;
+    overflow-y: auto;
+    & > div {
+      padding-top: 10px;
+      & > div {
+        color: var(--el-text-color-regular);
+        height: 32px;
+        padding: 0 10px;
+        cursor: grab;
+        user-select: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+          padding-left: 8px;
+        }
+        .el-icon {
+          display: none;
+        }
+        &:hover {
+          background-color: var(--el-fill-color-light);
+        }
+        &.checked {
+          color: var(--el-color-primary);
+          .el-icon {
+            color: var(--el-color-danger);
+            display: block;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  &__buttons {
+    padding: 10px;
+    display: flex;
+    .el-button {
+      flex: 1;
+    }
+  }
+  &__tooltip {
     padding: 0 16px;
     height: 32px;
     width: auto;
@@ -74,5 +69,8 @@ $base-class: map-annotation;
     top: 10px;
     left: 50%;
     z-index: 500;
+  }
+  #map {
+    flex: 1;
   }
 }
