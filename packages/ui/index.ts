@@ -2,9 +2,9 @@ import CloudMarkerCollection from './src/cloud-marker-collection/index.vue';
 import ErrorMessage403 from './src/error-message/403.vue';
 import ErrorMessage404 from './src/error-message/404.vue';
 import ErrorMessage500 from './src/error-message/500.vue';
-import MapAnnotation from './src/map-annotation/index.vue';
+import MapMarker from './src/map-marker/index.vue';
 import OnePicture from './src/one-picture/index.vue';
-import PlanAnnotation from './src/plan-annotation/index.vue';
+import PlanMarker from './src/plan-marker/index.vue';
 import SensitiveTargets from './src/sensitive-targets/index.vue';
 
 export {
@@ -12,8 +12,8 @@ export {
   ErrorMessage403,
   ErrorMessage404,
   ErrorMessage500,
-  MapAnnotation,
+  MapMarker,
   OnePicture,
-  PlanAnnotation,
+  PlanMarker,
   SensitiveTargets
 };
