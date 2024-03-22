@@ -49,7 +49,11 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
       child.geometry.coordinates.forEach((coordinate: any) => {
         coordinate.forEach((c: any) => {
           const polygon = MapUtils.Polygon(c, { weight: 1, lineStyle: 'dashed' });
+
           M.addOverLay(polygon);
+          M.addOverLay(MapUtils.Marker(child.properties.centroid));
+          M.addOverLay(MapUtils.Label('test', child.properties.centroid));
+
           polygons.data.push(polygon);
         });
       });

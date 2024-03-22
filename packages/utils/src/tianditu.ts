@@ -77,6 +77,16 @@ export class MapClass {
   }
 
   /**
+   * @description 文本标注
+   * @param text 文本标注的内容
+   * @param position 文本标注的地理位置
+   * @param offset 文本标注的位置偏移值（标注左上角0,0）
+   */
+  Label(text: string, position: TDT.LngLat, offset: TDT.LngLat = [0, 0]) {
+    return new T.Label({ text, position: this.LngLat(position), offset: new T.Point(offset[0] - 13, offset[1] + 14) });
+  }
+
+  /**
    * @description 右键菜单
    * @param contextMenu 菜单
    * @param width 菜单项的宽度
