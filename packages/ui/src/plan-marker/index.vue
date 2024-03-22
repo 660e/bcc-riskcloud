@@ -1,6 +1,22 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 
+interface RiskSource {
+  id: number;
+  label: string;
+}
+
+const $props = defineProps<{ company: any }>();
+// 风险源列表
+const riskSources = ref<RiskSource[]>([]);
+watch(
+  () => $props.company,
+  company => {
+    if (company.sources.length) riskSources.value = company.sources;
+  }
+);
+
+// 平面图自适应
 const wrapperRef = ref();
 const imgRef = ref();
 const style = ref({});
@@ -11,17 +27,30 @@ const fit = () => {
   const ih = imgRef.value.clientHeight;
   style.value = ww / wh > iw / ih ? { height: '100%' } : { width: '100%' };
 };
+onMounted(() => window.addEventListener('resize', fit));
+onUnmounted(() => window.removeEventListener('resize', fit));
 </script>
 
 <template>
-  <div class="plan-marker">
-    <div class="plan-marker__sidebar">
+  <div class="map-marker">
+    <div class="map-marker__sidebar">
       <div>
-        <div class="plan-marker__sources"></div>
+        <div class="map-marker__sources">
+          <div>
+            <div v-for="r in riskSources" :key="r.id" draggable="true">
+              <span>{{ r.label }}</span>
+              <el-icon><DeleteLocation /></el-icon>
+            </div>
+          </div>
+        </div>
+        <div class="map-marker__buttons">
+          <el-button>重置</el-button>
+          <el-button type="primary">保存</el-button>
+        </div>
       </div>
       <el-divider direction="vertical" />
     </div>
-    <div class="plan-marker__wrapper" ref="wrapperRef">
+    <div class="map-marker__wrapper" ref="wrapperRef">
       <img
         :style="style"
         @load="fit"
@@ -33,5 +62,5 @@ const fit = () => {
 </template>
 
 <style lang="scss" scoped>
-@import './index.scss';
+@import '../map-marker/index.scss';
 </style>
