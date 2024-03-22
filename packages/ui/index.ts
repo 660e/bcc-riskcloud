@@ -4,6 +4,16 @@ import ErrorMessage404 from './src/error-message/404.vue';
 import ErrorMessage500 from './src/error-message/500.vue';
 import MapAnnotation from './src/map-annotation/index.vue';
 import OnePicture from './src/one-picture/index.vue';
+import PlanAnnotation from './src/plan-annotation/index.vue';
 import SensitiveTargets from './src/sensitive-targets/index.vue';
 
-export { CloudMarkerCollection, ErrorMessage403, ErrorMessage404, ErrorMessage500, MapAnnotation, OnePicture, SensitiveTargets };
+export {
+  CloudMarkerCollection,
+  ErrorMessage403,
+  ErrorMessage404,
+  ErrorMessage500,
+  MapAnnotation,
+  OnePicture,
+  PlanAnnotation,
+  SensitiveTargets
+};
