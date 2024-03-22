@@ -1,7 +1,7 @@
 $base-class: one-picture;
 
 .#{$base-class}__detail {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 4px;
   color: #fff;
   padding: 10px;
@@ -11,6 +11,7 @@ $base-class: one-picture;
   left: 10px;
   z-index: 500;
   &__title {
+    padding-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,5 +23,8 @@ $base-class: one-picture;
       border: 0;
       padding: 0;
     }
+  }
+  &__chart {
+    height: 150px;
   }
 }
