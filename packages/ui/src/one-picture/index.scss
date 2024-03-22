@@ -1,10 +1,17 @@
 @import '@bcc/utils/styles/tianditu.scss';
 
-$base-class: one-picture;
-
-.#{$base-class} {
+.one-picture {
   display: flex;
   #map {
     flex: 1;
+  }
+  .tdt-container :deep(.tdt-overlay-pane) {
+    .tdt-label {
+      background-color: transparent;
+      border: 0;
+      box-shadow: none;
+      line-height: 1;
+      padding: 0;
+    }
   }
 }

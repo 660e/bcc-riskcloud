@@ -25,5 +25,32 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import './detail.scss';
+.one-picture__detail {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  color: #fff;
+  padding: 10px;
+  width: 300px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 500;
+  &__title {
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .el-button {
+      border: 0;
+      padding: 0;
+    }
+  }
+  &__chart {
+    height: 150px;
+  }
+}
 </style>

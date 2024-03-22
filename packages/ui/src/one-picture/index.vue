@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { MapClass, TDT } from '@bcc/utils';
+import { option } from '../assets/option';
+import * as echarts from 'echarts';
 
 import DetailComponent from './components/detail.vue';
+import LegendComponent from './components/legend.vue';
 
 const $props = defineProps<{ code: number | undefined }>();
 // 地图实例
@@ -40,6 +43,7 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
   // 下级行政区划
   if (!isLeaf) {
     geojson.children.forEach((child: any) => {
+      // 绘制边界
       const polygons = {
         adcode: child.properties.adcode,
         name: child.properties.name,
@@ -49,11 +53,7 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
       child.geometry.coordinates.forEach((coordinate: any) => {
         coordinate.forEach((c: any) => {
           const polygon = MapUtils.Polygon(c, { weight: 1, lineStyle: 'dashed' });
-
           M.addOverLay(polygon);
-          M.addOverLay(MapUtils.Marker(child.properties.centroid));
-          M.addOverLay(MapUtils.Label('test', child.properties.centroid));
-
           polygons.data.push(polygon);
         });
       });
@@ -68,6 +68,17 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
           drawPolygon(polygons.adcode, polygons.level);
         });
       });
+
+      // 绘制图表
+      M.addOverLay(
+        MapUtils.Label(
+          `<div id="c${child.properties.adcode}" style="height: 100px; width: 100px; background-color: rgba(255, 0, 0, 0.25);"></div>`,
+          child.properties.centroid,
+          [-50, -50]
+        )
+      );
+      const chart = echarts.init(document.getElementById(`c${child.properties.adcode}`));
+      chart.setOption(option);
     });
   }
 
@@ -80,6 +91,7 @@ const drawPolygon = async (code: number, level: TDT.Level) => {
   <div class="one-picture">
     <div id="map">
       <detail-component :detail="detail" @back="drawPolygon(detail.parent.adcode, 'city')" />
+      <legend-component />
     </div>
   </div>
 </template>

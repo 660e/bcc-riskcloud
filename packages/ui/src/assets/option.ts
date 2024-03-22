@@ -1,3 +1,10 @@
+export const legend = [
+  { name: '重大风险源', color: '#f56c6c' },
+  { name: '较大风险源', color: '#e6a23c' },
+  { name: '一般风险源', color: '#409eff' },
+  { name: '低风险源', color: '#909399' }
+];
+
 export const option = {
   tooltip: {
     trigger: 'item',
@@ -14,13 +21,13 @@ export const option = {
       label: {
         show: false
       },
-      color: ['#f56c6c', '#e6a23c', '#409eff', '#909399'],
-      data: [
-        { value: 104, name: '重大风险源' },
-        { value: 735, name: '较大风险源' },
-        { value: 580, name: '一般风险源' },
-        { value: 484, name: '低风险源' }
-      ]
+      color: legend.map(c => c.color),
+      data: legend.map(c => {
+        return {
+          name: c.name,
+          value: Math.floor(Math.random() * 1000)
+        };
+      })
     }
   ]
 };
