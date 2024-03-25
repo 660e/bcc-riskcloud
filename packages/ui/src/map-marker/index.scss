@@ -77,6 +77,8 @@
     justify-content: center;
     align-items: center;
     & > div {
+      opacity: 0;
+      transition: opacity 0.3s;
       position: relative;
     }
   }
@@ -100,5 +102,13 @@
   }
   #map {
     flex: 1;
+  }
+  :deep(.preview-dialog.is-fullscreen) {
+    display: flex;
+    flex-direction: column;
+    .el-dialog__body {
+      flex: 1;
+      display: flex;
+    }
   }
 }

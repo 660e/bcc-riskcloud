@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import PreviewDialog from './dialogs/preview.vue';
 
 interface RiskSource {
   id: number;
@@ -40,6 +41,10 @@ const markerStyle = (position: [number, number] | undefined) => {
   return position ? { top: `${position[1]}%`, left: `${position[0]}%` } : { display: 'none' };
 };
 
+// 预览
+const previewRef = ref();
+const preview = () => previewRef.value.open(riskSources.value);
+
 // 保存
 const save = () => {
   console.log(riskSources.value);
@@ -55,7 +60,7 @@ const fit = () => {
   const wh = wrapperRef.value.clientHeight;
   const iw = imgRef.value.clientWidth;
   const ih = imgRef.value.clientHeight;
-  wrapperStyle.value = ww / wh > iw / ih ? { height: '100%' } : { width: '100%' };
+  wrapperStyle.value = { opacity: 1, ...(ww / wh > iw / ih ? { height: '100%' } : { width: '100%' }) };
 };
 onMounted(() => window.addEventListener('resize', fit));
 onUnmounted(() => window.removeEventListener('resize', fit));
@@ -82,6 +87,7 @@ onUnmounted(() => window.removeEventListener('resize', fit));
         </div>
         <div class="map-marker__buttons">
           <el-button @click="riskSources.forEach((r: RiskSource) => (r.position = undefined))">重置</el-button>
+          <el-button @click="preview">预览</el-button>
           <el-button @click="save" type="primary">保存</el-button>
         </div>
       </div>
@@ -109,6 +115,9 @@ onUnmounted(() => window.removeEventListener('resize', fit));
         </div>
       </div>
     </div>
+
+    <!-- 预览 -->
+    <preview-dialog ref="previewRef" />
   </div>
 </template>
 
