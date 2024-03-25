@@ -30,11 +30,14 @@ const ondragstart = (event: DragEvent) => {
 const ondragover = (event: DragEvent) => event.preventDefault();
 const ondrop = (event: DragEvent) => {
   if ((event.target as HTMLElement).id === 'container' && draggingSource) {
-    draggingSource.position = [event.offsetX + draggingSourceOffset[0], event.offsetY + draggingSourceOffset[1]];
+    draggingSource.position = [
+      ((event.offsetX + draggingSourceOffset[0]) / containerRef.value.clientWidth) * 100,
+      ((event.offsetY + draggingSourceOffset[1]) / containerRef.value.clientHeight) * 100
+    ];
   }
 };
 const markerStyle = (position: [number, number] | undefined) => {
-  return position ? { top: `${position[1]}px`, left: `${position[0]}px` } : { display: 'none' };
+  return position ? { top: `${position[1]}%`, left: `${position[0]}%` } : { display: 'none' };
 };
 
 // 保存
@@ -44,8 +47,9 @@ const save = () => {
 
 // 平面图自适应
 const wrapperRef = ref();
-const imgRef = ref();
 const wrapperStyle = ref({});
+const imgRef = ref();
+const containerRef = ref();
 const fit = () => {
   const ww = wrapperRef.value.clientWidth;
   const wh = wrapperRef.value.clientHeight;
@@ -91,7 +95,7 @@ onUnmounted(() => window.removeEventListener('resize', fit));
           src="https://img.zcool.cn/community/01ed1b603f20cc11013ef90f5a9146.jpg@1280w_1l_2o_100sh.jpg"
           ref="imgRef"
         />
-        <div :ondragover="ondragover" :ondrop="ondrop" id="container" class="map-marker__container">
+        <div :ondragover="ondragover" :ondrop="ondrop" id="container" ref="containerRef" class="map-marker__container">
           <div
             v-for="r in riskSources"
             :key="r.id"
