@@ -17,18 +17,20 @@ watch(
 
 // 当前正在拖拽的风险源
 let draggingSource: RiskSource | undefined;
+let draggingSourceOffset = [0, 0];
 // 风险源列表
 const riskSources = ref<RiskSource[]>([]);
 // 标注风险源
 const ondragstart = (event: DragEvent) => {
-  draggingSource = riskSources.value.find((risk: RiskSource) => {
-    return risk.id === Number((event.target as HTMLElement)?.dataset.id);
-  });
+  const { offsetX, offsetY } = event;
+  const { clientHeight, clientWidth, dataset } = event.target as HTMLElement;
+  draggingSource = riskSources.value.find((risk: RiskSource) => risk.id === Number(dataset.id));
+  draggingSourceOffset = dataset.type === 'marker' ? [clientWidth / 2 - offsetX, clientHeight - offsetY] : [0, 0];
 };
 const ondragover = (event: DragEvent) => event.preventDefault();
 const ondrop = (event: DragEvent) => {
   if ((event.target as HTMLElement).id === 'container' && draggingSource) {
-    draggingSource.position = [event.offsetX, event.offsetY];
+    draggingSource.position = [event.offsetX + draggingSourceOffset[0], event.offsetY + draggingSourceOffset[1]];
   }
 };
 const markerStyle = (position: [number, number] | undefined) => {
@@ -96,6 +98,7 @@ onUnmounted(() => window.removeEventListener('resize', fit));
             :data-id="r.id"
             :style="markerStyle(r.position)"
             :ondragstart="ondragstart"
+            data-type="marker"
             draggable="true"
             class="map-marker__marker"
           ></div>
