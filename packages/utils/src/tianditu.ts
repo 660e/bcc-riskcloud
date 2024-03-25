@@ -11,7 +11,7 @@ import markerDanger from './assets/tianditu/marker-danger.svg';
 export const T = (window as any).T;
 
 const iconSize = new T.Point(25, 41);
-const iconAnchor = new T.Point(13, 41);
+const iconAnchor = new T.Point(12.5, 41);
 
 // 地图类
 export class MapClass {
