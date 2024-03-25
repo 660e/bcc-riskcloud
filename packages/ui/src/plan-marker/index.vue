@@ -90,7 +90,15 @@ onUnmounted(() => window.removeEventListener('resize', fit));
           ref="imgRef"
         />
         <div :ondragover="ondragover" :ondrop="ondrop" id="container" class="map-marker__container">
-          <div v-for="r in riskSources" :key="r.id" :style="markerStyle(r.position)" class="map-marker__marker"></div>
+          <div
+            v-for="r in riskSources"
+            :key="r.id"
+            :data-id="r.id"
+            :style="markerStyle(r.position)"
+            :ondragstart="ondragstart"
+            draggable="true"
+            class="map-marker__marker"
+          ></div>
         </div>
       </div>
     </div>
