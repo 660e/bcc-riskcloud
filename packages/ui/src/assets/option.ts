@@ -1,8 +1,8 @@
 export const legend = [
-  { name: '重大风险源', color: '#f56c6c' },
-  { name: '较大风险源', color: '#e6a23c' },
-  { name: '一般风险源', color: '#409eff' },
-  { name: '低风险源', color: '#909399' }
+  { name: '重大风险源', color: '#f56c6c', type: 'danger' },
+  { name: '较大风险源', color: '#e6a23c', type: 'warning' },
+  { name: '一般风险源', color: '#409eff', type: 'primary' },
+  { name: '低风险源', color: '#67c23a', type: 'success' }
 ];
 
 export const option = {

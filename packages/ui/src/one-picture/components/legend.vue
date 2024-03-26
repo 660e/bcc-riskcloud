@@ -4,7 +4,7 @@ import { legend } from '../../assets/option';
 
 <template>
   <div class="one-picture__legend">
-    <span v-for="l in legend" :key="l.name" :style="{ backgroundColor: l.color }">{{ l.name }}</span>
+    <span v-for="l in legend" :key="l.type" :style="{ backgroundColor: l.color }">{{ l.name }}</span>
   </div>
 </template>
 
