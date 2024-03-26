@@ -5,6 +5,7 @@ import { MapClass, TDT } from '@bcc/utils';
 interface RiskSource {
   id: number;
   label: string;
+  type?: TDT.Icon;
 }
 
 const $props = defineProps<{ company: any }>();
@@ -44,7 +45,11 @@ const ondragstart = (event: DragEvent) => {
 const ondragover = (event: DragEvent) => event.preventDefault();
 const ondrop = (event: DragEvent) => {
   if ((event.target as HTMLElement).id === 'map' && draggingSource) {
-    const marker = MapUtils.Marker(MapUtils.ContainerPointToLngLat(event.offsetX, event.offsetY), 'danger', draggingSource);
+    const marker = MapUtils.Marker(
+      MapUtils.ContainerPointToLngLat(event.offsetX, event.offsetY),
+      draggingSource.type,
+      draggingSource
+    );
 
     M.addOverLay(marker);
     marker.enableDragging();
@@ -110,8 +115,10 @@ const save = () => {
               :class="{ checked: checkedSources.map((c: RiskSource) => c.id).includes(r.id) }"
               draggable="true"
             >
+              <el-icon><Location /></el-icon>
               <span>{{ r.label }}</span>
-              <el-icon @click="removeSource(r.id)"><DeleteLocation /></el-icon>
+              <div></div>
+              <el-icon @click="removeSource(r.id)"><CircleClose /></el-icon>
             </div>
           </div>
         </div>

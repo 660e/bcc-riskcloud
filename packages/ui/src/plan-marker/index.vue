@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { TDT } from '@bcc/utils';
 import PreviewDialog from './dialogs/preview.vue';
 
 interface RiskSource {
   id: number;
   label: string;
+  type?: TDT.Icon;
   position?: [number, number] | undefined;
 }
 
@@ -80,8 +82,10 @@ onUnmounted(() => window.removeEventListener('resize', fit));
               :class="{ checked: r.position }"
               draggable="true"
             >
+              <el-icon><Location /></el-icon>
               <span>{{ r.label }}</span>
-              <el-icon @click="r.position = undefined"><DeleteLocation /></el-icon>
+              <div></div>
+              <el-icon @click="r.position = undefined"><CircleClose /></el-icon>
             </div>
           </div>
         </div>
@@ -108,6 +112,7 @@ onUnmounted(() => window.removeEventListener('resize', fit));
             :data-id="r.id"
             :style="markerStyle(r.position)"
             :ondragstart="ondragstart"
+            :class="[`map-marker__marker--${r.type}`]"
             data-type="marker"
             draggable="true"
             class="map-marker__marker"

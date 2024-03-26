@@ -29,24 +29,29 @@
         cursor: grab;
         user-select: none;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        span {
-          padding-left: 8px;
+        & > div {
+          flex: 1;
         }
         .el-icon {
-          display: none;
+          font-size: 18px;
+          &:last-child {
+            color: var(--el-color-danger);
+            display: none;
+          }
         }
-        &:hover {
-          background-color: var(--el-fill-color-light);
+        span {
+          padding-left: 4px;
         }
         &.checked {
           color: var(--el-color-primary);
           .el-icon {
-            color: var(--el-color-danger);
             display: block;
             cursor: pointer;
           }
+        }
+        &:hover {
+          background-color: var(--el-fill-color-light);
         }
       }
     }
@@ -91,7 +96,6 @@
     z-index: 2;
   }
   &__marker {
-    background: url(@bcc/utils/src/assets/tianditu/marker-danger.svg);
     height: 41px;
     width: 25px;
     transform: translate(-12.5px, -41px);
@@ -99,6 +103,18 @@
     top: 0;
     left: 0;
     z-index: 3;
+  }
+  &__marker--danger {
+    background: url(@bcc/utils/src/assets/tianditu/marker-danger.svg);
+  }
+  &__marker--primary {
+    background: url(@bcc/utils/src/assets/tianditu/marker-primary.svg);
+  }
+  &__marker--success {
+    background: url(@bcc/utils/src/assets/tianditu/marker-success.svg);
+  }
+  &__marker--warning {
+    background: url(@bcc/utils/src/assets/tianditu/marker-warning.svg);
   }
   #map {
     flex: 1;
