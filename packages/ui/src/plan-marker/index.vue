@@ -91,12 +91,7 @@ const { fit, wrapperStyle } = useWrapperFit(wrapperRef, imgRef);
     </div>
     <div class="plan-marker__wrapper" ref="wrapperRef">
       <div :style="wrapperStyle">
-        <img
-          :style="wrapperStyle"
-          @load="fit"
-          src="https://img.zcool.cn/community/01ed1b603f20cc11013ef90f5a9146.jpg@1280w_1l_2o_100sh.jpg"
-          ref="imgRef"
-        />
+        <img :style="wrapperStyle" @load="fit" src="../assets/bg.jpg" ref="imgRef" />
         <div :ondragover="ondragover" :ondrop="ondrop" id="container" ref="containerRef" class="plan-marker__container">
           <div
             v-for="r in riskSources"

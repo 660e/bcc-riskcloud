@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { TDT } from '@bcc/utils';
 import { useWrapperFit } from '../hooks';
 import { legend } from '../../assets/option';
+import html2canvas from 'html2canvas';
 
 interface RiskSource {
   id: number;
@@ -23,6 +24,17 @@ const markerStyle = (position: [number, number] | undefined) => {
   return position ? { top: `${position[1]}%`, left: `${position[0]}%` } : { display: 'none' };
 };
 
+const screenRef = ref();
+const screenshot = () => {
+  html2canvas(screenRef.value).then(canvas => {
+    const image = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = 'screenshot.png';
+    link.href = image;
+    link.click();
+  });
+};
+
 // 平面图自适应
 const wrapperRef = ref();
 const imgRef = ref();
@@ -33,15 +45,10 @@ defineExpose({ open });
 
 <template>
   <el-dialog v-model="visible" title="预览" class="preview-dialog" fullscreen>
-    <div class="dialog-body">
+    <div class="dialog-body" ref="screenRef">
       <div class="plan-marker__wrapper" ref="wrapperRef">
         <div :style="wrapperStyle">
-          <img
-            :style="wrapperStyle"
-            @load="fit"
-            src="https://img.zcool.cn/community/01ed1b603f20cc11013ef90f5a9146.jpg@1280w_1l_2o_100sh.jpg"
-            ref="imgRef"
-          />
+          <img :style="wrapperStyle" @load="fit" src="../../assets/bg.jpg" ref="imgRef" />
           <div class="plan-marker__container">
             <div
               v-for="(r, i) in riskSources"
@@ -69,7 +76,7 @@ defineExpose({ open });
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="visible = false">关闭</el-button>
-        <el-button type="primary">下载</el-button>
+        <el-button @click="screenshot" type="primary">截图</el-button>
       </div>
     </template>
   </el-dialog>

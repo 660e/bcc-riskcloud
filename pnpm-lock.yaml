@@ -230,6 +230,9 @@ importers:
       '@bcc/utils':
         specifier: workspace:^
         version: link:../utils
+      html2canvas:
+        specifier: ^1.0.0
+        version: 1.0.0
 
   packages/utils:
     dependencies:
@@ -4244,6 +4247,11 @@ packages:
     resolution: {integrity: sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==}
     dev: true
 
+  /base64-arraybuffer@0.2.0:
+    resolution: {integrity: sha512-7emyCsu1/xiBXgQZrscw/8KPRT44I4Yq9Pe6EGs3aPRTsWuggML1/1DTuZUuIaJPIm1FTDUVXl4x/yW8s0kQDQ==}
+    engines: {node: '>= 0.6.0'}
+    dev: false
+
   /base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
     dev: false
@@ -4915,6 +4923,12 @@ packages:
     resolution: {integrity: sha512-Nj5YcaGgBtuUmn1D7oHqPW0c9iui7xsTsj5lIX8ZgevdfhmjFfKB3r8moHJtNJnctnYXJyYX5I1pp90HM4TPgQ==}
     engines: {node: '>=12 || >=16'}
     dev: true
+
+  /css-line-break@1.1.1:
+    resolution: {integrity: sha512-1feNVaM4Fyzdj4mKPIQNL2n70MmuYzAXZ1aytlROFX1JsOo070OsugwGjj7nl6jnDJWHDM8zRZswkmeYVWZJQA==}
+    dependencies:
+      base64-arraybuffer: 0.2.0
+    dev: false
 
   /css-select@4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
@@ -6373,6 +6387,13 @@ packages:
 
   /html-void-elements@2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
+    dev: false
+
+  /html2canvas@1.0.0:
+    resolution: {integrity: sha512-0d/f2Aj1Brn+EeNWkuRdtnT13qu1NdvxhBMvts3ssme7jgPU7dtuwnm1P6cXvXmnDdUUerH5XdhveWvuLfqkew==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      css-line-break: 1.1.1
     dev: false
 
   /htmlparser2@3.10.1:
