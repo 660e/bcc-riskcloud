@@ -69,10 +69,10 @@ onUnmounted(() => window.removeEventListener('resize', fit));
 </script>
 
 <template>
-  <div class="map-marker">
-    <div class="map-marker__sidebar">
+  <div class="plan-marker">
+    <div class="plan-marker__sidebar">
       <div>
-        <div class="map-marker__sources">
+        <div class="plan-marker__sources">
           <div>
             <div
               v-for="r in riskSources"
@@ -89,7 +89,7 @@ onUnmounted(() => window.removeEventListener('resize', fit));
             </div>
           </div>
         </div>
-        <div class="map-marker__buttons">
+        <div class="plan-marker__buttons">
           <el-button @click="riskSources.forEach((r: RiskSource) => (r.position = undefined))">重置</el-button>
           <el-button @click="preview">预览</el-button>
           <el-button @click="save" type="primary">保存</el-button>
@@ -97,7 +97,7 @@ onUnmounted(() => window.removeEventListener('resize', fit));
       </div>
       <el-divider direction="vertical" />
     </div>
-    <div class="map-marker__wrapper" ref="wrapperRef">
+    <div class="plan-marker__wrapper" ref="wrapperRef">
       <div :style="wrapperStyle">
         <img
           :style="wrapperStyle"
@@ -105,17 +105,17 @@ onUnmounted(() => window.removeEventListener('resize', fit));
           src="https://img.zcool.cn/community/01ed1b603f20cc11013ef90f5a9146.jpg@1280w_1l_2o_100sh.jpg"
           ref="imgRef"
         />
-        <div :ondragover="ondragover" :ondrop="ondrop" id="container" ref="containerRef" class="map-marker__container">
+        <div :ondragover="ondragover" :ondrop="ondrop" id="container" ref="containerRef" class="plan-marker__container">
           <div
             v-for="r in riskSources"
             :key="r.id"
             :data-id="r.id"
             :style="markerStyle(r.position)"
             :ondragstart="ondragstart"
-            :class="[`map-marker__marker--${r.type}`]"
+            :class="[`plan-marker__marker--${r.type}`]"
             data-type="marker"
             draggable="true"
-            class="map-marker__marker"
+            class="plan-marker__marker"
           ></div>
         </div>
       </div>
@@ -127,14 +127,5 @@ onUnmounted(() => window.removeEventListener('resize', fit));
 </template>
 
 <style lang="scss" scoped>
-@import '../map-marker/index.scss';
-
-.map-marker :deep(.preview-dialog.is-fullscreen) {
-  display: flex;
-  flex-direction: column;
-  .el-dialog__body {
-    flex: 1;
-    display: flex;
-  }
-}
+@import './index.scss';
 </style>

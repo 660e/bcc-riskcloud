@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { TDT } from '@bcc/utils';
-import PlanComponent from '../components/plan.vue';
 
 interface RiskSource {
   id: number;
@@ -24,7 +23,7 @@ defineExpose({ open });
 <template>
   <el-dialog v-model="visible" title="预览" class="preview-dialog" fullscreen>
     <div class="dialog-body">
-      <plan-component />
+      <div>Lorem ipsum dolor sit amet.</div>
     </div>
     <template #footer>
       <div class="dialog-footer">

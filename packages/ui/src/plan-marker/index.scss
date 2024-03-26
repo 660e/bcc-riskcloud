@@ -1,0 +1,126 @@
+@import '@bcc/utils/styles/transition.scss';
+
+.plan-marker {
+  display: flex;
+  &__sidebar {
+    width: 300px;
+    display: flex;
+    & > div:first-child {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    & > .el-divider {
+      margin: 0;
+      height: 100%;
+    }
+  }
+  &__sources {
+    flex: 1;
+    height: 0;
+    overflow-y: auto;
+    & > div {
+      padding-top: 10px;
+      & > div {
+        color: var(--el-text-color-regular);
+        height: 32px;
+        padding: 0 10px;
+        cursor: grab;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        & > div {
+          flex: 1;
+        }
+        .el-icon {
+          font-size: 18px;
+          &:last-child {
+            color: var(--el-color-danger);
+            display: none;
+          }
+        }
+        span {
+          padding-left: 4px;
+        }
+        &.checked {
+          color: var(--el-color-primary);
+          .el-icon {
+            display: block;
+            cursor: pointer;
+          }
+        }
+        &:hover {
+          background-color: var(--el-fill-color-light);
+        }
+      }
+    }
+  }
+  &__buttons {
+    padding: 10px;
+    display: flex;
+    .el-button {
+      flex: 1;
+    }
+  }
+  &__tooltip {
+    padding: 0 16px;
+    height: 32px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    transform: translateX(-50%);
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    z-index: 500;
+  }
+  &__wrapper {
+    flex: 1;
+    background-color: #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & > div {
+      opacity: 0;
+      transition: opacity 0.3s;
+      position: relative;
+    }
+  }
+  &__container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+  &__marker {
+    height: 41px;
+    width: 25px;
+    transform: translate(-12.5px, -41px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+  }
+  &__marker--danger {
+    background: url(@bcc/utils/src/assets/tianditu/marker-danger.svg);
+  }
+  &__marker--primary {
+    background: url(@bcc/utils/src/assets/tianditu/marker-primary.svg);
+  }
+  &__marker--success {
+    background: url(@bcc/utils/src/assets/tianditu/marker-success.svg);
+  }
+  &__marker--warning {
+    background: url(@bcc/utils/src/assets/tianditu/marker-warning.svg);
+  }
+  :deep(.preview-dialog.is-fullscreen) {
+    display: flex;
+    flex-direction: column;
+    .el-dialog__body {
+      flex: 1;
+      display: flex;
+    }
+  }
+}
