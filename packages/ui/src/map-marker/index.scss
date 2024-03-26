@@ -75,56 +75,7 @@
     left: 50%;
     z-index: 500;
   }
-  &__wrapper {
-    flex: 1;
-    background-color: #999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    & > div {
-      opacity: 0;
-      transition: opacity 0.3s;
-      position: relative;
-    }
-  }
-  &__container {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-  }
-  &__marker {
-    height: 41px;
-    width: 25px;
-    transform: translate(-12.5px, -41px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
-  }
-  &__marker--danger {
-    background: url(@bcc/utils/src/assets/tianditu/marker-danger.svg);
-  }
-  &__marker--primary {
-    background: url(@bcc/utils/src/assets/tianditu/marker-primary.svg);
-  }
-  &__marker--success {
-    background: url(@bcc/utils/src/assets/tianditu/marker-success.svg);
-  }
-  &__marker--warning {
-    background: url(@bcc/utils/src/assets/tianditu/marker-warning.svg);
-  }
   #map {
     flex: 1;
-  }
-  :deep(.preview-dialog.is-fullscreen) {
-    display: flex;
-    flex-direction: column;
-    .el-dialog__body {
-      flex: 1;
-      display: flex;
-    }
   }
 }

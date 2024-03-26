@@ -128,4 +128,13 @@ onUnmounted(() => window.removeEventListener('resize', fit));
 
 <style lang="scss" scoped>
 @import '../map-marker/index.scss';
+
+.map-marker :deep(.preview-dialog.is-fullscreen) {
+  display: flex;
+  flex-direction: column;
+  .el-dialog__body {
+    flex: 1;
+    display: flex;
+  }
+}
 </style>
