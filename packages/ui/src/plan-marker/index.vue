@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { TDT } from '@bcc/utils';
+import { useWrapperFit } from './hooks';
 import PreviewDialog from './dialogs/preview.vue';
 
 interface RiskSource {
@@ -24,6 +25,7 @@ let draggingSourceOffset = [0, 0];
 // 风险源列表
 const riskSources = ref<RiskSource[]>([]);
 // 标注风险源
+const containerRef = ref();
 const ondragstart = (event: DragEvent) => {
   const { offsetX, offsetY } = event;
   const { clientHeight, clientWidth, dataset } = event.target as HTMLElement;
@@ -54,18 +56,8 @@ const save = () => {
 
 // 平面图自适应
 const wrapperRef = ref();
-const wrapperStyle = ref({});
 const imgRef = ref();
-const containerRef = ref();
-const fit = () => {
-  const ww = wrapperRef.value.clientWidth;
-  const wh = wrapperRef.value.clientHeight;
-  const iw = imgRef.value.clientWidth;
-  const ih = imgRef.value.clientHeight;
-  wrapperStyle.value = { opacity: 1, ...(ww / wh > iw / ih ? { height: '100%' } : { width: '100%' }) };
-};
-onMounted(() => window.addEventListener('resize', fit));
-onUnmounted(() => window.removeEventListener('resize', fit));
+const { fit, wrapperStyle } = useWrapperFit(wrapperRef, imgRef);
 </script>
 
 <template>
