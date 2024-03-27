@@ -6,7 +6,10 @@
   "scripts": {
     "dev:co": "pnpm -F bcc-riskcloud-co dev",
     "build:co:test": "pnpm -F bcc-riskcloud-co build:test",
-    "build:co:prod": "pnpm -F bcc-riskcloud-co build:prod"
+    "build:co:prod": "pnpm -F bcc-riskcloud-co build:prod",
+    "dev:gov": "pnpm -F bcc-riskcloud-gov dev",
+    "build:gov:test": "pnpm -F bcc-riskcloud-gov build:test",
+    "build:gov:prod": "pnpm -F bcc-riskcloud-gov build:prod"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

@@ -223,6 +223,18 @@ importers:
         specifier: workspace:^
         version: link:../../packages/utils
 
+  apps/gov:
+    dependencies:
+      '@bcc/components':
+        specifier: workspace:^
+        version: link:../../packages/components
+      '@bcc/ui':
+        specifier: workspace:^
+        version: link:../../packages/ui
+      '@bcc/utils':
+        specifier: workspace:^
+        version: link:../../packages/utils
+
   packages/components: {}
 
   packages/ui:
