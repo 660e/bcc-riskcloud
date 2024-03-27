@@ -5,5 +5,6 @@ import GridLayout from './src/grid-layout/index.vue';
 import IconSelect from './src/icon-select/index.vue';
 import SvgIcon from './src/svg-icon/index.vue';
 import TreeFilter from './src/tree-filter/index.vue';
+import ImportTemplateDialog from './src/import/template.vue';
 
-export { GridItem, GridLayout, IconSelect, SvgIcon, TreeFilter };
+export { GridItem, GridLayout, IconSelect, SvgIcon, TreeFilter, ImportTemplateDialog };
