@@ -36,8 +36,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(echarts@5.5.0)
       element-plus:
-        specifier: ^2.5.2
-        version: 2.6.0(vue@3.4.21)
+        specifier: ^2.6.2
+        version: 2.6.2(vue@3.4.21)
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
@@ -5332,8 +5332,8 @@ packages:
     resolution: {integrity: sha512-+2OAGjUx68xElQhydpcbqH50hE8Vs2K6TkAeLhICYfndb67CVH0UsZaijmRUE3rHlIxU1u0jxwhgVe6fK3YANA==}
     dev: true
 
-  /element-plus@2.6.0(vue@3.4.21):
-    resolution: {integrity: sha512-MP+N48P+diyndR+GjY+0VOrUmFnajD4U0CkrXIMzmeRmq4+dwi0bdzVo587v4wDo9Hs+ggviyacqm3NS8JYVqw==}
+  /element-plus@2.6.2(vue@3.4.21):
+    resolution: {integrity: sha512-WFMv1v83l437Xu+GeeM+ytxd9VUQpR4418BowvTVIPYItsoj6yK0ITIuSv19iCesF405FbAOaCIHXhJch0ilFA==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
