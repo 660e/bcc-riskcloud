@@ -1,5 +1,5 @@
 <template>
-  <div class="icon-box">
+  <div class="icon-select-component">
     <el-input
       ref="inputRef"
       v-model="valueIcon"
@@ -13,7 +13,16 @@
         <el-icon><component :is="customIcons[iconValue]"></component></el-icon>
       </template>
     </el-input>
-    <el-dialog v-model="dialogVisible" :title="placeholder" @closed="closed" top="50px" width="66%" align-center draggable>
+    <el-dialog
+      v-model="dialogVisible"
+      :title="placeholder"
+      @closed="closed"
+      top="50px"
+      width="66%"
+      class="icon-select-dialog-component"
+      align-center
+      append-to-body
+    >
       <el-input v-model="inputValue" placeholder="搜索图标" size="large" :prefix-icon="Icons.Search" clearable />
       <el-scrollbar v-if="Object.keys(iconsList).length">
         <div class="icon-list">
@@ -93,6 +102,41 @@ watchEffect(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-@import './index.scss';
+<style lang="scss">
+.icon-select-component {
+  width: 100%;
+}
+.icon-select-dialog-component .el-dialog__body {
+  padding: 20px;
+  .el-input {
+    margin-bottom: 10px;
+  }
+  .icon-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 115px);
+    justify-content: space-evenly;
+    max-height: 70vh;
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      svg {
+        height: 32px;
+        width: 32px;
+      }
+      &:hover {
+        background-color: var(--el-color-primary);
+        color: #fff;
+      }
+      span {
+        margin-top: 5px;
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+  }
+}
 </style>
