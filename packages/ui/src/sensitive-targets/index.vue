@@ -21,6 +21,13 @@ watch(
       riskCircleRadiusCache = radius;
       checkedTargets.value = targets;
 
+      sensitiveTargets.value = [
+        { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
+        { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
+        { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
+        { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
+      ];
+
       M = MapUtils.Init('map', center);
       M.addContextMenu(MapUtils.ContextMenu(contextMenu, 150));
       M.addOverLay(MapUtils.Marker(center));
@@ -55,24 +62,10 @@ let riskCircle: any;
 let riskCircleRadiusCache: number;
 // 风险范围半径
 const riskCircleRadius = ref(0);
-// 风险范围半径选项
-const riskCircleRadiusRadios = [
-  { label: '100米', value: 100 },
-  { label: '200米', value: 200 },
-  { label: '500米', value: 500 },
-  { label: '1000米', value: 1000 },
-  { label: '2000米', value: 2000 }
-];
 // 设置风险范围半径
 const setRadius = (radius: number) => {
   riskCircle.setRadius(radius);
   M.setViewport(Object.values(riskCircle.getBounds()));
-  sensitiveTargets.value = [
-    { id: 1, label: 'Target-001', lnglat: [116.22685, 40.07829] },
-    { id: 2, label: 'Target-002', lnglat: [116.22733, 40.07677] },
-    { id: 3, label: 'Target-003', lnglat: [116.22988, 40.07792] },
-    { id: 4, label: 'Target-004', lnglat: [116.22924, 40.07646] }
-  ];
 };
 // 风险范围半径改变时触发
 const riskCircleRadiusChange = (radius: number) => {
@@ -187,7 +180,7 @@ const save = () => {
     <div id="map">
       <div class="sensitive-targets__radius">
         <el-radio-group v-model="riskCircleRadius" @change="riskCircleRadiusChange">
-          <el-radio-button v-for="r in riskCircleRadiusRadios" :key="r.value" :label="r.label" :value="r.value" />
+          <el-radio-button v-for="r in config.options.range" :key="r.dictValue" :label="r.dictLabel" :value="r.dictValue" />
         </el-radio-group>
       </div>
     </div>
