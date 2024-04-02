@@ -5,16 +5,16 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 
 import CreateDialog from './dialogs/create.vue';
 
-const $props = defineProps<{ company: any }>();
+const $props = defineProps<{ config: any }>();
 // 地图实例
 let M: any;
 // 地图工具类
 const MapUtils: MapClass = new MapClass();
 watch(
-  () => $props.company,
-  company => {
-    if (company.lnglat) {
-      const { lnglat: center, radius, targets }: { lnglat: TDT.LngLat; radius: number; targets: TDT.Marker[] } = company;
+  () => $props.config,
+  config => {
+    if (config.company.lnglat) {
+      const { lnglat: center, radius, targets }: { lnglat: TDT.LngLat; radius: number; targets: TDT.Marker[] } = config.company;
 
       riskCircle = MapUtils.Circle(center, radius, { weight: 1 });
       riskCircleRadius.value = radius;
@@ -29,7 +29,8 @@ watch(
       setRadius(radius);
       checkedTargetsChange(targets);
     }
-  }
+  },
+  { deep: true }
 );
 
 // “添加敏感目标”弹窗
@@ -39,7 +40,7 @@ const contextMenu: TDT.MenuItem[] = [
   {
     text: '添加敏感目标',
     callback: (lnglat: any) => {
-      if (MapUtils.PointInCircle([lnglat.lng, lnglat.lat], $props.company.lnglat, riskCircleRadius.value)) {
+      if (MapUtils.PointInCircle([lnglat.lng, lnglat.lat], $props.config.company.lnglat, riskCircleRadius.value)) {
         createDialogRef.value.open(lnglat);
       } else {
         ElMessage.warning('请在圆形范围内添加敏感目标');
@@ -155,7 +156,7 @@ const checkedTargetsChange = (checked: TDT.Marker[]) => {
 // 保存
 const $emit = defineEmits(['save']);
 const save = () => {
-  console.log($props.company);
+  console.log($props.config);
   console.log(checkedTargets.value);
   $emit('save');
 };
@@ -169,7 +170,7 @@ const save = () => {
           <el-checkbox-group v-model="checkedTargets" @change="checkedTargetsChange">
             <el-checkbox v-for="s in sensitiveTargets" :key="s.id" :value="s">
               <span>{{ s.label }}</span>
-              <span v-if="company.lnglat">{{ MapUtils.PointToPointDistance(company.lnglat, s.lnglat) }}米</span>
+              <span v-if="config.company.lnglat">{{ MapUtils.PointToPointDistance(config.company.lnglat, s.lnglat) }}米</span>
             </el-checkbox>
           </el-checkbox-group>
         </div>
