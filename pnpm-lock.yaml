@@ -235,7 +235,11 @@ importers:
         specifier: workspace:^
         version: link:../../packages/utils
 
-  packages/components: {}
+  packages/components:
+    dependencies:
+      signature_pad:
+        specifier: ^4.2.0
+        version: 4.2.0
 
   packages/ui:
     dependencies:
@@ -8640,6 +8644,10 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
     dev: true
+
+  /signature_pad@4.2.0:
+    resolution: {integrity: sha512-YLWysmaUBaC5wosAKkgbX7XI+LBv2w5L0QUcI6Jc4moHYzv9BUBJtAyNLpWzHjtjKTeWOH6bfP4a4pzf0UinfQ==}
+    dev: false
 
   /skmeans@0.9.7:
     resolution: {integrity: sha512-hNj1/oZ7ygsfmPZ7ZfN5MUBRoGg1gtpnImuJBgLO0ljQ67DtJuiQaiYdS4lUA6s0KCwnPhGivtC/WRwIZLkHyg==}

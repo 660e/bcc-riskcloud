@@ -5,7 +5,8 @@ import GridLayout from './src/grid-layout/index.vue';
 import IconSelect from './src/icon-select.vue';
 import ImportTemplateDialog from './src/import/template.vue';
 import LabelTooltip from './src/label-tooltip.vue';
+import SignaturePad from './src/signature-pad.vue';
 import SvgIcon from './src/svg-icon.vue';
 import TreeFilter from './src/tree-filter.vue';
 
-export { GridItem, GridLayout, IconSelect, ImportTemplateDialog, LabelTooltip, SvgIcon, TreeFilter };
+export { GridItem, GridLayout, IconSelect, ImportTemplateDialog, LabelTooltip, SignaturePad, SvgIcon, TreeFilter };

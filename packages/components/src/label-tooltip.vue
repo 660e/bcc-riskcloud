@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" name="label-tooltip" setup>
 defineProps<{ label: string; content: string }>();
 </script>
 
