@@ -1,5 +1,5 @@
 <script lang="ts" name="label-tooltip" setup>
-defineProps<{ label: string; content: string }>();
+defineProps<{ label?: string; content: string }>();
 </script>
 
 <template>
