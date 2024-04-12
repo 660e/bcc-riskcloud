@@ -5,6 +5,7 @@ import ErrorMessage500 from './src/error-message/500.vue';
 import MapMarker from './src/map-marker/index.vue';
 import OnePicture from './src/one-picture/index.vue';
 import PlanMarker from './src/plan-marker/index.vue';
+import RiskDetailsDialog from './src/risk-details-dialog/index.vue';
 import RiskStatistics from './src/risk-statistics/index.vue';
 
 export {
@@ -15,5 +16,6 @@ export {
   MapMarker,
   OnePicture,
   PlanMarker,
+  RiskDetailsDialog,
   RiskStatistics
 };
