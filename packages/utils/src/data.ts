@@ -34,3 +34,14 @@ export function fd(params: any = {}): FormData {
   Object.keys(params).forEach(k => formData.append(k, params[k]));
   return formData;
 }
+
+/**
+ * @description 树结构扁平化
+ * @param data
+ * @param children
+ */
+export function flattenTree(data: any, children = 'children') {
+  return data.reduce((accumulator: any, current: any) => {
+    return [...accumulator, current, ...flattenTree(current[children] || [])];
+  }, []);
+}
