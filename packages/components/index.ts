@@ -5,8 +5,19 @@ import GridLayout from './src/grid-layout/index.vue';
 import IconSelect from './src/icon-select.vue';
 import ImportTemplateDialog from './src/import/template.vue';
 import LabelTooltip from './src/label-tooltip.vue';
+import RiskGradeMatrix from './src/risk-grade-matrix.vue';
 import SignaturePad from './src/signature-pad.vue';
 import SvgIcon from './src/svg-icon.vue';
 import TreeFilter from './src/tree-filter.vue';
 
-export { GridItem, GridLayout, IconSelect, ImportTemplateDialog, LabelTooltip, SignaturePad, SvgIcon, TreeFilter };
+export {
+  GridItem,
+  GridLayout,
+  IconSelect,
+  ImportTemplateDialog,
+  LabelTooltip,
+  RiskGradeMatrix,
+  SignaturePad,
+  SvgIcon,
+  TreeFilter
+};
