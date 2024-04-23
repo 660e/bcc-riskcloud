@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bcc/utils": "workspace:^",
-    "html2canvas": "^1.0.0"
+    "@bcc/utils": "workspace:^"
   }
 }

@@ -41,6 +41,9 @@ importers:
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
+      html2canvas:
+        specifier: ^1.0.0
+        version: 1.0.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -246,9 +249,6 @@ importers:
       '@bcc/utils':
         specifier: workspace:^
         version: link:../utils
-      html2canvas:
-        specifier: ^1.0.0
-        version: 1.0.0
 
   packages/utils:
     dependencies:
