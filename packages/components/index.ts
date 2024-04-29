@@ -7,6 +7,7 @@ import ImportTemplateDialog from './src/import/template.vue';
 import LabelTooltip from './src/label-tooltip.vue';
 import RiskGradeMatrix from './src/risk-grade-matrix.vue';
 import SignaturePad from './src/signature-pad.vue';
+import SimpleTabs from './src/simple-tabs.vue';
 import SvgIcon from './src/svg-icon.vue';
 import TreeFilter from './src/tree-filter.vue';
 
@@ -18,6 +19,7 @@ export {
   LabelTooltip,
   RiskGradeMatrix,
   SignaturePad,
+  SimpleTabs,
   SvgIcon,
   TreeFilter
 };
