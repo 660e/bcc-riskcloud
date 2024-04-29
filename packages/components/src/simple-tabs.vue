@@ -30,7 +30,7 @@ const tabClick = (value: string | number) => {
   display: flex;
   & > div {
     cursor: pointer;
-    margin-right: 20px;
+    margin: 0 10px;
     position: relative;
     display: flex;
     align-items: center;
