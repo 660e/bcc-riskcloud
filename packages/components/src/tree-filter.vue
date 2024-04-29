@@ -1,7 +1,10 @@
 <template>
   <div class="tree-filter card">
     <h4 v-if="title">{{ title }}</h4>
-    <el-input v-model="filterText" placeholder="输入关键字进行过滤" clearable />
+    <div class="tree-filter__filter">
+      <el-input v-model="filterText" placeholder="输入关键字进行过滤" clearable />
+      <el-button :icon="Refresh" @click="refresh" circle />
+    </div>
     <el-scrollbar :style="{ height: title ? `calc(100% - 38px - ${inputSize}px)` : `calc(100% - 10px - ${inputSize}px)` }">
       <el-tree
         ref="treeRef"
@@ -35,6 +38,7 @@
 <script lang="ts" name="tree-filter" setup>
 import { computed, ref, watch, onBeforeMount, nextTick } from 'vue';
 import { ElTree, useGlobalSize } from 'element-plus';
+import { Refresh } from '@element-plus/icons-vue';
 
 // 接收父组件参数并设置默认值
 interface TreeFilterProps {
@@ -78,13 +82,17 @@ const setSelected = () => {
   else selected.value = typeof props.defaultValue === 'string' ? props.defaultValue : '';
 };
 
-onBeforeMount(async () => {
-  setSelected();
+const refresh = async () => {
   if (props.requestApi) {
     const { data } = await props.requestApi!();
     treeData.value = data;
     treeAllData.value = [{ id: '', [props.label]: '全部' }, ...data];
   }
+};
+
+onBeforeMount(() => {
+  setSelected();
+  refresh();
 });
 
 // 使用 nextTick 防止打包后赋值不生效，开发环境是正常的
@@ -141,7 +149,7 @@ const handleCheckChange = () => {
 };
 
 // 暴露给父组件使用
-defineExpose({ treeData, treeAllData, treeRef });
+defineExpose({ treeData, treeAllData, treeRef, refresh });
 </script>
 
 <style lang="scss" scoped>
@@ -152,8 +160,12 @@ defineExpose({ treeData, treeAllData, treeRef });
     font-size: 1.125rem;
     margin-bottom: 0.625rem;
   }
-  & > .el-input {
-    margin-bottom: 0.625rem;
+  &__filter {
+    padding-bottom: 0.625rem;
+    display: flex;
+    .el-input {
+      margin-right: 10px;
+    }
   }
   :deep(.el-tree) {
     .el-tree-node__content {
