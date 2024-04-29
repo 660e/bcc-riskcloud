@@ -26,11 +26,11 @@ const tabClick = (value: string | number) => {
 <style lang="scss" scoped>
 .simple-tabs {
   height: 32px;
-  padding-bottom: 10px;
+  margin-bottom: 10px;
   display: flex;
   & > div {
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 20px;
     position: relative;
     display: flex;
     align-items: center;
