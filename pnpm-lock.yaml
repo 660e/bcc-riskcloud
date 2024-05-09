@@ -240,6 +240,9 @@ importers:
 
   packages/components:
     dependencies:
+      '@bcc/utils':
+        specifier: workspace:^
+        version: link:../utils
       signature_pad:
         specifier: ^4.2.0
         version: 4.2.0
