@@ -20,7 +20,6 @@ const open = async () => {
   if (!M) {
     const geocode = new T.Geocoder();
     M = MapUtils.Init('map', forms.lnglat, 16);
-    M.addOverLay(MapUtils.Marker(forms.lnglat));
     M.addEventListener('click', ({ lnglat }) => {
       forms.lnglat = [lnglat.lng, lnglat.lat];
       M.clearOverLays();
@@ -30,6 +29,11 @@ const open = async () => {
       });
     });
   }
+  M.addOverLay(MapUtils.Marker(forms.lnglat));
+};
+const closed = () => {
+  M.centerAndZoom(MapUtils.LngLat(props.lnglat));
+  M.clearOverLays();
 };
 const confirm = () => {
   emit('update:model-value', forms.location);
@@ -45,7 +49,7 @@ const confirm = () => {
         <el-button :icon="Location" @click="open" />
       </template>
     </el-input>
-    <el-dialog v-model="visible" width="80%" align-center>
+    <el-dialog v-model="visible" @closed="closed" width="80%" align-center>
       <div class="map" id="map">Lorem ipsum dolor sit amet.</div>
       <template #footer>
         <div class="dialog-footer">
