@@ -173,11 +173,7 @@ defineExpose({ treeData, treeAllData, treeRef, refresh });
     }
     &.el-tree--highlight-current {
       .el-tree-node.is-current > .el-tree-node__content {
-        background-color: var(--el-color-primary);
-        .el-tree-node__label,
-        .el-tree-node__expand-icon {
-          color: white;
-        }
+        background-color: var(--el-color-primary-light-9);
         .is-leaf {
           color: transparent;
         }
