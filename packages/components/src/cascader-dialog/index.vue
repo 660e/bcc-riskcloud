@@ -1,5 +1,6 @@
 <script lang="ts" name="cascader-dialog" setup>
 import { ref } from 'vue';
+import CascaderItem from './item.vue';
 
 const { httpRequest } = withDefaults(defineProps<{ title?: string; httpRequest: any }>(), { title: '' });
 
@@ -26,9 +27,7 @@ defineExpose({ open });
       </div>
       <el-divider />
       <div class="_cascader__list">
-        <ul>
-          <li v-for="(item, index) in data" :key="index">{{ item.label }}</li>
-        </ul>
+        <cascader-item :data="data" />
       </div>
     </div>
     <template #footer>
