@@ -1,5 +1,6 @@
 export type * from './src/grid-layout/interface';
 
+import CascaderDialog from './src/cascader-dialog.vue';
 import GridItem from './src/grid-layout/components/grid-item.vue';
 import GridLayout from './src/grid-layout/index.vue';
 import IconSelect from './src/icon-select.vue';
@@ -13,6 +14,7 @@ import SvgIcon from './src/svg-icon.vue';
 import TreeFilter from './src/tree-filter.vue';
 
 export {
+  CascaderDialog,
   GridItem,
   GridLayout,
   IconSelect,
