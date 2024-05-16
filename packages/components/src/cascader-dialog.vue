@@ -25,7 +25,8 @@ const add = (item: any, index: number) => {
     cascader.value[index].forEach((e: any) => (e.active = item.id === e.id));
     cascader.value[index + 1] = item.children;
   } else {
-    if (selection.value.includes(item)) {
+    if (selection.value.map((e: any) => e.id).includes(item.id)) {
+      console.log(item);
       remove(item);
     } else {
       selection.value.push(item);
@@ -33,7 +34,7 @@ const add = (item: any, index: number) => {
   }
 };
 const remove = (item: any) => {
-  selection.value.splice(selection.value.indexOf(item), 1);
+  selection.value.splice(selection.value.map((e: any) => e.id).indexOf(item.id), 1);
 };
 
 defineExpose({ open });
@@ -52,7 +53,7 @@ defineExpose({ open });
             <li
               v-for="e in item"
               :key="e.id"
-              :class="{ active: e.active, selected: selection.includes(e) }"
+              :class="{ active: e.active, selected: selection.map((s: any) => s.id).includes(e.id) }"
               @click="add(e, index)"
             >
               <span>{{ e.label }}</span>
