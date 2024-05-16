@@ -104,6 +104,9 @@ defineExpose({ open });
           background-color: transparent;
           color: var(--el-color-primary);
         }
+        .el-icon {
+          margin-left: 20px;
+        }
       }
     }
     & > .el-divider {
