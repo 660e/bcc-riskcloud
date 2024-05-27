@@ -1,0 +1,33 @@
+.risk-statistics {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  & > div {
+    display: flex;
+    flex-direction: column;
+    &:nth-child(2) {
+      grid-column: span 2 / span 2;
+    }
+    .c-subtitle-1 {
+      margin-bottom: 10px;
+      & + div {
+        background-color: rgba(0, 0, 0, 0.03);
+        flex: auto;
+      }
+    }
+  }
+  & > .c1 {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    & > div {
+      display: flex;
+      flex-direction: column;
+      &:last-child {
+        grid-column: span 2 / span 2;
+      }
+    }
+  }
+}

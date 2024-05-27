@@ -22,10 +22,47 @@ watchEffect(() => {
 <template>
   <div class="risk-statistics">
     <div>
-      <div class="c-subtitle-1">风险源等级</div>
-      <div id="pie-1" style="height: 300px; margin-top: 10px; background-color: rgba(255, 0, 0, 0.2)"></div>
+      <div class="c-subtitle-1">风险等级</div>
+      <div></div>
     </div>
     <div>
+      <div class="c-subtitle-1">风险类型</div>
+      <div></div>
+    </div>
+    <div class="c1">
+      <div>
+        <div class="c-subtitle-1">应急能力</div>
+        <div></div>
+      </div>
+      <div>
+        <div class="c-subtitle-1">单位诊断分级</div>
+        <div></div>
+      </div>
+      <div>
+        <div class="c-subtitle-1">评估信息</div>
+        <div></div>
+      </div>
+    </div>
+    <div>
+      <div class="c-subtitle-1">应急队伍</div>
+      <div></div>
+    </div>
+    <div>
+      <div class="c-subtitle-1">应急专家</div>
+      <div></div>
+    </div>
+    <div>
+      <div class="c-subtitle-1">应急装备</div>
+      <div></div>
+    </div>
+    <div>
+      <div class="c-subtitle-1">应急物资</div>
+      <div></div>
+    </div>
+    <div style="display: none">
+      <div id="pie-1" style="height: 300px; margin-top: 10px; background-color: rgba(255, 0, 0, 0.2)"></div>
+    </div>
+    <div style="display: none">
       <div class="c-subtitle-1">风险源列表</div>
       <div id="bar-1" style="height: 300px; margin-top: 10px; background-color: rgba(255, 0, 0, 0.2)"></div>
     </div>
@@ -33,11 +70,5 @@ watchEffect(() => {
 </template>
 
 <style lang="scss" scoped>
-.risk-statistics {
-  padding: 10px;
-  display: flex;
-  & > div {
-    flex: 1;
-  }
-}
+@import './index.scss';
 </style>
