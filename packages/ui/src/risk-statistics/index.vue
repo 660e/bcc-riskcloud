@@ -59,16 +59,18 @@ watchEffect(() => {
     </div>
     <div class="c1">
       <div>
-        <div class="c-subtitle-1">应急能力</div>
-        <div></div>
+        <div class="c-subtitle-1">{{ data?.ability?.name || '-' }}</div>
+        <div>{{ data?.ability?.value || '-' }}</div>
       </div>
       <div>
-        <div class="c-subtitle-1">单位诊断分级</div>
-        <div></div>
+        <div class="c-subtitle-1">{{ data?.diagnosis?.name || '-' }}</div>
+        <div>{{ data?.diagnosis?.value || '-' }}</div>
       </div>
       <div>
-        <div class="c-subtitle-1">评估信息</div>
-        <div></div>
+        <div class="c-subtitle-1">{{ data?.report?.name || '-' }}</div>
+        <div>
+          <el-button v-for="report in data?.report?.value" :key="report" type="primary" link>{{ report }}</el-button>
+        </div>
       </div>
     </div>
     <div>

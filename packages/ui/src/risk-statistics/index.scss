@@ -25,8 +25,21 @@
     & > div {
       display: flex;
       flex-direction: column;
-      &:last-child {
+      &:nth-child(1),
+      &:nth-child(2) {
+        & > div:last-child {
+          font-size: 48px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      &:nth-child(3) {
         grid-column: span 2 / span 2;
+        & > div:last-child > .el-button {
+          display: block;
+          margin: 5px 0 0 5px;
+        }
       }
     }
   }
