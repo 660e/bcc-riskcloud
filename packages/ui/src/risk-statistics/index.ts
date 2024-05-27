@@ -1,65 +1,53 @@
 import { EChartsOption } from 'echarts';
 
-export const barOption = (): EChartsOption => {
-  return {
-    tooltip: {
-      trigger: 'axis'
-    },
-    legend: {},
-    grid: {
-      top: '2%',
-      left: '0',
-      right: '0',
-      bottom: '0',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value'
-      }
-    ],
+export const barOption = ({ data, color }: { data: any; color?: string[] }): EChartsOption => {
+  const option: EChartsOption = {
+    tooltip: { trigger: 'axis' },
+    legend: { top: '2%' },
+    grid: { top: '15%', left: '5%', right: '5%', bottom: '5%', containLabel: true },
+    xAxis: [{ type: 'category', data: data.data.map((e: any) => e.name) }],
+    yAxis: [{ type: 'value' }],
     series: [
       {
-        name: 'Email',
+        name: '重大',
         type: 'bar',
         stack: 'a',
-        emphasis: {
-          focus: 'series'
-        },
-        data: [120, 132, 101, 134, 90, 230, 210]
+        emphasis: { focus: 'series' },
+        data: data.data.map((e: any) => e.value[0])
       },
       {
-        name: 'Union Ads',
+        name: '较大',
         type: 'bar',
         stack: 'a',
-        emphasis: {
-          focus: 'series'
-        },
-        data: [220, 182, 191, 234, 290, 330, 310]
+        emphasis: { focus: 'series' },
+        data: data.data.map((e: any) => e.value[1])
       },
       {
-        name: 'Video Ads',
+        name: '一般',
         type: 'bar',
         stack: 'a',
-        emphasis: {
-          focus: 'series'
-        },
-        data: [150, 232, 201, 154, 190, 330, 410]
+        emphasis: { focus: 'series' },
+        data: data.data.map((e: any) => e.value[2])
+      },
+      {
+        name: '低',
+        type: 'bar',
+        stack: 'a',
+        emphasis: { focus: 'series' },
+        data: data.data.map((e: any) => e.value[3])
       }
     ]
   };
+
+  if (color) option.color = color;
+
+  return option;
 };
 
 export const pieOption = ({ data, radius, color }: { data: any; radius: [string, string]; color?: string[] }): EChartsOption => {
   const option: EChartsOption = {
     tooltip: { trigger: 'item' },
-    legend: { top: '0', right: '0', orient: 'vertical' },
+    legend: { top: '2%', right: '2%', orient: 'vertical' },
     series: [
       {
         name: data.name,

@@ -2,12 +2,12 @@
 import { watchEffect } from 'vue';
 import * as echarts from 'echarts';
 import { COLORS } from '@bcc/utils';
-import { pieOption } from './index';
+import { barOption, pieOption } from './index';
 
 const props = defineProps<{ data: any }>();
 
 let levelPie: any;
-
+let typeBar: any;
 let teamPie: any;
 let expertPie: any;
 let equipmentPie: any;
@@ -24,7 +24,10 @@ watchEffect(() => {
       })
     );
   }
-
+  if (props.data?.type) {
+    typeBar = echarts.init(document.getElementById('type'));
+    typeBar.setOption(barOption({ data: props.data.type, color: [1, 2, 3, 4].map((i: number) => COLORS.risk_level[i]) }));
+  }
   if (props.data?.team) {
     teamPie = echarts.init(document.getElementById('team'));
     teamPie.setOption(pieOption({ data: props.data.team, radius: ['0%', '70%'] }));
@@ -51,8 +54,8 @@ watchEffect(() => {
       <div id="level"></div>
     </div>
     <div>
-      <div class="c-subtitle-1">风险类型</div>
-      <div></div>
+      <div class="c-subtitle-1">{{ data?.type?.name || '-' }}</div>
+      <div id="type"></div>
     </div>
     <div class="c1">
       <div>
