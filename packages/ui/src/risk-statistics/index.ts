@@ -56,44 +56,28 @@ export const barOption = (): EChartsOption => {
   };
 };
 
-export const pieOption = ({ data, radius, color }: { data: any; radius?: [string, string]; color?: string[] }): EChartsOption => {
-  return {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      top: '0',
-      right: '0',
-      orient: 'vertical'
-    },
-    color,
+export const pieOption = ({ data, radius, color }: { data: any; radius: [string, string]; color?: string[] }): EChartsOption => {
+  const option: EChartsOption = {
+    tooltip: { trigger: 'item' },
+    legend: { top: '0', right: '0', orient: 'vertical' },
     series: [
       {
         name: data.name,
         type: 'pie',
         radius,
         avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
-          borderWidth: 2
-        },
-        label: {
-          show: false,
-          position: 'center'
-        },
+        itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
+        label: { show: false, position: 'center' },
         emphasis: {
-          label: {
-            show: true,
-            fontSize: 24,
-            fontWeight: 'bold'
-          }
+          label: { show: true, fontSize: 18, fontWeight: 'bold' }
         },
-        labelLine: {
-          show: false
-        },
+        labelLine: { show: false },
         data: data.data
       }
     ]
   };
+
+  if (color) option.color = color;
+
+  return option;
 };
