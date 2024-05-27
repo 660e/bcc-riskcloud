@@ -1,20 +1,23 @@
 <script lang="ts" setup>
 import { watchEffect } from 'vue';
 import * as echarts from 'echarts';
-import { barOption, pieOption } from './index';
+import { COLORS } from '@bcc/utils';
+import { pieOption } from './index';
 
-const $props = defineProps<{ data: any }>();
+const props = defineProps<{ data: any }>();
 
-let pie1: any;
-let bar1: any;
+let levelPie: any;
 
 watchEffect(() => {
-  if ($props.data?.type) {
-    pie1 = echarts.init(document.getElementById('pie-1')!);
-    pie1.setOption(pieOption());
-
-    bar1 = echarts.init(document.getElementById('bar-1')!);
-    bar1.setOption(barOption());
+  if (props.data?.level) {
+    levelPie = echarts.init(document.getElementById('level'));
+    levelPie.setOption(
+      pieOption({
+        data: props.data.level,
+        radius: ['40%', '70%'],
+        color: [1, 2, 3, 4, 5].map((i: number) => COLORS.risk_level[i])
+      })
+    );
   }
 });
 </script>
@@ -22,8 +25,8 @@ watchEffect(() => {
 <template>
   <div class="risk-statistics">
     <div>
-      <div class="c-subtitle-1">风险等级</div>
-      <div></div>
+      <div class="c-subtitle-1">{{ data?.level?.name || '-' }}</div>
+      <div id="level"></div>
     </div>
     <div>
       <div class="c-subtitle-1">风险类型</div>
@@ -58,13 +61,6 @@ watchEffect(() => {
     <div>
       <div class="c-subtitle-1">应急物资</div>
       <div></div>
-    </div>
-    <div style="display: none">
-      <div id="pie-1" style="height: 300px; margin-top: 10px; background-color: rgba(255, 0, 0, 0.2)"></div>
-    </div>
-    <div style="display: none">
-      <div class="c-subtitle-1">风险源列表</div>
-      <div id="bar-1" style="height: 300px; margin-top: 10px; background-color: rgba(255, 0, 0, 0.2)"></div>
     </div>
   </div>
 </template>

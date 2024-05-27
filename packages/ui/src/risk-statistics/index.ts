@@ -56,21 +56,28 @@ export const barOption = (): EChartsOption => {
   };
 };
 
-export const pieOption = (): EChartsOption => {
+export const pieOption = ({ data, radius, color }: { data: any; radius?: [string, string]; color?: string[] }): EChartsOption => {
   return {
     tooltip: {
       trigger: 'item'
     },
     legend: {
       top: '0',
-      left: 'center'
+      right: '0',
+      orient: 'vertical'
     },
+    color,
     series: [
       {
-        name: 'Access From',
+        name: data.name,
         type: 'pie',
-        radius: ['40%', '70%'],
+        radius,
         avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
         label: {
           show: false,
           position: 'center'
@@ -78,20 +85,14 @@ export const pieOption = (): EChartsOption => {
         emphasis: {
           label: {
             show: true,
-            fontSize: 40,
+            fontSize: 24,
             fontWeight: 'bold'
           }
         },
         labelLine: {
           show: false
         },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
-        ]
+        data: data.data
       }
     ]
   };
