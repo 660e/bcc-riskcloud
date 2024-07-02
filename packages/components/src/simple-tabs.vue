@@ -4,7 +4,7 @@ import { ref } from 'vue';
 interface Tab {
   label: string;
   value: string | number;
-  count?: number;
+  count: number;
 }
 
 const props = defineProps<{ tabs: Tab[] }>();
@@ -19,8 +19,7 @@ const tabClick = (value: string | number) => {
 <template>
   <div class="simple-tabs">
     <div v-for="tab in tabs" :key="tab.value" :class="{ active: active === tab.value }" @click="tabClick(tab.value)">
-      <span>{{ tab.label }}</span>
-      <el-tag v-if="tab.count" size="small">{{ tab.count }}</el-tag>
+      <span>{{ tab.label }} {{ tab.count }}</span>
     </div>
   </div>
 </template>
@@ -50,9 +49,6 @@ const tabClick = (value: string | number) => {
       &::after {
         background-color: var(--el-color-primary);
       }
-    }
-    & > .el-tag {
-      margin-left: 5px;
     }
   }
 }
